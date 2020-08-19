@@ -325,7 +325,7 @@ ol,ul {
 
 .rn-02 .rn-product-short-data .ps-location {
     padding: 0 22px 0 13px;
-    background: url(image/rn-ico-location.png)no-repeat right top;
+    background: url('../image/rn-ico-location.png')no-repeat right top;
 }
 
 
@@ -406,7 +406,7 @@ ol,ul {
     font-size: 15px;
     padding-right: 23px;
     margin-right: 24px;
-    background: url(image/rn-ico-btn-pop.png)no-repeat right 8px;
+    background: url(../image/rn-ico-btn-pop.png)no-repeat right 8px;
 }
 
 .rn-03-right .rn-product-area3 {
@@ -441,6 +441,8 @@ ol,ul {
     float: left;
     width: 600px;
     position: relative;
+    height : 425px;
+    
 }
 .rn-04 > div {
     box-sizing: border-box;
@@ -448,6 +450,9 @@ ol,ul {
     height: 100%;
 }
 
+.rn-04-left{
+	height : 425px;
+}
 .rn-04-left-tit {
     border-bottom: 2px solid #000;
     position: relative;
@@ -720,7 +725,7 @@ p.rn-04-xtit {
 
 .rn-0903 {
     padding: 14px 0 14px 48px;
-    background: url(image/rn-ico-dot.png)no-repeat left 14px;
+    background: url('../image/rn-ico-dot.png')no-repeat left 14px;
     position: relative;
 }
 
@@ -1835,7 +1840,7 @@ input {
 }
 
 .date_list.bg {
-    background: url(image/bg_date02.gif) no-repeat;
+    background: url(../image/bg_date02.gif) no-repeat;
     height: 56px;
     margin-bottom: 25px;
     padding: 18px 22px;
@@ -1890,7 +1895,7 @@ input {
 .mycont .point li {
     display: inline-block;
     color: #666;
-    background: url(image/ic_hdot.gif) no-repeat 0px 2px;
+    background: url(../image/ic_hdot.gif) no-repeat 0px 2px;
     padding: 0px 3px 3px 10px;
     *display: inline;
     font-size: 12px;
@@ -2107,7 +2112,7 @@ table {
 .reserveInfo .info {
     border: 2px solid #bababa;
     width: 765px;
-    background: url(image/bg_con.gif) repeat-y 190px;
+    background: url(../image/bg_con.gif) repeat-y 190px;
     overflow: hidden;
     margin-left: 10px;
 }
@@ -2332,6 +2337,70 @@ table {
 }
 
 
+
+
+/* 로그인 화면 */
+
+.box-main {
+    margin: 0 auto;
+    margin-top: 90px;
+    width: 500px;
+    height: 300px;
+    padding: 20px 0px;
+    background-color: white;
+    margin-bottom: 120px;
+    
+}
+
+.box-container {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.l-text {
+    float: left;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.l-box>input {
+    height: 50px;
+    box-sizing: border-box;
+    border: 2px solid #333;
+    background-color: white;
+    margin: 10px 0;
+    width: 400px;
+    padding-left :10px;
+    font-size: 15px;
+    color: #333;
+}
+
+.l-box>input:focus {outline:none;}
+.btn-login:focus{outline: none;}
+
+.btn-login, .btn-signup {
+    border: 2px solid #e8787a;
+    background-color: transparent;
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Gothic A1';
+    font-weight: bold;
+    background-color: #e8787a;
+
+}
+
+.btn-signup{
+    border: 2px solid #e8787a;
+    background-color: #fff;
+    color:#333
+}
+
+
+
 /* 왼쪽 메뉴  */
 .left-container {
     z-index:999;
@@ -2419,7 +2488,10 @@ table {
 
 }
 
+
+
 /* 메인화면 슬라이더 */
+
 
 .swiper-box{
    /* width: 100%; */

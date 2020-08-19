@@ -18,7 +18,7 @@ public class ProductController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/exhibition", method = RequestMethod.GET)
+	@RequestMapping(value = "/exhibition/list", method = RequestMethod.GET)
 	public ModelAndView exList(ModelAndView mv) throws Exception{
 	    mv.setViewName("/product/list");
 	    return mv;
@@ -30,5 +30,6 @@ public class ProductController {
 	    return mv;
 	}
 	
+
 	
 }

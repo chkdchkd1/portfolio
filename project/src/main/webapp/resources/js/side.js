@@ -4,7 +4,7 @@ $(function(){
 
     // datepicker Initialization
     $('.datepicker-here').datepicker({
-        showOtherMonths: false,
+        showOtherMonths: false
     });
     
     // 제휴할인카드 팝업
@@ -30,8 +30,5 @@ $(function(){
     // }
     // tapclick();
 
-    // 예약하기 새창열기 
-    function openRservation(){
-        window.open("side-left-resevation.html", "예약페이지", "width=985,height=650");
-    }
+    
 })

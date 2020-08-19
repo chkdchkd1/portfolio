@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <script src="<%=request.getContextPath() %>/resources/js/side.js"></script>
     
     
 <div class="product-box">
@@ -137,7 +136,7 @@
                             <div class="rn-09-tit tab02-afterword">
                                 <p class="rn-red">매매, 욕설 등 게시판 운영 규정에 위반되는 글은 사전 통보없이 삭제될 수 있습니다.</p>
                                 <p>개인정보가 포함된 내용은 삼가 주시기 바라며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.</p>
-                                <a href="#"><img src="image/rn-btn-review.png" alt=""></a>
+                                <a href="#"><img src="<%=request.getContextPath() %>/resources/image/rn-btn-review.png" alt=""></a>
                             </div>
                         </div><!--rn-0903-->
                     <div class="rn-0904-container">
@@ -256,20 +255,26 @@
                 <p class="rn-pop-tit2">제휴카드 혜택</p>
                 <ul>
                     <li>
-                        <img src="image/rn-pop-card1.png" alt="">
+                        <img src="<%=request.getContextPath() %>/resources/image/rn-pop-card1.png" alt="">
                         <div>
                             <p>하나SK 카드</p><p>40% 청구할인<span>월 1만원 한도</span></p>
                         </div>
                     </li>
                     <li>
-                        <img src="image/rn-pop-card2.png" alt=""><div><p>신한카드</p><p>40% 청구할인<span>월 1만원 한도</span></p></div>
+                        <img src="<%=request.getContextPath() %>/resources/image/rn-pop-card2.png" alt=""><div><p>신한카드</p><p>40% 청구할인<span>월 1만원 한도</span></p></div>
                     </li>
                 </ul>
                 <a href="#" class="rn-pop-close">
-                    <img src="image/rn-pop-close.png" alt="">
+                    <img src="<%=request.getContextPath() %>/resources/image/rn-pop-close.png" alt="">
                 </a>
             </div>
         </div>
     </div>
 </div>
 
+<script>
+	//예약하기 새창열기 
+	function openRservation(){
+	   window.open("<%=request.getContextPath()%>/reservation", "예약페이지", "width=985,height=650");
+	}
+</script>

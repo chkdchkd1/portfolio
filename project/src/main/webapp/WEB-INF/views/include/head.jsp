@@ -15,3 +15,6 @@
 <script src="<%=request.getContextPath() %>/resources/dist/js/datepicker.min.js"></script>
 <script src="<%=request.getContextPath() %>/resources/dist/js/i18n/datepicker.en.js"></script>
  
+<!-- 전체 js -->
+<script src="<%=request.getContextPath() %>/resources/js/side.js"></script>
+ 
