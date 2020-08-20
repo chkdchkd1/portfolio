@@ -7,4 +7,17 @@
   <select id="getUser" resultType="kr.green.project.vo.UserVo">
     select * from user where id = #{id}
   </select>
-</mapper>
+
+  <insert id="insertP">
+  insert into goods (code,startDate,endDate,place,limitType,limitAmount)
+	values (#{product.code}, #{product.startDate}, #{product.endDate},#{product.place},#{product.limitType}#{product.limitAmount})
+  </insert>
+  
+  <insert id="insertpp">
+     insert into
+  	goodsprice(gooCode,Type,price)
+  	values(#{product.code}, #{product.Type},#{product.price})
+    </insert>
+  
+  </mapper>
+ 
