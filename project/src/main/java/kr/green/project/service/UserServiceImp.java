@@ -3,15 +3,14 @@ package kr.green.project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.green.project.dao.UserDAO;
+import kr.green.project.dao.UserDao;
 import kr.green.project.vo.UserVo;
-import kr.green.project.vo.product1Vo;
 
 @Service
 public class UserServiceImp implements UserService {
 
 	@Autowired
-	UserDAO userDao;
+	UserDao userDao;
 	    
 
 	@Override
@@ -24,12 +23,6 @@ public class UserServiceImp implements UserService {
 	}
 
 
-	@Override
-	public void registerP(product1Vo p1) {
-		userDao.insertP(p1);
-		userDao.insertpp(p1);
-		
-	}
 
 
 }

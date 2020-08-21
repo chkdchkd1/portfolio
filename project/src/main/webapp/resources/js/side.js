@@ -2,10 +2,7 @@ $(function(){
    
     /* 상품 상세보기 페이지 */
 
-    // datepicker Initialization
-    $('.datepicker-here').datepicker({
-        showOtherMonths: false
-    });
+
     
     // 제휴할인카드 팝업
     $('.rn-product-dc2').click(function(e){

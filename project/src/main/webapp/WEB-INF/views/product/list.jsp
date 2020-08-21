@@ -13,28 +13,29 @@
                 </div>
                 <div class="board-box">
                     <ul class="board-list">
-                        <li class="board-item">
-                            <a href="side-left-product.html">
+         				<c:forEach var="product" items="${list}">
+               		         <li class="board-item">
+                            <a href="<%=request.getContextPath()%>/exhibition/detail?code=${product.code}">
                                 <div class="itemWrap">
                                     <div class="itemImage">
                                         <div class="imageWrap">
                                             <div class="coverWrap">
-                                                <img src="http://ticketimage.interpark.com/Play/image/large/20/20003553_p.gif" alt="어나더 컨트리">
+                                                <img src="${product.file}">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="itemMeta">
                                         <div class="itemTags">
-                                            <span class="tag"><span class="tagText">연극</span></span>
+                                            <span class="tag"><span class="tagText">${product.genre}</span></span>
                                         </div>
                                         <div class="titleWrap">
                                             <div class="itemName">
-                                                <span>어나더 컨트리</span>
+                                                <span>${product.title}</span>
                                             </div>
                                             <div class="features">
                                                 <ul>
-                                                    <li>2012-06-29 ~ 2020-09-30</li>
-                                                    <li>서경대학교 공연예술센터 스콘1관</li>
+                                                    <li>${product.startDate} ~ ${product.endDate}</li>
+                                                    <li>${product.place}</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -43,7 +44,7 @@
                                                 <span class="grade">입장권</span>
                                             </div>
                                             <div class="salePriceWrap">
-                                                <em>66,000</em><span class="currency">원</span>
+                                                <em>${product.price}</em><span class="currency">원</span>
                                             </div>
 
                                         </div>
@@ -51,157 +52,6 @@
                                 </div>
                             </a>
                         </li>
-                        <li class="board-item">
-                            <a href="http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=19011560">
-                                <div class="itemWrap">
-                                    <div class="itemImage">
-                                        <div class="imageWrap">
-                                            <div class="coverWrap">
-                                                <img src="http://ticketimage.interpark.com/Play/image/large/20/20003553_p.gif" alt="어나더 컨트리">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="itemMeta">
-                                        <div class="itemTags">
-                                            <span class="tag"><span class="tagText">연극</span></span>
-                                        </div>
-                                        <div class="titleWrap">
-                                            <div class="itemName">
-                                                <span>어나더 컨트리</span>
-                                            </div>
-                                            <div class="features">
-                                                <ul>
-                                                    <li>2012-06-29 ~ 2020-09-30</li>
-                                                    <li>서경대학교 공연예술센터 스콘1관</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="priceWrap">
-                                            <div class="originPriceWrap">
-                                                <span class="grade">입장권</span>
-                                            </div>
-                                            <div class="salePriceWrap">
-                                                <em>66,000</em><span class="currency">원</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="board-item">
-                            <a href="http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=19011560">
-                                <div class="itemWrap">
-                                    <div class="itemImage">
-                                        <div class="imageWrap">
-                                            <div class="coverWrap">
-                                                <img src="http://ticketimage.interpark.com/Play/image/large/20/20003553_p.gif" alt="어나더 컨트리">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="itemMeta">
-                                        <div class="itemTags">
-                                            <span class="tag"><span class="tagText">연극</span></span>
-                                        </div>
-                                        <div class="titleWrap">
-                                            <div class="itemName">
-                                                <span>어나더 컨트리</span>
-                                            </div>
-                                            <div class="features">
-                                                <ul>
-                                                    <li>2012-06-29 ~ 2020-09-30</li>
-                                                    <li>서경대학교 공연예술센터 스콘1관</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="priceWrap">
-                                            <div class="originPriceWrap">
-                                                <span class="grade">입장권</span>
-                                            </div>
-                                            <div class="salePriceWrap">
-                                                <em>66,000</em><span class="currency">원</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="board-item">
-                            <a href="http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=19011560">
-                                <div class="itemWrap">
-                                    <div class="itemImage">
-                                        <div class="imageWrap">
-                                            <div class="coverWrap">
-                                                <img src="http://ticketimage.interpark.com/Play/image/large/20/20003553_p.gif" alt="어나더 컨트리">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="itemMeta">
-                                        <div class="itemTags">
-                                            <span class="tag"><span class="tagText">연극</span></span>
-                                        </div>
-                                        <div class="titleWrap">
-                                            <div class="itemName">
-                                                <span>어나더 컨트리</span>
-                                            </div>
-                                            <div class="features">
-                                                <ul>
-                                                    <li>2012-06-29 ~ 2020-09-30</li>
-                                                    <li>서경대학교 공연예술센터 스콘1관</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="priceWrap">
-                                            <div class="originPriceWrap">
-                                                <span class="grade">입장권</span>
-                                            </div>
-                                            <div class="salePriceWrap">
-                                                <em>66,000</em><span class="currency">원</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="board-item">
-                            <a href="http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=19011560">
-                                <div class="itemWrap">
-                                    <div class="itemImage">
-                                        <div class="imageWrap">
-                                            <div class="coverWrap">
-                                                <img src="http://ticketimage.interpark.com/Play/image/large/20/20003553_p.gif" alt="어나더 컨트리">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="itemMeta">
-                                        <div class="itemTags">
-                                            <span class="tag"><span class="tagText">연극</span></span>
-                                        </div>
-                                        <div class="titleWrap">
-                                            <div class="itemName">
-                                                <span>어나더 컨트리</span>
-                                            </div>
-                                            <div class="features">
-                                                <ul>
-                                                    <li>2012-06-29 ~ 2020-09-30</li>
-                                                    <li>서경대학교 공연예술센터 스콘1관</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="priceWrap">
-                                            <div class="originPriceWrap">
-                                                <span class="grade">입장권</span>
-                                            </div>
-                                            <div class="salePriceWrap">
-                                                <em>66,000</em><span class="currency">원</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>                    
+                  		 </c:forEach>
                     </ul>
                 </div>

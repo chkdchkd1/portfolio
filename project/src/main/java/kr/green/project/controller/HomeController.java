@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.project.service.UserService;
 import kr.green.project.vo.UserVo;
-import kr.green.project.vo.product1Vo;
 
 /**
  * Handles requests for the application home page.
@@ -56,19 +55,7 @@ public class HomeController {
 	}
 	
 	
-	@RequestMapping(value = "/pro1", method = RequestMethod.GET)
-	public ModelAndView pro1Get(ModelAndView mv) throws Exception{
-	    mv.setViewName("/product/pro1Register");
-	    return mv;
-	}
-	
-	@RequestMapping(value = "/pro1", method = RequestMethod.POST)
-	public ModelAndView pro1Post(ModelAndView mv, product1Vo p1) throws Exception{
-		
-		userService.registerP(p1);
-	    mv.setViewName("redirect:/");
-	    return mv;
-	}
+
 	
 	
 	

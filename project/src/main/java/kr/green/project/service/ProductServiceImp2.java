@@ -1,0 +1,52 @@
+package kr.green.project.service;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.green.project.dao.ProductDao;
+import kr.green.project.vo.ProductDetailVo;
+import kr.green.project.vo.ProductImageVo;
+import kr.green.project.vo.ProductListVo;
+import kr.green.project.vo.ProductPriceVo;
+import kr.green.project.vo.ProductQuantityVo;
+
+@Service
+public class ProductServiceImp2 implements ProductService2 {
+
+	@Autowired
+	ProductDao productDao;
+
+	
+	@Override
+	public ArrayList<ProductListVo> getProductList() {
+		return productDao.selectProductList();
+	}
+	
+	@Override
+	public ProductDetailVo getProductDetail(Integer code) {
+		return productDao.selectProductDetail(code);
+	}
+
+	@Override
+	public ArrayList<ProductPriceVo> getPriceList(Integer code) {
+		return productDao.selectPriceList(code);
+	}
+
+	@Override
+	public ProductImageVo getImage2(Integer code, Integer i) {
+		return productDao.selectgetImage2(code,i);
+	}
+
+	@Override
+	public ArrayList<ProductQuantityVo> getQuantity(Integer code, String weekend) {
+		// TODO Auto-generated method stub
+		return productDao.selectProductQuantity(code,weekend);
+	}
+
+	
+	
+
+	
+}

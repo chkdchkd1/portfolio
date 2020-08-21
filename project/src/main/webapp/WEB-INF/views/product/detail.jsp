@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
     
 <div class="product-box">
  <!-- 상단 타이틀 -->
     <div class="renew-wrap">
         <div class="renew-content">
             <div class="rn-01"><!--로케이션, 라벨-->
-                <p class="rn-location"><a href="#">행사</a></p>
+                <p class="rn-location"><a href="#">${productD.genre}</a></p>
             </div><!--rn-01-->
             <div class="rn-02"><!--제목-->
-                <p class="rn-big-title">[부산] 완전한 세상</p>
+                <p class="rn-big-title">${productD.title}</p>
                 <div class="rn-product-short-data">
-                    <p><span class="ps-date">2019.08.01 ~ 2020.08.31</span><a href="#" id="ps-location"><span class="ps-location">뮤지엄 다</span></a></p>
+                    <p><span class="ps-date">${productD.startDate} ~ ${productD.endDate}</span><a href="#" id="ps-location"><span class="ps-location">${productD.place}</span></a></p>
                 </div>			
             </div><!--rn-02-->
         </div>	
@@ -23,22 +23,22 @@
             <div class="rn-03">
                 <div class="rn-03-left"><!--포스터, 지역, 동영상-->
                     <div class="rn-product-imgbox">
-                        <img src="http://tkfile.yes24.com/upload2/PerfBlog/202002/20200206/20200206-35960_1.jpg">
+                        <img src="${image2.file}" style="width: 430px; height: 600px;">
                     </div>				
                 </div><!--rn-03-left-->
                 <div class="rn-03-right"><!--상품정보-->
                     <div class="rn-product-area1"><!--등급, 관람시간, 출연, 가격, 혜택-->
                         <dl>
                             <dt>등급</dt>
-                            <dd>&nbsp;만 10세 이상</dd>
+                            <dd>&nbsp;${productD.ratings}</dd>
                             <dt>관람시간</dt>
                             <dd>&nbsp;-- </dd>
                             <dt>가격</dt>
                             <dd class="rn-product-price">
                                 <ul class="rn-product-price1">
-                                    <li>성인 <span class="rn-red">18,000</span>원</li>
-                                    <li>청소년 <span class="rn-red">15,000</span>원</li>
-                                    <li>어린이 <span class="rn-red">13,000</span>원</li>
+				      				<c:forEach var="pList" items="${pList}">                  
+                                    <li>${pList.type} <span class="rn-red">${pList.price}</span>원</li>
+                                    </c:forEach>
                                 </ul>
                             </dd>
                             <dt>혜택</dt>
@@ -54,11 +54,7 @@
                             <dt>공연시간 안내</dt>
                             <dd>2020년 1월 1일부터 관람시간이 아래와 같이 변경됩니다. 
     <br>
-    <br>월,화,수,목,금 (평일) : 오전 10:00~오후 7:00 
-    <br>토,일,공휴일(주말 및 공휴일) : 오전 10:00 ~ 오후 8:00 
-    <br>
-    <br>*마감 한 시간 전까지 입장가능 
-    <br>*월요일 특별개관 </dd>
+    <br>${productD.infoTime} </dd>
                             <dt>배송정보</dt>
                             <dd>현장 수령만 가능</dd>
                         </dl>
@@ -77,7 +73,8 @@
                         </div>
                         <!--회차정보-->
                         <div class="rn-04-left-calist" style="height: 233px;">
-                            <a href="#"><span>1회</span> 오전 10시 00분</a></div>
+	                            <a href="#"><span>1회</span> 오전 10시 00분</a>
+	                            </div>
                          </div>
                  </div>
                 <!--예매가능좌석-->
@@ -107,7 +104,10 @@
                     </div><!--rn-0801-->
                     <div class="rn-0803"><!--공연정보-->
                         <p class="rn08-tit">공연정보</p>
-                        <div class="rn08-txt" id="divPerfContent"></div>
+                        <div class="rn08-txt" id="divPerfContent">
+                        <p style="text-align: center;">
+                        	<img src="${image3.file}" class="txc-image" style="clear:none;float:none;"></p>
+                        </div>
                     </div><!--rn-0803-->
                     <div class="rn-0804"><!--기획사정보-->
                         <div class="rn08-tbl rn-0803-tbl">
@@ -273,6 +273,23 @@
 </div>
 
 <script>
+
+	//datepicker날짜 제한 
+    // datepicker Initialization
+    $('.datepicker-here').datepicker({
+        showOtherMonths: false,
+        minDate: new Date(),
+        maxDate: new Date("${productD.endDate}"),
+        onSelect: function (date ,d) {
+	        var startNum = date;
+	        var day = d.getDay();
+ 	        $('.rn-location').text(day);
+ 	        // day가 0 or 6 이면 주말임 
+        }
+            
+    });
+
+    
 	//예약하기 새창열기 
 	function openRservation(){
 	   window.open("<%=request.getContextPath()%>/reservation", "예약페이지", "width=985,height=650");

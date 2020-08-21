@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.green.project.dao.ProductDao">
+
+   <select id="selectProductList" resultType="kr.green.project.vo.ProductListVo">
+	select genre, goods.code, title, startDate, endDate, place, type, price, file
+		from goods
+			join (select * from goodsdetail where genre = '전시') as t
+		    on goods.code = goodsMainCode
+		    join (select * from goodsimage group by goodsInfoNum ) as i
+		    on infoNum = goodsInfoNum
+		   join (select * from goodsprice where goodsprice.type = '성인' or goodsprice.type = '주중 일반' or goodsprice.type = '주중 성인') as p
+		    on goods.code = gooCode;
+   </select>
+
+   <select id="selectProductDetail" resultType="kr.green.project.vo.ProductDetailVo">
+	 select * 
+		from goods
+        join goodsdetail
+        on goods.code = goodsMainCode
+        where goods.code = #{code};
+	
+   </select>
+   
+  <select id="selectPriceList" resultType="kr.green.project.vo.ProductPriceVo">
+    select * 
+		from goodsprice
+        where gooCode = #{code};
+   </select>
+   
+    <select id="selectgetImage2" resultType="kr.green.project.vo.ProductImageVo">
+    
+     select *
+		from goodsimage
+        join goodsdetail
+        on goodsInfoNum = infoNum
+        where goodsMainCode = #{code} and pLocation = #{location};
+
+   </select>
+   
+      <select id="selectProductQuantity" resultType="kr.green.project.vo.ProductQuantityVo">
+    
+   	 SELECT * 
+   	 	FROM goodsquantity
+        where gCode = #{code} and qType = '#{weekend}';
+
+   </select>
+   
+   
+        
+  </mapper>
+ 

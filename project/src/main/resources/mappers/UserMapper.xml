@@ -2,22 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.green.project.dao.UserDAO">
+<mapper namespace="kr.green.project.dao.UserDao">
 
   <select id="getUser" resultType="kr.green.project.vo.UserVo">
     select * from user where id = #{id}
   </select>
 
-  <insert id="insertP">
-  insert into goods (code,startDate,endDate,place,limitType,limitAmount)
-	values (#{product.code}, #{product.startDate}, #{product.endDate},#{product.place},#{product.limitType}#{product.limitAmount})
-  </insert>
-  
-  <insert id="insertpp">
-     insert into
-  	goodsprice(gooCode,Type,price)
-  	values(#{product.code}, #{product.Type},#{product.price})
-    </insert>
   
   </mapper>
  
