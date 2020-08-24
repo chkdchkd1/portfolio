@@ -12,6 +12,8 @@ public class ProductDetailVo {
 	private String enterInfo;
 	private String infoTime;
 	private String infoNotice;
+	private int weekDif;
+	private String godType;
 	
 	public int getCode() {
 		return code;
@@ -73,13 +75,30 @@ public class ProductDetailVo {
 	public void setInfoNotice(String infoNotice) {
 		this.infoNotice = infoNotice;
 	}
-	
+	public int getWeekDif() {
+		return weekDif;
+	}
+	public void setWeekDif(int weekDif) {
+		this.weekDif = weekDif;
+	}
+	public String getGodType() {
+		return godType;
+	}
+	public void setGodType(String godType) {
+		this.godType = godType;
+	}
 	@Override
 	public String toString() {
 		return "ProductDetailVo [code=" + code + ", title=" + title + ", genre=" + genre + ", startDate=" + startDate
 				+ ", endDate=" + endDate + ", place=" + place + ", ratings=" + ratings + ", enterInfo=" + enterInfo
-				+ ", infoTime=" + infoTime + ", infoNotice=" + infoNotice + "]";
+				+ ", infoTime=" + infoTime + ", infoNotice=" + infoNotice + ", weekDif=" + weekDif + ", godType="
+				+ godType + "]";
 	}
 	
 	
+
+	
+	
+
+
 }

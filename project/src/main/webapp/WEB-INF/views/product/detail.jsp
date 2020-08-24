@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
-    
+
+<input type = "hidden" class="no">    
 <div class="product-box">
  <!-- 상단 타이틀 -->
     <div class="renew-wrap">
@@ -73,7 +74,6 @@
                         </div>
                         <!--회차정보-->
                         <div class="rn-04-left-calist" style="height: 233px;">
-	                            <a href="#"><span>1회</span> 오전 10시 00분</a>
 	                            </div>
                          </div>
                  </div>
@@ -81,7 +81,12 @@
                 <div class="rn-04-right">
                     <p class="rn-04-right-tit">예매 가능 좌석</p>
                     <div class="rn-04-right-list" style="height: 169px;">
-                        <dl id="SeatRemain"><dd><span>본 상품은 잔여석 안내서비스를 제공하지 않습니다.</span></dd></dl>
+                        <dl id="SeatRemain">
+	                        <dd>
+	                        	<span>
+	                        	</span>
+	                        </dd>
+                        </dl>
                     </div>
                 </div>
             </div>
@@ -274,24 +279,136 @@
 
 <script>
 
-	//datepicker날짜 제한 
-    // datepicker Initialization
-    $('.datepicker-here').datepicker({
-        showOtherMonths: false,
-        minDate: new Date(),
-        maxDate: new Date("${productD.endDate}"),
-        onSelect: function (date ,d) {
-	        var startNum = date;
-	        var day = d.getDay();
- 	        $('.rn-location').text(day);
- 	        // day가 0 or 6 이면 주말임 
-        }
-            
-    });
 
-    
+				//datepicker날짜 제한 
+			    $('.datepicker-here').datepicker({
+			        showOtherMonths: false,
+			        minDate: setMindate(),
+			        maxDate: new Date("${productD.endDate}"),
+			        onSelect: function (date,d) {
+				        var day = d.getDay();
+				        var code = ${productD.code};
+				        callRound(day,code);
+			       	 	$('.no').val(day);
+				        
+				       		
+			 	        // day가 0 or 6 이면 주말임 
+				 	      
+			        }
+			    });
+		
+
+	function callRound(day,code){
+
+		var type = ${productD.weekDif};
+		
+		if (type == 2)
+			// 평일 주말 수량이나 가격이 다르지 않으면 
+			var allData = JSON.stringify({ "code": code, "weekend": 3 });
+		else{
+				if (day == 0 || day == 6){
+					var allData = JSON.stringify({ "code": code, "weekend": 2})
+				}else {
+					var allData = JSON.stringify({ "code": code, "weekend": 1})
+				}
+			} 			
+		
+ 	  $.ajax({
+	       async:true,
+	       // 동기 : 앞작업이 끝날 때까지 기다리고 다음 작업을 하는것 (아이디중복검사) , 비동기 : 기다리지 않고 바로 맡기는것,  서로 다른 작업을 동시에 실행할 때 (댓글창) 
+	       type:'POST',
+	       data:allData,
+	       // 전송할 데이터
+	       url:"<%=request.getContextPath()%>/quantity",
+	       dataType:"json",
+	       contentType:"application/json; charset=UTF-8",
+	       success : function(data){
+	       	  // 요청이 성공 했을 때 호출할 콜백 함수 
+				// 배열의 요소 개수만큼 반복
+			
+				$('.rn-04-left-calist').empty();			
+	       	 	var roundList = document.querySelector(".rn-04-left-calist");
+	    	   for(var i =0; i<data.length; i++){
+		  	         var a = document.createElement("a");
+			         var span = document.createElement("span");
+			         span.innerHTML = data[i].round; 
+			         if (data[i].roundTime != null ){
+			         	a.innerHTML = '&nbsp'+data[i].roundTime;
+			         } else 
+				         a.innerHTML = '';
+			         a.prepend(span)
+			    	 roundList.appendChild(a)
+			    	 a.addEventListener("click",quantityNum)
+	    		  }
+	       	 	 
+	     } 
+ 
+		})
+	}
+
+
+	  function quantityNum(event){
+
+		  
+	     var code = ${productD.code};
+		 var round = event.currentTarget.firstChild.innerText;
+		 var day = $('.no').val();
+		 
+			var pType = ${productD.weekDif};
+			
+			if (pType == 2)
+				// 평일 주말 수량이나 가격이 다르지 않으면 
+				var all = JSON.stringify({ "code": code, "weekend": 3, "round": round});
+			else{
+					if (day == 0 || day == 6){
+						var all = JSON.stringify({ "code": code, "weekend": 2, "round": round})
+					}else {
+						var all = JSON.stringify({ "code": code, "weekend": 1, "round": round})
+					}
+				} 		
+			
+
+
+		  $.ajax({
+		       async:true,
+		       type:'POST',
+		       data:all,
+		       url:"<%=request.getContextPath()%>/quantityNum",
+		       dataType:"json",
+		       contentType:"application/json; charset=UTF-8",
+		       success : function(data){
+					var seatList = document.querySelector("#SeatRemain");
+					$('#SeatRemain').empty();	
+					var dd = document.createElement("dd")
+					var span = document.createElement("span")
+					if(data[0].round == '상시상품'){
+						span.innerHTML = '본 상품은 잔여석 서비스를 제공하지 않는 상품입니다.'	
+					}	else 
+							span.innerHTML = '입장권	' + data[0].quantity + ' 석'
+					dd.appendChild(span)
+					seatList.appendChild(dd)
+		     } 
+	 
+			})
+			
+		  
+		  }
+	
+
+		
 	//예약하기 새창열기 
 	function openRservation(){
 	   window.open("<%=request.getContextPath()%>/reservation", "예약페이지", "width=985,height=650");
 	}
+
+    function setMindate (){
+		var today = new Date();
+		var startdate = new Date("${productD.startDate}");
+			
+		if(startdate.getTime() > today.getTime())
+			return startdate
+			else 
+				return today
+        }
+    
 </script>

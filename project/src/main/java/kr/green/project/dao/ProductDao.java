@@ -20,6 +20,10 @@ public interface ProductDao {
 
 	ProductImageVo selectgetImage2(@Param("code")Integer code, @Param("location")Integer i);
 
-	ArrayList<ProductQuantityVo> selectProductQuantity(@Param("id")Integer code, @Param("weekend")String weekend);
+	ArrayList<ProductQuantityVo> selectProductQuantity(@Param("code")Integer code, @Param("weekend")Integer weekend);
+
+	ArrayList<ProductQuantityVo> selectProductQuantityNum(@Param("code")int code,@Param("weekend")int weekend, @Param("round") String round);
+
+
 
 }

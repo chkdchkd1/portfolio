@@ -40,14 +40,23 @@
 
    </select>
    
-      <select id="selectProductQuantity" resultType="kr.green.project.vo.ProductQuantityVo">
+   <select id="selectProductQuantity" resultType="kr.green.project.vo.ProductQuantityVo">
     
-   	 SELECT * 
+   	 SELECT *
    	 	FROM goodsquantity
-        where gCode = #{code} and qType = '#{weekend}';
+        where gCode = #{code} and qType = #{weekend};
 
    </select>
    
+      <select id="selectProductQuantityNum" resultType="kr.green.project.vo.ProductQuantityVo">
+    
+   	 SELECT *
+   	 	FROM goodsquantity
+        where gCode = #{code} and qType = #{weekend} and round = #{round};
+
+   </select>
+   
+  
    
         
   </mapper>

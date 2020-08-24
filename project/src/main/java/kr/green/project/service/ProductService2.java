@@ -18,7 +18,11 @@ public interface ProductService2 {
 	
 	ProductImageVo getImage2(Integer code, Integer i);
 
-	ArrayList<ProductQuantityVo> getQuantity(Integer code, String weekend);
+	ArrayList<ProductQuantityVo> getQuantity(Integer code, Integer weekend);
+
+	ArrayList<ProductQuantityVo> getQuantityNum(int code, int weekend, String round);
+
+
 
 
 }
