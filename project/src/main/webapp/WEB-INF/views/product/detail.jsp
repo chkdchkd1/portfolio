@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 
-<input type = "hidden" class="no">    
+  ${user}
+
 <div class="product-box">
  <!-- 상단 타이틀 -->
     <div class="renew-wrap">
@@ -62,6 +63,7 @@
                     </div>
                 </div><!--rn-03-right-->
             </div>
+            <c:if test = "${productD.godType eq '회차'}">
             <!-- 날짜, 예매좌석 선택 박스 -->
             <div class="rn-04">
                 <div class="rn-04-left"><!--날짜시간선택-->
@@ -90,6 +92,7 @@
                     </div>
                 </div>
             </div>
+            </c:if>
             <div class="rn-05"><!--예매하기 버튼--> 
                 <a href="javascript:void(0)" class="rn-bb03" onclick="openRservation();">예매하기</a>
             </div>
@@ -277,21 +280,35 @@
     </div>
 </div>
 
+
+<input type = "hidden" class="no">    
+<form name = "f1" method="Post">
+<input type = "text" class = "selectCode" name = "selectCode" value = "${productD.code}">
+<input type = "text" class = "selectDate" name = "selectDate" value = "">
+<input type = "text" class = "selectRound"  name = "selectRound">
+</form>
+
 <script>
+
+	var roundList = document.querySelector(".rn-04-left-calist");
+	var test;
 
 
 				//datepicker날짜 제한 
 			    $('.datepicker-here').datepicker({
 			        showOtherMonths: false,
+			        dateFormat: 'yyyy.mm.dd',
 			        minDate: setMindate(),
 			        maxDate: new Date("${productD.endDate}"),
 			        onSelect: function (date,d) {
+				        test = date;
 				        var day = d.getDay();
 				        var code = ${productD.code};
 				        callRound(day,code);
 			       	 	$('.no').val(day);
-				        
-				       		
+						$('#SeatRemain').empty();
+			       	 	$('.selectDate').val(date);
+						
 			 	        // day가 0 or 6 이면 주말임 
 				 	      
 			        }
@@ -327,7 +344,6 @@
 				// 배열의 요소 개수만큼 반복
 			
 				$('.rn-04-left-calist').empty();			
-	       	 	var roundList = document.querySelector(".rn-04-left-calist");
 	    	   for(var i =0; i<data.length; i++){
 		  	         var a = document.createElement("a");
 			         var span = document.createElement("span");
@@ -349,7 +365,16 @@
 
 	  function quantityNum(event){
 
-		  
+		 
+		 const lefta = roundList.querySelectorAll("a")
+		 const ON = "on"
+
+		 for( var i = 0; i < lefta.length; i++ ){ 
+			 lefta[i].classList.remove(ON);
+		 }
+		 
+		 event.target.classList.add(ON)
+		 
 	     var code = ${productD.code};
 		 var round = event.currentTarget.firstChild.innerText;
 		 var day = $('.no').val();
@@ -367,7 +392,6 @@
 					}
 				} 		
 			
-
 
 		  $.ajax({
 		       async:true,
@@ -387,6 +411,9 @@
 							span.innerHTML = '입장권	' + data[0].quantity + ' 석'
 					dd.appendChild(span)
 					seatList.appendChild(dd)
+		       	 	$('.selectRound').val(data[0].qNum);
+					
+					
 		     } 
 	 
 			})
@@ -398,9 +425,16 @@
 		
 	//예약하기 새창열기 
 	function openRservation(){
-	   window.open("<%=request.getContextPath()%>/reservation", "예약페이지", "width=985,height=650");
-	}
 
+		var target = '예약페이지 ';
+	    window.open("<%=request.getContextPath()%>/reservation", target, "width=985,height=650");
+	    var form = document.f1;
+	    form.action = '<%=request.getContextPath()%>/reservation';
+	    form.target = target
+	    form.submit();
+	}
+	
+	// 상품 시작날짜가 현재 날짜보다 뒤면 시작날짜를 기준으로 출력 
     function setMindate (){
 		var today = new Date();
 		var startdate = new Date("${productD.startDate}");
@@ -410,5 +444,7 @@
 			else 
 				return today
         }
+
+    
     
 </script>

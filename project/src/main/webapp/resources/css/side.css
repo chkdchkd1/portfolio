@@ -520,10 +520,13 @@ p.rn-04-xtit {
     margin: 0 0 8px 7px;
 }
 
-.rn-04-left-calist a:focus{
-    background-color: #596065;
-    color: white;
+
+.rn-04 .rn-04-left .rn-04-left-wrap .rn-04-left-calist a.on {
+    color: #fff;
+    border: 1px solid #596065;
+    background: #596065;
 }
+
 
 
 .rn-04 .rn-04-right {
@@ -1170,8 +1173,14 @@ h2 span{
     line-height: 25px;
     margin-bottom: 5px;
     font-family: 'doTum';
-    
 }
+
+.number ul li.on{
+	border: 1px solid #596065;
+    background-color : #596065;
+    color: white;
+}
+
 
 .seat {
     width: 200px;

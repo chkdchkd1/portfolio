@@ -14,6 +14,8 @@ public class ProductDetailVo {
 	private String infoNotice;
 	private int weekDif;
 	private String godType;
+	private String limitAmount;
+	
 	
 	public int getCode() {
 		return code;
@@ -87,15 +89,22 @@ public class ProductDetailVo {
 	public void setGodType(String godType) {
 		this.godType = godType;
 	}
+	
+	
+	public String getLimitAmount() {
+		return limitAmount;
+	}
+	public void setLimitAmount(String limitAmount) {
+		this.limitAmount = limitAmount;
+	}
 	@Override
 	public String toString() {
 		return "ProductDetailVo [code=" + code + ", title=" + title + ", genre=" + genre + ", startDate=" + startDate
 				+ ", endDate=" + endDate + ", place=" + place + ", ratings=" + ratings + ", enterInfo=" + enterInfo
 				+ ", infoTime=" + infoTime + ", infoNotice=" + infoNotice + ", weekDif=" + weekDif + ", godType="
-				+ godType + "]";
+				+ godType + ", limitAmount=" + limitAmount + "]";
 	}
-	
-	
+
 
 	
 	

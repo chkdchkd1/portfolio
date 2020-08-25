@@ -1,11 +1,20 @@
 package kr.green.project.controller;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import kr.green.project.service.ProductService2;
+import kr.green.project.vo.ProductDetailVo;
+import kr.green.project.vo.ProductPriceVo;
+import kr.green.project.vo.WantResVo;
+
 
 /**
  * Handles requests for the application home page.
@@ -15,15 +24,28 @@ public class ReservationController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
+	@Autowired
+	private ProductService2 productService2;
 	
 	@RequestMapping(value = "/reservation", method = RequestMethod.GET)
 	public ModelAndView reservation(ModelAndView mv) throws Exception{
-	    mv.setViewName("/login/ticket");
+	    mv.setViewName("/login/window");
 	    return mv;
 	}
+	
+	@RequestMapping(value = "/reservation", method = RequestMethod.POST)
+	public ModelAndView reservationPost(ModelAndView mv, WantResVo want ) throws Exception{
+		System.out.println(want);
+		ProductDetailVo productR = productService2.getProductDetail(want.getSelectCode());
+		mv.addObject("productR", productR);
+		mv.addObject("want", want);
+		ArrayList<ProductPriceVo> priceR = productService2.getPriceList(want.getSelectCode());
+		mv.addObject("priceR", priceR);
+		System.out.println(priceR);
+	    mv.setViewName("/login/window");
+	    return mv;
+	}
+	
 	
 	@RequestMapping(value = "/myOrder/list", method = RequestMethod.GET)
 	public ModelAndView MyreservationList(ModelAndView mv) throws Exception{
@@ -38,3 +60,5 @@ public class ReservationController {
 	}
 	
 }
+
+

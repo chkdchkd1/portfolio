@@ -2,12 +2,19 @@ package kr.green.project.vo;
 
 public class ProductQuantityVo {
 	
+	private int qNum;
 	private int gCode;
 	private String qType;
 	private String round;
 	private String roundTime;
 	private int quantity;
 	private String goodsType;
+	public int getqNum() {
+		return qNum;
+	}
+	public void setqNum(int qNum) {
+		this.qNum = qNum;
+	}
 	public int getgCode() {
 		return gCode;
 	}
@@ -46,8 +53,8 @@ public class ProductQuantityVo {
 	}
 	@Override
 	public String toString() {
-		return "ProductQuantityVo [gCode=" + gCode + ", qType=" + qType + ", round=" + round + ", roundTime="
-				+ roundTime + ", quantity=" + quantity + ", goodsType=" + goodsType + "]";
+		return "ProductQuantityVo [qNum=" + qNum + ", gCode=" + gCode + ", qType=" + qType + ", round=" + round
+				+ ", roundTime=" + roundTime + ", quantity=" + quantity + ", goodsType=" + goodsType + "]";
 	}
 	
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
  <div id="warp">
         <div id="all" style="display: block;">
@@ -36,12 +37,7 @@
                                 <div class="number">
                                     <em class="tit">회차선택</em>
                                     <ul id="ulTime">
-                                        <li>
-                                            [1회] 10시 00분
-                                        </li>
-                                        <li>
-                                            [2회] 11시 00분
-                                        </li>
+                                    
                                     </ul>
                                 </div>
                                 <div class="seat">
@@ -49,7 +45,7 @@
                                     <ul id="ulSeatSpace" class="hi">
                                         <li class="grade">
                                             <div>
-                                                <strong class="c_name">입장권</strong> <span class="c_price">25석</span>
+                                                <strong class="c_name">입장권</strong> <span class="c_price">0석</span>
                                                 </div>
                                             </li>
                                         </ul>
@@ -60,7 +56,7 @@
                     <!-- //회차선택 -->
                     <!-- 공연안내 -->
                     <div id="step01_notice" class="step01_notice" style="display: block;">
-                        <h3><img src="../image/h3_tit_notice.gif" alt="유의사항"></h3>
+                        <h3><img src="<%=request.getContextPath() %>/resources/image/h3_tit_notice.gif" alt="유의사항"></h3>
                         <div id="guideview">
                             <ul>
                                 <li>- 안내되어 있는 잔여석은 결제 진행 중인 좌석을 포함하고 있어 예매 가능 좌석과 다를 수 있습니다.</li>
@@ -99,39 +95,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <c:forEach var="ResPrice" items="${priceR}">                                                                                
                                             <tr>
-                                                <td class="l">성인<br></td>
-                                                <td>1,000</td>
+                                                <td class="l">${ResPrice.type}<br></td>
+                                                <td>${ResPrice.price}</td>
                                                 <td>
-                                                    <select>
-                                                        <option value="0">0매</option>
-                                                        <option value="1">1매</option>
+                                                    <select class ="amticket">
                                                     </select>
                                                 </td>
                                                 <td>&nbsp;</td>
                                             </tr>
-                                            <tr>
-                                                <td class="l">청소년<br></td>
-                                                <td>500</td>
-                                                <td>
-                                                    <select>
-                                                        <option value="0">0매</option>
-                                                        <option value="1">1매</option>
-                                                    </select>
-                                                </td>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="l">어린이<br></td>
-                                                <td>무료</td>
-                                                <td>
-                                                    <select>
-                                                        <option value="0">0매</option>
-                                                        <option value="1">1매</option>
-                                                    </select>
-                                                </td>
-                                                <td>&nbsp;</td>
-                                            </tr>
+                                         </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -299,15 +273,15 @@
             <div id="StateBoard">
                 <div class="result">
                     <div id="perfboard" class="title"><p><img src="https://stkfile.yes24.com/upload2/PerfBlog/202008/20200806/20200806-365681.jpg" width="79" height="98" alt=""></p>
-                        <span id="ptitle" class="tit">코리아비건페어</span>
-                        <span class="date">2020. 09. 11 ~ 2020. 09. 13</span>
-                        <span id="ptheatername" class="date">서울 코엑스 C홀</span>
+                        <span id="ptitle" class="tit">${productR.title}</span>
+                        <span class="date">${productR.startDate} ~ ${productR.endDate}</span>
+                        <span id="ptheatername" class="date">${productR.place}</span>
                     </div>
                     <div class="select_infor">
                         <h3>선택내용</h3>
                         <ul>
-                            <li><em>날짜</em><span id="tk_day">2020.09.11 (금)</span></li>
-                            <li><em>시간</em><span id="tk_time">[1회] 10시 00분</span></li>
+                            <li><em>날짜</em><span id="tk_day"></span></li>
+                            <li><em>시간</em><span id="tk_time"></span></li>
                             <li><em>매수</em><span id="tk_count">1매</span></li>
                             <li><em>좌석</em>
                                 <div id="tk_seat"><span>비지정석</span></div>
@@ -418,10 +392,132 @@
         <div class="PayInfoSendForm">
             </div>
     </div>
+ 
+    <input type ="hidden" class ="no" name="semiDay">
     <script>
-        $('.here').datepicker({
-            showOtherMonths: false
+
+    ticketAmount()
+	var ulList = document.querySelector("#ulTime")
+    
+      $('.here').datepicker({
+            showOtherMonths: false,
+	        dateFormat: 'yyyy.mm.dd',
+	        minDate: new Date("${productR.startDate}"),
+	        maxDate: new Date("${productR.endDate}"),
+	        onSelect : function (date,d) {
+
+		        test = date;
+		        var day = d.getDay();
+			    week=new Array("일","월","화","수","목","금","토");
+			    $('.select_day span').text(date)
+		        $('#tk_day').text(date +' ('+ week[day]+') ');
+		        callRound(day,${productR.code});
+		        $('.no').val(day);
+		       
+	       	
+	        }
         });
+
+       var wantDay = $('.here').datepicker().data('datepicker');
+       wantDay.selectDate(new Date("${want.selectDate}"));
+		
+     function callRound(day,code){
+   		var type = ${productR.weekDif};
+   		
+   		if (type == 2)
+   			// 평일 주말 수량이나 가격이 다르지 않으면 
+   			var allData = JSON.stringify({ "code": code, "weekend": 3 });
+   		else{
+   				if (day == 0 || day == 6){
+   					var allData = JSON.stringify({ "code": code, "weekend": 2})
+   				}else {
+   					var allData = JSON.stringify({ "code": code, "weekend": 1})
+   				}
+   			} 			
+   		
+    	  $.ajax({
+   	       async:true,
+   	       // 동기 : 앞작업이 끝날 때까지 기다리고 다음 작업을 하는것 (아이디중복검사) , 비동기 : 기다리지 않고 바로 맡기는것,  서로 다른 작업을 동시에 실행할 때 (댓글창) 
+   	       type:'POST',
+   	       data:allData,
+   	       // 전송할 데이터
+   	       url:"<%=request.getContextPath()%>/quantity",
+   	       dataType:"json",
+   	       contentType:"application/json; charset=UTF-8",
+   	       success : function(data){
+   	       	  // 요청이 성공 했을 때 호출할 콜백 함수 
+   				// 배열의 요소 개수만큼 반복
+   				
+   				$('#ulTime').empty();				
+   	    	    for(var i =0; i<data.length; i++){
+			  	   var lz = document.createElement("li");    
+   		  	         if (data[i].roundTime != null ){
+   			  	       lz.innerHTML = data[i].round +'&nbsp'+ data[i].roundTime   			  	          	   			  	     
+   			         	/* str += '<li>'+data[i].round +' '+ data[i].roundTime + '</li>'; */
+   			         } else {
+   			        	 lz.innerHTML = data[i].round;  
+   	    		  		}
+   					 ulList.appendChild(lz);
+			    	 lz.addEventListener("click",quantityNum)
+   					 
+   	    	    }
+  	    		// $('#ulTime').html(str)
+  	    	
+  	    	  	    
+   	       		}
+    
+   		})
+   	}
+
+		function quantityNum(event){
+
+		 const leftli = ulList.querySelectorAll("li")
+		 const ON = "on"
+
+		 for( var i = 0; i < leftli.length; i++ ){ 
+			 leftli[i].classList.remove(ON);
+		 }
+		 
+		 event.target.classList.add(ON)
+		 
+	     var code = ${productR.code};
+		 var round = event.currentTarget.innerText.substring(0,2);
+		 console.log(round)
+		 var day = $('.no').val();
+		 
+		 var pType = ${productR.weekDif};
+			
+			if (pType == 2)
+				// 평일 주말 수량이나 가격이 다르지 않으면 
+				var all = JSON.stringify({ "code": code, "weekend": 3, "round": round});
+			else{
+					if (day == 0 || day == 6){
+						var all = JSON.stringify({ "code": code, "weekend": 2, "round": round})
+					}else {
+						var all = JSON.stringify({ "code": code, "weekend": 1, "round": round})
+					}
+				} 		
+			
+
+		  $.ajax({
+		       async:true,
+		       type:'POST',
+		       data:all,
+		       url:"<%=request.getContextPath()%>/quantityNum",
+		       dataType:"json",
+		       contentType:"application/json; charset=UTF-8",
+		       success : function(data){
+					$('#SeatRemain').empty();	
+					$('.c_price').text(data[0].quantity+'석')
+					$('#tk_time').text(data[0].round+' '+ data[0].roundTime)
+		
+		     } 
+	 
+			})
+			
+		   
+		  }
+	
 
         function fdc_VerifySelSeatNumber(){
             // step01, step03의 display의 속성 바꾸고 li에있는 on속성을 제거하고 그 다음 li로 on클래스 붙이기 
@@ -479,7 +575,15 @@
            opener.parent.location.replace("<%=request.getContextPath()%>/myOrder/detail");
 
           })
-
-
+          
+       function ticketAmount(){
+           
+   	      for(var i=0; i<=${productR.limitAmount};i++) {        
+   	            var op;
+   	            op += "<option value="+i+">"+i+"매</option>"
+   	        }
+   	        $(".amticket").append(op);
+   	        
+           }
 
     </script>
