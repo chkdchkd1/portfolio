@@ -94,18 +94,8 @@
                                                 <th scope="col">설명</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                        <c:forEach var="ResPrice" items="${priceR}">                                                                                
-                                            <tr>
-                                                <td class="l">${ResPrice.type}<br></td>
-                                                <td>${ResPrice.price}</td>
-                                                <td>
-                                                    <select class ="amticket">
-                                                    </select>
-                                                </td>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                         </c:forEach>
+                                        <tbody class="pbody">                          
+                                           
                                         </tbody>
                                     </table>
                                 </div>
@@ -131,14 +121,14 @@
                         <div id="step03_OrdererInfo" style="display: block;">
                             <h4>주문자확인</h4>
                             <ul>
-                                <li><em>이름</em><input id="ordererUserName" type="text" style="width: 110px;" maxlength="50" class="imekor" readonly="readonly"></li>
+                                <li><em>이름</em><input id="ordererUserName" type="text" style="width: 110px;" maxlength="50" class="imekor" readonly="readonly" value="${user.name}"></li>
                                 <li><em>생년월일</em><input id="ordererUserBirth" type="text" style="width: 60px;" maxlength="6" placeholder="YYMMDD"><h5>가입시 입력하신 회원정보와 정보와 다를경우, 예매가 불가능합니다.</h5></li>
                                 <li><em>
                                
                                   긴급연락처
                                 
                                 </em>
-                                    <input id="ordererMobile1" type="text" style="width: 30px;" maxlength="3" class="imedisable">
+                                    <input id="ordererMobile1" type="text" style="width: 30px;" maxlength="3" class="imedisable" }>
                                     -
                                     <input id="ordererMobile2" type="text" style="width: 50px;" maxlength="4" class="imedisable">
                                     -
@@ -184,11 +174,11 @@
                                     <div class="con conpd">
                                         <ul id="paymethodPos">
                                             <li idcode="2">
-                                                <input type="radio" name="rdoPays" id="rdoPays2" idgroup="2" value="2" datedifference="28" onclick="fdc_PayMethodChange(this);">
+                                                <input type="radio" name="rdoPays" id="rdoPays2" idgroup="2" value="2" datedifference="28">
                                                 신용카드
                                             </li>
                                             <li idcode="22">
-                                                <input type="radio" name="rdoPays" id="rdoPays22" idgroup="22" value="22" datedifference="28" onclick="fdc_PayMethodChange(this);">
+                                                <input type="radio" name="rdoPays" id="rdoPays22" idgroup="22" value="22" datedifference="28" >
                                                 무통장 입금 
                                                 <select id="selBank">
                                                     <option value="-1">입금은행 선택</option>
@@ -282,7 +272,7 @@
                         <ul>
                             <li><em>날짜</em><span id="tk_day"></span></li>
                             <li><em>시간</em><span id="tk_time"></span></li>
-                            <li><em>매수</em><span id="tk_count">1매</span></li>
+                            <li><em>매수</em><span id="tk_count"></span></li>
                             <li><em>좌석</em>
                                 <div id="tk_seat"><span>비지정석</span></div>
                             </li>
@@ -296,24 +286,24 @@
                                     <em>
                                         티켓금액
                                     </em>
-                                    <span>5,000</span>
+                                    <span></span>
                                 </li>
                                 <li class="tk_charge">
                                     <em>
                                         예매수수료
                                     </em>
-                                    <span>300</span>
+                                    <span></span>
                                 </li>
                                 <li class="tk_sumplus">
                                     <em>
                                        총 금액
                                     </em>
-                                    <span>5,300</span>
+                                    <span></span>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <span class="t_result">최종결제 금액 5,300<span>원</span></span>
+                    <span class="t_result">최종결제 금액   <span></span></span>
                     <div class="btn">
                         <div id="StepCtrlBtnPanel" class="tc">
                             <div id="StepCtrlBtn01" style="display: block;">
@@ -393,197 +383,440 @@
             </div>
     </div>
  
-    <input type ="hidden" class ="no" name="semiDay">
+ 
+ 	<!-- 정보 보관 콘트롤 -->
+ 	<input type ="text" class ="finalcode" name="finalcode" value="${productR.code}" alt="상품코드"> 	
+    <input type ="hidden" class ="no" name="semiDay" alt="주말평일">
+    <input type ="text" class ="finaldate" name="finaldate" alt="날짜">
+    <input type ="text" class ="finaltime" name="finaltime" alt="회차">
+    <input type ="text" class ="finalprice" name="finalprice" alt="가격">
+    <input type ="text" class ="finalcount" name="finalcount" alt="매수">
+    <input type ="text" class ="totalprice" name="totalprice" alt="최종가격">
+    <input type ="text" class ="paymethod" name="paymethod" alt="결제방법">
+    <input type ="text" class ="selectedbank" name="selectedbank" alt="입금은행">
+    
+    
     <script>
 
-    ticketAmount()
-	var ulList = document.querySelector("#ulTime")
+    $(document).ready(function(){
+
+    	var genre = "${productR.genre}";
+    	if (genre == '전시')
+    		$('.tk_charge span').text('500')
+    	 else 
+    	    $('.tk_charge span').text('300') 
+         
+         })
     
-      $('.here').datepicker({
-            showOtherMonths: false,
-	        dateFormat: 'yyyy.mm.dd',
-	        minDate: new Date("${productR.startDate}"),
-	        maxDate: new Date("${productR.endDate}"),
-	        onSelect : function (date,d) {
+   var ulList = document.querySelector("#ulTime")
+ 
+   $('.here').datepicker({
+           showOtherMonths: false,
+        dateFormat: 'yyyy.mm.dd',
+        minDate: new Date("${productR.startDate}"),
+        maxDate: new Date("${productR.endDate}"),
+        onSelect : function (date,d) {
 
-		        test = date;
-		        var day = d.getDay();
-			    week=new Array("일","월","화","수","목","금","토");
-			    $('.select_day span').text(date)
-		        $('#tk_day').text(date +' ('+ week[day]+') ');
-		        callRound(day,${productR.code});
-		        $('.no').val(day);
-		       
-	       	
-	        }
-        });
+	        test = date;
+	        var day = d.getDay();
+		    week=new Array("일","월","화","수","목","금","토");
+		    $('.select_day span').text(date)
+	        $('#tk_day').text(date +' ('+ week[day]+') ');
+	        callRound(day,${productR.code});
+	        $('.no').val(day);
+	        $('.finaldate').val(date);
+        	}
+     });
 
-       var wantDay = $('.here').datepicker().data('datepicker');
-       wantDay.selectDate(new Date("${want.selectDate}"));
+      var wantDay = $('.here').datepicker().data('datepicker');
+      wantDay.selectDate(new Date("${want.selectDate}"));
+           
+	
 		
-     function callRound(day,code){
-   		var type = ${productR.weekDif};
-   		
-   		if (type == 2)
-   			// 평일 주말 수량이나 가격이 다르지 않으면 
-   			var allData = JSON.stringify({ "code": code, "weekend": 3 });
-   		else{
-   				if (day == 0 || day == 6){
-   					var allData = JSON.stringify({ "code": code, "weekend": 2})
-   				}else {
-   					var allData = JSON.stringify({ "code": code, "weekend": 1})
-   				}
-   			} 			
-   		
-    	  $.ajax({
-   	       async:true,
-   	       // 동기 : 앞작업이 끝날 때까지 기다리고 다음 작업을 하는것 (아이디중복검사) , 비동기 : 기다리지 않고 바로 맡기는것,  서로 다른 작업을 동시에 실행할 때 (댓글창) 
-   	       type:'POST',
-   	       data:allData,
-   	       // 전송할 데이터
-   	       url:"<%=request.getContextPath()%>/quantity",
-   	       dataType:"json",
-   	       contentType:"application/json; charset=UTF-8",
-   	       success : function(data){
-   	       	  // 요청이 성공 했을 때 호출할 콜백 함수 
-   				// 배열의 요소 개수만큼 반복
-   				
-   				$('#ulTime').empty();				
-   	    	    for(var i =0; i<data.length; i++){
-			  	   var lz = document.createElement("li");    
-   		  	         if (data[i].roundTime != null ){
-   			  	       lz.innerHTML = data[i].round +'&nbsp'+ data[i].roundTime   			  	          	   			  	     
-   			         	/* str += '<li>'+data[i].round +' '+ data[i].roundTime + '</li>'; */
-   			         } else {
-   			        	 lz.innerHTML = data[i].round;  
-   	    		  		}
-   					 ulList.appendChild(lz);
-			    	 lz.addEventListener("click",quantityNum)
-   					 
-   	    	    }
-  	    		// $('#ulTime').html(str)
-  	    	
-  	    	  	    
-   	       		}
-    
-   		})
-   	}
+    function callRound(day,code){
+  		var type = ${productR.weekDif};
+  		
+  		if (type == 2)
+  			// 평일 주말 수량이나 가격이 다르지 않으면 
+  			var allData = JSON.stringify({ "code": code, "weekend": 3 });
+  		else{
+  				if (day == 0 || day == 6){
+  					var allData = JSON.stringify({ "code": code, "weekend": 2})
+  				}else {
+  					var allData = JSON.stringify({ "code": code, "weekend": 1})
+  				}
+  			} 			
+  		
+   	  $.ajax({
+  	       async:true,
+  	       // 동기 : 앞작업이 끝날 때까지 기다리고 다음 작업을 하는것 (아이디중복검사) , 비동기 : 기다리지 않고 바로 맡기는것,  서로 다른 작업을 동시에 실행할 때 (댓글창) 
+  	       type:'POST',
+  	       data:allData,
+  	       // 전송할 데이터
+  	       url:"<%=request.getContextPath()%>/quantity",
+  	       dataType:"json",
+  	       contentType:"application/json; charset=UTF-8",
+  	       success : function(data){
+  	       	  // 요청이 성공 했을 때 호출할 콜백 함수 
+  				// 배열의 요소 개수만큼 반복
+  				
+  				$('#ulTime').empty();				
+  	    	    for(var i =0; i<data.length; i++){
+		  	   var lz = document.createElement("li");    
+  		  	         if (data[i].roundTime != null ){
+  			  	       lz.innerHTML = data[i].round +'&nbsp'+ data[i].roundTime   			  	          	   			  	     
+  			         	/* str += '<li>'+data[i].round +' '+ data[i].roundTime + '</li>'; */
+  			         } else {
+  			        	 lz.innerHTML = data[i].round;  
+  	    		  		}
+  					 ulList.appendChild(lz);
+		    	 lz.addEventListener("click",quantityNum)
+  					 
+  	    	    }
+ 	    		// $('#ulTime').html(str)
+ 	    	
+ 	    	  	    
+  	       		}
+   
+  		})
+  	}
 
-		function quantityNum(event){
+	function quantityNum(event){
 
-		 const leftli = ulList.querySelectorAll("li")
-		 const ON = "on"
+	 const leftli = ulList.querySelectorAll("li")
+	 const ON = "on"
 
-		 for( var i = 0; i < leftli.length; i++ ){ 
-			 leftli[i].classList.remove(ON);
-		 }
-		 
-		 event.target.classList.add(ON)
-		 
-	     var code = ${productR.code};
-		 var round = event.currentTarget.innerText.substring(0,2);
-		 console.log(round)
-		 var day = $('.no').val();
-		 
-		 var pType = ${productR.weekDif};
-			
-			if (pType == 2)
-				// 평일 주말 수량이나 가격이 다르지 않으면 
-				var all = JSON.stringify({ "code": code, "weekend": 3, "round": round});
-			else{
-					if (day == 0 || day == 6){
-						var all = JSON.stringify({ "code": code, "weekend": 2, "round": round})
-					}else {
-						var all = JSON.stringify({ "code": code, "weekend": 1, "round": round})
-					}
-				} 		
-			
+	 for( var i = 0; i < leftli.length; i++ ){ 
+		 leftli[i].classList.remove(ON);
+	 }
+	 
+	 event.target.classList.add(ON)
+	 
+     var code = ${productR.code};
+	 var round = event.currentTarget.innerText.substring(0,2);
+	 var day = $('.no').val();
+	 
+	 var pType = ${productR.weekDif};
+		
+		if (pType == 2)
+			// 평일 주말 수량이나 가격이 다르지 않으면 
+			var all = JSON.stringify({ "code": code, "weekend": 3, "round": round});
+		else{
+				if (day == 0 || day == 6){
+					var all = JSON.stringify({ "code": code, "weekend": 2, "round": round})
+				}else {
+					var all = JSON.stringify({ "code": code, "weekend": 1, "round": round})
+				}
+			} 		
+		
 
-		  $.ajax({
+	  $.ajax({
+	       async:true,
+	       type:'POST',
+	       data:all,
+	       url:"<%=request.getContextPath()%>/quantityNum",
+	       dataType:"json",
+	       contentType:"application/json; charset=UTF-8",
+	       success : function(data){
+				$('#SeatRemain').empty();	
+				$('.c_price').text(data[0].quantity+'석')
+				$('#tk_time').text(data[0].round+' '+ data[0].roundTime)
+				$('.finaltime').val(data[0].qNum);		
+				// 나중에 입장권권 // 몇장 남았는지 예약 테이블에서 같은 코드- 같은 회차 가지고 있는거 카운트 해서 전체 좌석 표중에서 빼서 보여주기 
+	     } 
+ 
+		})
+		
+	   
+	  }
+	
+
+      function fdc_VerifySelSeatNumber(){
+          // step01, step03의 display의 속성 바꾸고 li에있는 on속성을 제거하고 그 다음 li로 on클래스 붙이기 
+          $('#step01').css('display','none');
+          $('#step02').css('display','block');
+          $('.m01').removeClass('on');
+          $('.m02').addClass('on');
+          $('#StepCtrlBtn01').css('display','none');
+          $('#StepCtrlBtn02').css('display','block');
+
+ 	 	  var code = ${productR.code};
+		  var day = $('.no').val();
+	 	  var pType = ${productR.weekDif};
+		
+		if (pType == 2)
+			// 평일 주말 수량이나 가격이 다르지 않으면 
+			var pall = JSON.stringify({ "code": code, "weekend": 3, "round": 0});
+		else{
+				if (day == 0 || day == 6){
+					var pall = JSON.stringify({ "code": code, "weekend": 2, "round": 0})
+				}else {
+					var pall = JSON.stringify({ "code": code,  "weekend": 1, "round": 0})
+				}
+			} 		
+		
+           $.ajax({
 		       async:true,
 		       type:'POST',
-		       data:all,
-		       url:"<%=request.getContextPath()%>/quantityNum",
+		       data:pall,
+		       url:"<%=request.getContextPath()%>/ResPriceList",
 		       dataType:"json",
 		       contentType:"application/json; charset=UTF-8",
 		       success : function(data){
-					$('#SeatRemain').empty();	
-					$('.c_price').text(data[0].quantity+'석')
-					$('#tk_time').text(data[0].round+' '+ data[0].roundTime)
-		
+
+    	    for(var i =0; i<data.length; i++){
+		  	   var str = '';  
+  		  	           str += '<tr>'+'<td class="l">'+data[i].type +'<br></td><td>'+ data[i].price + '</td><td><select id="amticket"></select></td><td></td>'; 
+  					 $('.pbody').html(str);
+   		  	      ticketAmount()
+   		  		  selectedAmount()
+  	    	    }
+
 		     } 
 	 
 			})
-			
-		   
-		  }
-	
 
-        function fdc_VerifySelSeatNumber(){
-            // step01, step03의 display의 속성 바꾸고 li에있는 on속성을 제거하고 그 다음 li로 on클래스 붙이기 
-            $('#step01').css('display','none');
-            $('#step02').css('display','block');
-            $('.m01').removeClass('on');
-            $('.m02').addClass('on');
-            $('#StepCtrlBtn01').css('display','none');
-            $('#StepCtrlBtn02').css('display','block');
-        }
+      }
 
      
-        // 이전버튼 다음버튼 
-        const jcSTEP1 = {
-            main : document.querySelector("#step02"),
-            btn : document.querySelector("#StepCtrlBtn02")
-        }
-        const jcSTEP2 = { 
-            main : document.querySelector("#step03"),
-            btn : document.querySelector("#StepCtrlBtn03")
-        }
-        const jcSTEP3 = { 
-            main : document.querySelector("#step04"),
-            btn : document.querySelector("#StepCtrlBtn04")
-        }
+       // 이전버튼 다음버튼 
+      const jcSTEP1 = {
+          main : document.querySelector("#step02"),
+          btn : document.querySelector("#StepCtrlBtn02")
+      }
+      const jcSTEP2 = { 
+          main : document.querySelector("#step03"),
+          btn : document.querySelector("#StepCtrlBtn03")
+      }
+      const jcSTEP3 = { 
+          main : document.querySelector("#step04"),
+          btn : document.querySelector("#StepCtrlBtn04")
+      }
 
-       function fdc_GoPrevStep(jcSTEP){
-        jcSTEP.main.previousElementSibling.style.display = 'block';
-        jcSTEP.main.style.display = 'none';
-        jcSTEP.btn.previousElementSibling.style.display = 'block';
-        jcSTEP.btn.style.display = 'none';
-       }
+     function fdc_GoPrevStep(jcSTEP){
+      jcSTEP.main.previousElementSibling.style.display = 'block';
+      jcSTEP.main.style.display = 'none';
+      jcSTEP.btn.previousElementSibling.style.display = 'block';
+      jcSTEP.btn.style.display = 'none';
+     }
+     
+     function fdc_PromotionEnd(){
+      jcSTEP1.main.style.display = 'none';
+      jcSTEP1.btn.style.display = 'none';
+      jcSTEP2.main.style.display = 'block';
+      jcSTEP2.btn.style.display = 'block';
+
+      OrdererInfo()
+     }
+
+
        
-       function fdc_PromotionEnd(){
-        jcSTEP1.main.style.display = 'none';
-        jcSTEP1.btn.style.display = 'none';
-        jcSTEP2.main.style.display = 'block';
-        jcSTEP2.btn.style.display = 'block';
-       }
+     function fdc_DeliveryEnd(){
+		// 생년 월일 입력안했을 때 결제방법 페이지로 안넘어가게 하는거 
+	   	   var nullbirth = $("#ordererUserBirth").val();
+				if (nullbirth == null || nullbirth == ''){
+					alert("생년월일을 입력해주세요")
+					return false;
+				} 
+					
+	        jcSTEP2.main.style.display = 'none';  
+	        jcSTEP2.btn.style.display = 'none';
+	        jcSTEP3.main.style.display = 'block';
+	        jcSTEP3.btn.style.display = 'block';
+	        
+	     // 내가 지정한 날짜 또는 상품종료일 하루전을 취소 마감시간으로 넣기
+		 jsDateCalculation ()
+		 
+     }
+			
 
-       function fdc_DeliveryEnd(){
-        jcSTEP2.main.style.display = 'none';  
-        jcSTEP2.btn.style.display = 'none';
-        jcSTEP3.main.style.display = 'block';
-        jcSTEP3.btn.style.display = 'block';
-       }
+     function fdc_PrePayCheck(){
 
-       function fdc_PrePayCheck(){
-           $('#all').css('display','none');
-           $('#SuccessBoard').css('display','block');
-       }
 
-       $('#imgGomyticketD img').click(function(){
-           window.close();  
-           opener.parent.location.replace("<%=request.getContextPath()%>/myOrder/detail");
 
-          })
-          
-       function ticketAmount(){
-           
-   	      for(var i=0; i<=${productR.limitAmount};i++) {        
-   	            var op;
-   	            op += "<option value="+i+">"+i+"매</option>"
-   	        }
-   	        $(".amticket").append(op);
-   	        
-           }
+    	// 선택한 결제 방법 저장하기 
+			var pmethod = $('input[name="rdoPays"]:checked').val();
+		    $('.paymethod').val(pmethod)
+			var pbank = $('#selBank option:checked').val();
+		    $('.selectedbank').val(pbank)
+		    
+		    
+    	 if( $('.paymethod').val() == '' ){
+    		 alert("결제방법을 선택해주세요 ")
+    		 return false
+    	 } else if ($('.paymethod').val() == '22' && $('.selectedbank').val() == '-1'){
+    		 alert("입금은행을 선택해주세요 ")
+    		 return false
+        	 }
+		 
+    	 if ($("input:checkbox").is(":checked") == false){
+        	 alert("취소수수료/취소 기한 및 제 3자 정보 제공 내용에 동의하셔야만 결제 가능합니다. 내용을 확인하신 후 동의하기를 체크해주세요.")
+        	 return false }  
+    	 
+         $('#all').css('display','none');
+         $('#SuccessBoard').css('display','block');
+
+			
+
+			
+		    
+   				
+		    
+     }
+
+     
+     $('#imgGomyticketD img').click(function(){
+         window.close();  
+         opener.parent.location.replace("<%=request.getContextPath()%>/myOrder/detail");
+
+        })
+        
+     
+     // 제한매수 가져오기
+   	function ticketAmount(){
+		for(var i=0; i<=${productR.limitAmount};i++) {        
+	         var op;
+	         op += "<option value="+i+">"+i+"매</option>"
+	     }
+       	$('#amticket').append(op);
+	 }
+
+     // 선택한 표의 가격 가져오기 
+    function selectedAmount(){
+       $('#amticket').change(function(){
+	  	   var selectedA = $(this).val();
+	       $('#tk_count').text(selectedA+'매');
+	       $('.finalcount').val(selectedA);
+	
+	      	var rowData = new Array();
+			var tdArr = new Array();
+			var option = $(this);
+	
+		// 체크된 체크박스 값을 가져온다
+				option.each(function(i) {
+		
+					// checkbox.parent() : checkbox의 부모는 <td>이다.
+					// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+					var tr = option.parent().parent().eq(i);
+					var td = tr.children();
+					
+					// 체크된 row의 모든 값을 배열에 담는다.
+					rowData.push(tr.text());
+					
+					// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+					var price = td.eq(1).text()
+					var amount = selectedA
+			
+					
+					// 가져온 값을 배열에 담는다.
+					tdArr.push(price);
+					tdArr.push(amount);
+			
+			
+					$('.finalprice').val(price) 
+					var middlePrice = 0	
+					var fees = $('.tk_charge span').text()
+					middlePrice = Number(price) * Number(amount)
+					$('.tk_price span').text(middlePrice)
+					
+					var sum = 0
+					sum = Number(fees) + Number(middlePrice)
+					$('.tk_sumplus span').text(sum) 
+					$('.t_result span').text(sum+' 원') 
+					$('.totalprice').val(sum) 
+					
+				})
+	     })
+     }
+
+   /*  // 
+   			https://all-record.tistory.com/172 (참고 / 상시 성인 청소년 어린이 각각 할때 참고할 것 )
+   	   			TOTAL += NUM(A)
+   	   			
+   			상단 선택버튼 클릭시 체크된 Row의 값을 가져온다.
+		$("#amticket").change(function(){ 
+			
+			var rowData = new Array();
+			var tdArr = new Array();
+			var option = $(this).val();
+			
+			// 체크된 체크박스 값을 가져온다
+			option.each(function(i) {
+	
+				// checkbox.parent() : checkbox의 부모는 <td>이다.
+				// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+				var tr = option.parent().parent().eq(i);
+				var td = tr.children();
+				
+				// 체크된 row의 모든 값을 배열에 담는다.
+				rowData.push(tr.text());
+				
+				// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+				var price = td.eq(1).text()+", "
+
+				
+				// 가져온 값을 배열에 담는다.
+				tdArr.push(price);
+				console.log("price:"+price)	
+				//console.log("no : " + no);
+				//console.log("userid : " + userid);
+				//console.log("name : " + name);
+				//console.log("email : " + email);
+			});
+			
+		/* 	$("#ex3_Result1").html(" * 체크된 Row의 모든 데이터 = "+rowData);	
+			$("#ex3_Result2").html(tdArr);	 
+		}); */
+
+
+	 	 
+
+	  // 회원정보 가져오기 (수령방법)
+   function OrdererInfo(){
+		
+	var mobile = "${user.phone}"
+	$('#ordererMobile1').val(mobile.substring(0,3))
+	$('#ordererMobile2').val(mobile.substring(3,7))
+	$('#ordererMobile3').val(mobile.substring(7,11))
+	
+	var beforemail = "${user.email}"
+	var afteremail = beforemail.split('@');
+	$('#ordererMailH').val(afteremail[0]);
+	$('#ordererMailD').val(afteremail[1]);
+
+	// usrbirth랑 입력값이 다르면 알럿띄우고 다음단계 버튼 활성화 안되도록 
+	$("#ordererUserBirth").change(function(){
+		var birth = "${user.birth}"
+		var putbirth = $(this).val();
+			if (putbirth == '' || putbirth == null || birth != putbirth){
+				alert("올바르지 않은 정보입니다.")
+				$('#StepCtrlBtn03').children().last().removeAttr("onclick")
+			} else
+				$('#StepCtrlBtn03').children().last().attr("onclick","fdc_DeliveryEnd();")
+					
+		})
+	}
+
+		
+	// 마감시간 계산하기
+	function jsDateCalculation () {
+
+	var selectedDate = $('.finaldate').val();
+    var beforeDate = selectedDate.split('.')
+    var changeDate = new Date();
+    changeDate.setFullYear(beforeDate[0], beforeDate[1], beforeDate[2]-1)
+
+    var year = changeDate.getFullYear();
+	var month = changeDate.getMonth();
+	var day = changeDate.getDate();
+
+	var str = year+'년 '+month+'월 '+day+'일  09:00까지' 
+	$('#lblCancelTimeInfo').text(str);
+
+	}
+
+
+
+
 
     </script>

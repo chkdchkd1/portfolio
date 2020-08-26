@@ -6,6 +6,7 @@ public class WantResVo{
 	private int selectCode;
 	private String selectDate;
 	private String selectRound;
+	private int selectWeek;
 	
 	public int getSelectCode() {
 		return selectCode;
@@ -25,12 +26,19 @@ public class WantResVo{
 	public void setSelectRound(String selectRound) {
 		this.selectRound = selectRound;
 	}
+	public int getSelectWeek() {
+		return selectWeek;
+	}
+	public void setSelectWeek(int selectWeek) {
+		this.selectWeek = selectWeek;
+	}
 	
 	@Override
 	public String toString() {
 		return "WantResVo [selectCode=" + selectCode + ", selectDate=" + selectDate + ", selectRound=" + selectRound
-				+ "]";
+				+ ", selectWeek=" + selectWeek + "]";
 	}
+
 	
 	
 	

@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 
-  ${user}
-
 <div class="product-box">
  <!-- 상단 타이틀 -->
     <div class="renew-wrap">
@@ -286,6 +284,8 @@
 <input type = "text" class = "selectCode" name = "selectCode" value = "${productD.code}">
 <input type = "text" class = "selectDate" name = "selectDate" value = "">
 <input type = "text" class = "selectRound"  name = "selectRound">
+<input type = "text" class = "selectWeek"  name = "selectWeek">
+
 </form>
 
 <script>
@@ -306,6 +306,7 @@
 				        var code = ${productD.code};
 				        callRound(day,code);
 			       	 	$('.no').val(day);
+			       	 	$('.selectWeek').val(day);			       	 	
 						$('#SeatRemain').empty();
 			       	 	$('.selectDate').val(date);
 						

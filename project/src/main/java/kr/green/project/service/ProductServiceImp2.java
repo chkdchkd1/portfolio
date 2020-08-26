@@ -51,6 +51,12 @@ public class ProductServiceImp2 implements ProductService2 {
 		return productDao.selectProductQuantityNum(code,weekend,round);
 	}
 
+	@Override
+	public ArrayList<ProductPriceVo> getResPriceList(int code, int weekend) {
+		// TODO Auto-generated method stub
+		return  productDao.selectResPriceList(code,weekend);
+	}
+
 
 
 	

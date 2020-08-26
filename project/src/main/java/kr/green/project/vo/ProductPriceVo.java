@@ -4,27 +4,31 @@ public class ProductPriceVo {
 
 	private String type;
 	private int price;
+	private int kinds;
 	
 	public String getType() {
 		return type;
 	}
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
 	public int getPrice() {
 		return price;
 	}
-
 	public void setPrice(int price) {
 		this.price = price;
 	}
-
+	public int getKinds() {
+		return kinds;
+	}
+	public void setKinds(int kinds) {
+		this.kinds = kinds;
+	}
 	@Override
 	public String toString() {
-		return "ProductPriceVo [type=" + type + ", price=" + price + "]";
+		return "ProductPriceVo [type=" + type + ", price=" + price + ", kinds=" + kinds + "]";
 	}
+
 	
 	
 

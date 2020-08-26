@@ -6,8 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.project.service.ProductService2;
@@ -59,6 +61,46 @@ public class ReservationController {
 	    return mv;
 	}
 	
+	@RequestMapping(value ="/ResPriceList")
+	@ResponseBody
+	public ArrayList<ProductPriceVo> ResPrice(@RequestBody TestVo test){
+		System.out.println(test);
+		ArrayList<ProductPriceVo> Resprice;
+		Resprice = productService2.getResPriceList(test.getCode(),test.getWeekend());
+	 	System.out.println(Resprice);
+	    return Resprice;
+	}
+	
+	
 }
 
+
+
+//잠깐 사용할 vo 
+class TestVo2{
+	
+	private int code;
+	private int weekend;
+	
+	public int getCode() {
+		return code;
+	}
+	public void setCode(int code) {
+		this.code = code;
+	}
+	public int getWeekend() {
+		return weekend;
+	}
+	public void setWeekend(int weekend) {
+		this.weekend = weekend;
+	}
+	@Override
+	public String toString() {
+		return "TestVo2 [code=" + code + ", weekend=" + weekend + "]";
+	}
+
+	
+	
+	
+}
 

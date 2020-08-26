@@ -24,6 +24,8 @@ public interface ProductDao {
 
 	ArrayList<ProductQuantityVo> selectProductQuantityNum(@Param("code")int code,@Param("weekend")int weekend, @Param("round") String round);
 
+	ArrayList<ProductPriceVo> selectResPriceList(@Param("code")int code, @Param("weekend")int weekend);
+
 
 
 }

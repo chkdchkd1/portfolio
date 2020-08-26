@@ -22,6 +22,8 @@ public interface ProductService2 {
 
 	ArrayList<ProductQuantityVo> getQuantityNum(int code, int weekend, String round);
 
+	ArrayList<ProductPriceVo> getResPriceList(int code, int weekend);
+
 
 
 
