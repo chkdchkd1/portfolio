@@ -95,7 +95,8 @@
                                             </tr>
                                         </thead>
                                         <tbody class="pbody">                          
-                                           
+                                           <tr><td class="l">주말 일반<br></td><td>9000</td><td><select class="amticket"><option value="0">0매</option><option value="1">1매</option><option value="2">2매</option></select></td><td></td></tr>
+                                           <tr><td class="l">주중 일반<br></td><td>8000</td><td><select class="amticket"><option value="0">0매</option><option value="1">1매</option><option value="2">2매</option></select></td><td></td></tr>                                        
                                         </tbody>
                                     </table>
                                 </div>
@@ -303,7 +304,7 @@
                             </ul>
                         </div>
                     </div>
-                    <span class="t_result">최종결제 금액   <span></span></span>
+                    <span class="t_result">최종결제 금액<span></span></span>
                     <div class="btn">
                         <div id="StepCtrlBtnPanel" class="tc">
                             <div id="StepCtrlBtn01" style="display: block;">
@@ -383,18 +384,16 @@
             </div>
     </div>
  
- 
- 	<!-- 정보 보관 콘트롤 -->
+ 	<input type ="hidden" class ="genre" >
+ 	<form>
+ 	<!-- 정보 보관  -->
  	<input type ="text" class ="finalcode" name="finalcode" value="${productR.code}" alt="상품코드"> 	
     <input type ="hidden" class ="no" name="semiDay" alt="주말평일">
     <input type ="text" class ="finaldate" name="finaldate" alt="날짜">
     <input type ="text" class ="finaltime" name="finaltime" alt="회차">
-    <input type ="text" class ="finalprice" name="finalprice" alt="가격">
-    <input type ="text" class ="finalcount" name="finalcount" alt="매수">
-    <input type ="text" class ="totalprice" name="totalprice" alt="최종가격">
     <input type ="text" class ="paymethod" name="paymethod" alt="결제방법">
     <input type ="text" class ="selectedbank" name="selectedbank" alt="입금은행">
-    
+    </form>
     
     <script>
 
@@ -402,9 +401,9 @@
 
     	var genre = "${productR.genre}";
     	if (genre == '전시')
-    		$('.tk_charge span').text('500')
+    		$('.genre').val(500)
     	 else 
-    	    $('.tk_charge span').text('300') 
+    	    $('.genre').val(300) 
          
          })
     
@@ -417,7 +416,6 @@
         maxDate: new Date("${productR.endDate}"),
         onSelect : function (date,d) {
 
-	        test = date;
 	        var day = d.getDay();
 		    week=new Array("일","월","화","수","목","금","토");
 		    $('.select_day span').text(date)
@@ -540,7 +538,7 @@
           $('#StepCtrlBtn01').css('display','none');
           $('#StepCtrlBtn02').css('display','block');
 
- 	 	  var code = ${productR.code};
+<%--  	 	  var code = ${productR.code};
 		  var day = $('.no').val();
 	 	  var pType = ${productR.weekDif};
 		
@@ -566,15 +564,14 @@
 
     	    for(var i =0; i<data.length; i++){
 		  	   var str = '';  
-  		  	           str += '<tr>'+'<td class="l">'+data[i].type +'<br></td><td>'+ data[i].price + '</td><td><select id="amticket"></select></td><td></td>'; 
-  					 $('.pbody').html(str);
-   		  	      ticketAmount()
-   		  		  selectedAmount()
-  	    	    }
+  		  	           str += '<tr>'+'<td class="l">'+data[i].type +'<br></td><td>'+ data[i].price + '</td><td><select class="amticket"></select></td><td></td>'; 
+   					 $('.pbody').html(str);
+   		  	      ticketAmount() --%>
+ /*  	    	    }
 
 		     } 
 	 
-			})
+			}) */
 
       }
 
@@ -594,13 +591,23 @@
       }
 
      function fdc_GoPrevStep(jcSTEP){
-      jcSTEP.main.previousElementSibling.style.display = 'block';
-      jcSTEP.main.style.display = 'none';
-      jcSTEP.btn.previousElementSibling.style.display = 'block';
-      jcSTEP.btn.style.display = 'none';
+    	     
+	      jcSTEP.main.previousElementSibling.style.display = 'block';
+	      jcSTEP.main.style.display = 'none';
+	      jcSTEP.btn.previousElementSibling.style.display = 'block';
+	      jcSTEP.btn.style.display = 'none';
+
+	      // 설정했던 가격 값들 지우기
+	 	 $('input[name=finalpricetype]').remove();
+	 	 $('input[name=finalprice]').remove();
+	 	 $('input[name=finalcount]').remove();
+	     
      }
-     
+
+      
      function fdc_PromotionEnd(){
+ 		  selectedAmount()
+ 	      
       jcSTEP1.main.style.display = 'none';
       jcSTEP1.btn.style.display = 'none';
       jcSTEP2.main.style.display = 'block';
@@ -612,6 +619,7 @@
 
        
      function fdc_DeliveryEnd(){
+	          
 		// 생년 월일 입력안했을 때 결제방법 페이지로 안넘어가게 하는거 
 	   	   var nullbirth = $("#ordererUserBirth").val();
 				if (nullbirth == null || nullbirth == ''){
@@ -656,12 +664,7 @@
          $('#all').css('display','none');
          $('#SuccessBoard').css('display','block');
 
-			
 
-			
-		    
-   				
-		    
      }
 
      
@@ -678,97 +681,100 @@
 	         var op;
 	         op += "<option value="+i+">"+i+"매</option>"
 	     }
-       	$('#amticket').append(op);
+       	$('.amticket').append(op);
 	 }
 
-     // 선택한 표의 가격 가져오기 
-    function selectedAmount(){
-       $('#amticket').change(function(){
-	  	   var selectedA = $(this).val();
-	       $('#tk_count').text(selectedA+'매');
-	       $('.finalcount').val(selectedA);
-	
-	      	var rowData = new Array();
-			var tdArr = new Array();
-			var option = $(this);
-	
-		// 체크된 체크박스 값을 가져온다
-				option.each(function(i) {
-		
-					// checkbox.parent() : checkbox의 부모는 <td>이다.
-					// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-					var tr = option.parent().parent().eq(i);
-					var td = tr.children();
-					
-					// 체크된 row의 모든 값을 배열에 담는다.
-					rowData.push(tr.text());
-					
-					// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-					var price = td.eq(1).text()
-					var amount = selectedA
-			
-					
-					// 가져온 값을 배열에 담는다.
-					tdArr.push(price);
-					tdArr.push(amount);
-			
-			
-					$('.finalprice').val(price) 
-					var middlePrice = 0	
-					var fees = $('.tk_charge span').text()
-					middlePrice = Number(price) * Number(amount)
-					$('.tk_price span').text(middlePrice)
-					
-					var sum = 0
-					sum = Number(fees) + Number(middlePrice)
-					$('.tk_sumplus span').text(sum) 
-					$('.t_result span').text(sum+' 원') 
-					$('.totalprice').val(sum) 
-					
-				})
-	     })
-     }
 
-   /*  // 
-   			https://all-record.tistory.com/172 (참고 / 상시 성인 청소년 어린이 각각 할때 참고할 것 )
-   	   			TOTAL += NUM(A)
+
+
+
+
+ 
+     function selectedAmount(){
+
+    
+    	 	var fees = $('.genre').val();
+    	 	var totalCount = 0;
+    	 	var totalPrice = 0;
+    	 	var totalFprice = 0;
+    	 	
+         
+  	      	var rowData = new Array();
+  			var tdArr = new Array();
+  			var option = $('.amticket option:selected');
+  			//id는 중복이 안된다 
+  	
+  		// 체크된 체크박스 값을 가져온다
+  				$('.amticket').each(function(i) {
+  		
+  					// checkbox.parent() : checkbox의 부모는 <td>이다.
+  					// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+  					var tr = $(this).parents('tr');
+  					//var tr = option.parents('tr')
+  					var td = tr.children();
+  					console.log(i)
+  					
+  					// 체크된 row의 모든 값을 배열에 담는다.
+  					rowData.push(tr.text());
+  					
+  					// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+  					var type = td.eq(0).text()
+  					var price = Number(td.eq(1).text())
+  					var fprice = Number(td.eq(1).text()) + Number(fees)
+  					var count = $(this).val();
+  			  		console.log($(this).eq(i).html())
+  			  					
+  					// 가져온 값을 배열에 담는다.
+  					if (count != 0 ){
+	  					tdArr.push(type)
+	  					tdArr.push(price)
+	  					tdArr.push(fprice);
+	  					tdArr.push(count);
+	  					console.log(tdArr)
+	  					
+	  					
+	  					// 가져온 값 더해서 총 매수, 총가격 구하기 
+		  					totalCount +=  Number(count)
+		  					totalPrice += (Number(price)*Number(count))
+		  					
+		  					
+			  					for (var i = 0; i<count ; i++ ){
+				  						var name = new Array("finalpricetype","finalprice","finalcount");  					
+				  				  		var str =  '<input type ="text" name="'+name[0]+'" value ="'+type+'"><input type ="text" name="'+name[1]+'" value ="'+fprice+'"><input type ="text" name="'+name[2]+'" value ="1">'
+				  							$('form').append(str)
+				  					
+			  					}
+  					}
+
+  			
+  				})
+
+  				    // 구한 가격 전광판에 띄우기
+					console.log(totalCount)
+					$('#tk_count').text(totalCount+'매')
+					$('.tk_price span').text(totalPrice
+							)
+					// 최종 수수료 
+					$('.tk_charge span').text(totalCount*fees)
+					var fFees = $('.tk_charge span').text()
+					
+					//최종 금액 
+					totalFprice = totalPrice+Number(fFees)
+					$('.tk_sumplus span').text(totalFprice)
+					$('.t_result span').text(totalFprice)
+					
+					
+  	 
+       }
+     
+     
+     
+
+
+//    https://all-record.tistory.com/172 (참고 / 상시 성인 청소년 어린이 각각 할때 참고할 것 )
+//   	   			TOTAL += NUM(A)
    	   			
-   			상단 선택버튼 클릭시 체크된 Row의 값을 가져온다.
-		$("#amticket").change(function(){ 
-			
-			var rowData = new Array();
-			var tdArr = new Array();
-			var option = $(this).val();
-			
-			// 체크된 체크박스 값을 가져온다
-			option.each(function(i) {
-	
-				// checkbox.parent() : checkbox의 부모는 <td>이다.
-				// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-				var tr = option.parent().parent().eq(i);
-				var td = tr.children();
-				
-				// 체크된 row의 모든 값을 배열에 담는다.
-				rowData.push(tr.text());
-				
-				// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-				var price = td.eq(1).text()+", "
-
-				
-				// 가져온 값을 배열에 담는다.
-				tdArr.push(price);
-				console.log("price:"+price)	
-				//console.log("no : " + no);
-				//console.log("userid : " + userid);
-				//console.log("name : " + name);
-				//console.log("email : " + email);
-			});
-			
-		/* 	$("#ex3_Result1").html(" * 체크된 Row의 모든 데이터 = "+rowData);	
-			$("#ex3_Result2").html(tdArr);	 
-		}); */
-
-
+ 
 	 	 
 
 	  // 회원정보 가져오기 (수령방법)
@@ -815,6 +821,8 @@
 
 	}
 
+
+	//http://noveloper.github.io/blog/javascript/2015/03/08/submit-form-except-specific-tag.html (form시 특정 태그 제외 하기)
 
 
 
