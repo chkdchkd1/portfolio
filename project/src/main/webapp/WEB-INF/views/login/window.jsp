@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<style>
+ #if{
+            width: 0px;
+            height: 0px;
+            border: 0px;
+        }
+</style>
 
  <div id="warp">
         <div id="all" style="display: block;">
@@ -95,8 +102,8 @@
                                             </tr>
                                         </thead>
                                         <tbody class="pbody">                          
-                                           <tr><td class="l">주말 일반<br></td><td>9000</td><td><select class="amticket"><option value="0">0매</option><option value="1">1매</option><option value="2">2매</option></select></td><td></td></tr>
-                                           <tr><td class="l">주중 일반<br></td><td>8000</td><td><select class="amticket"><option value="0">0매</option><option value="1">1매</option><option value="2">2매</option></select></td><td></td></tr>                                        
+                                           <tr><td class="l">주말 일반<br></td><td>9000</td><td><select class="amticket"><option value="0">0매</option><option value="1">1매</option><option value="2">2매</option></select></td><td><input type ="hidden" class ="ppNum" name="ppNum" value="2"></td></tr>
+                                           <tr><td class="l">주중 일반<br></td><td>8000</td><td><select class="amticket"><option value="0">0매</option><option value="1">1매</option><option value="2">2매</option></select></td><td><input type ="hidden" class ="ppNum" name="ppNum" value="1"></td></tr>                                        
                                         </tbody>
                                     </table>
                                 </div>
@@ -383,27 +390,45 @@
         <div class="PayInfoSendForm">
             </div>
     </div>
+
  
  	<input type ="hidden" class ="genre" >
- 	<form>
+ 	<input type ="hidden" class ="no" name="semiDay" alt="주말평일">
+ 	
+ 	<form name = "bk" method="post" target="param">
  	<!-- 정보 보관  -->
- 	<input type ="text" class ="finalcode" name="finalcode" value="${productR.code}" alt="상품코드"> 	
-    <input type ="hidden" class ="no" name="semiDay" alt="주말평일">
+ 	<input type ="text" class ="gsCode" name="gsCode" value="${productR.code}" alt="상품코드"> 	
+ 	<input type ="text" class ="rvId" name="rvId" value="${user.id}" alt="상품코드"> 	 	
     <input type ="text" class ="finaldate" name="finaldate" alt="날짜">
-    <input type ="text" class ="finaltime" name="finaltime" alt="회차">
+    <input type ="text" class ="roundNum" name="roundNum" alt="회차">
     <input type ="text" class ="paymethod" name="paymethod" alt="결제방법">
-    <input type ="text" class ="selectedbank" name="selectedbank" alt="입금은행">
+    <input type ="text" class ="methodBank" name="methodBank" alt="입금은행">
     </form>
+
+      <!-- iframe 설정 -->
+    <iframe id="if" name="param"></iframe>
     
     <script>
 
     $(document).ready(function(){
 
     	var genre = "${productR.genre}";
+    	var goodsType = "${productR.godType}";
     	if (genre == '전시')
     		$('.genre').val(500)
     	 else 
     	    $('.genre').val(300) 
+
+    	    if (goodsType == '상시'){
+        	    $('#step01').css("display","none");
+        	    $('#step02').css("display","block");
+        	    $('#StepCtrlBtn01').css("display","none");
+        	    $('#StepCtrlBtn02').css("display","block");3
+
+                getPriceList()
+
+        	    
+        	    }
          
          })
     
@@ -519,8 +544,10 @@
 				$('#SeatRemain').empty();	
 				$('.c_price').text(data[0].quantity+'석')
 				$('#tk_time').text(data[0].round+' '+ data[0].roundTime)
-				$('.finaltime').val(data[0].qNum);		
+				$('.roundNum').val(data[0].qNum);		
 				// 나중에 입장권권 // 몇장 남았는지 예약 테이블에서 같은 코드- 같은 회차 가지고 있는거 카운트 해서 전체 좌석 표중에서 빼서 보여주기 
+				console.log(data);
+				
 	     } 
  
 		})
@@ -538,40 +565,9 @@
           $('#StepCtrlBtn01').css('display','none');
           $('#StepCtrlBtn02').css('display','block');
 
-<%--  	 	  var code = ${productR.code};
-		  var day = $('.no').val();
-	 	  var pType = ${productR.weekDif};
-		
-		if (pType == 2)
-			// 평일 주말 수량이나 가격이 다르지 않으면 
-			var pall = JSON.stringify({ "code": code, "weekend": 3, "round": 0});
-		else{
-				if (day == 0 || day == 6){
-					var pall = JSON.stringify({ "code": code, "weekend": 2, "round": 0})
-				}else {
-					var pall = JSON.stringify({ "code": code,  "weekend": 1, "round": 0})
-				}
-			} 		
-		
-           $.ajax({
-		       async:true,
-		       type:'POST',
-		       data:pall,
-		       url:"<%=request.getContextPath()%>/ResPriceList",
-		       dataType:"json",
-		       contentType:"application/json; charset=UTF-8",
-		       success : function(data){
+          getPriceList()
 
-    	    for(var i =0; i<data.length; i++){
-		  	   var str = '';  
-  		  	           str += '<tr>'+'<td class="l">'+data[i].type +'<br></td><td>'+ data[i].price + '</td><td><select class="amticket"></select></td><td></td>'; 
-   					 $('.pbody').html(str);
-   		  	      ticketAmount() --%>
- /*  	    	    }
-
-		     } 
-	 
-			}) */
+  	 	
 
       }
 
@@ -591,6 +587,8 @@
       }
 
      function fdc_GoPrevStep(jcSTEP){
+
+    	
     	     
 	      jcSTEP.main.previousElementSibling.style.display = 'block';
 	      jcSTEP.main.style.display = 'none';
@@ -598,9 +596,9 @@
 	      jcSTEP.btn.style.display = 'none';
 
 	      // 설정했던 가격 값들 지우기
-	 	 $('input[name=finalpricetype]').remove();
-	 	 $('input[name=finalprice]').remove();
-	 	 $('input[name=finalcount]').remove();
+	 	 $('input[name=ppNum]').remove();
+	 	 $('input[name=totalPrice]').remove();
+	 	 $('input[name=rvamount]').remove();
 	     
      }
 
@@ -646,13 +644,13 @@
 			var pmethod = $('input[name="rdoPays"]:checked').val();
 		    $('.paymethod').val(pmethod)
 			var pbank = $('#selBank option:checked').val();
-		    $('.selectedbank').val(pbank)
+		    $('.methodBank').val(pbank)
 		    
 		    
     	 if( $('.paymethod').val() == '' ){
     		 alert("결제방법을 선택해주세요 ")
     		 return false
-    	 } else if ($('.paymethod').val() == '22' && $('.selectedbank').val() == '-1'){
+    	 } else if ($('.paymethod').val() == '22' && $('.methodBank').val() == '-1'){
     		 alert("입금은행을 선택해주세요 ")
     		 return false
         	 }
@@ -660,9 +658,14 @@
     	 if ($("input:checkbox").is(":checked") == false){
         	 alert("취소수수료/취소 기한 및 제 3자 정보 제공 내용에 동의하셔야만 결제 가능합니다. 내용을 확인하신 후 동의하기를 체크해주세요.")
         	 return false }  
+
+
+    	 iframeSubmit()
     	 
          $('#all').css('display','none');
          $('#SuccessBoard').css('display','block');
+
+         
 
 
      }
@@ -722,7 +725,10 @@
   					var price = Number(td.eq(1).text())
   					var fprice = Number(td.eq(1).text()) + Number(fees)
   					var count = $(this).val();
+  					var priceListNum = td.eq(3).children('input').val()
   			  		console.log($(this).eq(i).html())
+  			  		console.log(priceListNum)
+  			  		
   			  					
   					// 가져온 값을 배열에 담는다.
   					if (count != 0 ){
@@ -730,6 +736,7 @@
 	  					tdArr.push(price)
 	  					tdArr.push(fprice);
 	  					tdArr.push(count);
+	  					tdArr.push(priceListNum);	  					
 	  					console.log(tdArr)
 	  					
 	  					
@@ -739,8 +746,8 @@
 		  					
 		  					
 			  					for (var i = 0; i<count ; i++ ){
-				  						var name = new Array("finalpricetype","finalprice","finalcount");  					
-				  				  		var str =  '<input type ="text" name="'+name[0]+'" value ="'+type+'"><input type ="text" name="'+name[1]+'" value ="'+fprice+'"><input type ="text" name="'+name[2]+'" value ="1">'
+				  						var name = new Array("ppNum","totalPrice","rvamount");  					
+				  				  		var str =  '<input type ="text" name="'+name[0]+'" value ="'+priceListNum+'"><input type ="text" name="'+name[1]+'" value ="'+fprice+'"><input type ="text" name="'+name[2]+'" value ="1">'
 				  							$('form').append(str)
 				  					
 			  					}
@@ -766,6 +773,15 @@
 					
   	 
        }
+
+
+     function iframeSubmit(){
+
+    	 var form = document.bk;
+ 	    form.action = '<%=request.getContextPath()%>/ticketBook';
+ 	    form.submit();
+ 	    
+         }
      
      
      
@@ -820,6 +836,49 @@
 	$('#lblCancelTimeInfo').text(str);
 
 	}
+
+
+	function getPriceList(){
+
+		//이전버튼을 누르면 ppnum 리셋 되는 이유 ㅇ..
+
+	  var code = ${productR.code};
+	  var day = $('.no').val();
+ 	  var pType = ${productR.weekDif};
+	
+	if (pType == 2)
+		// 평일 주말 수량이나 가격이 다르지 않으면 
+		var pall = JSON.stringify({ "code": code, "weekend": 3, "round": 0});
+	else{
+			if (day == 0 || day == 6){
+				var pall = JSON.stringify({ "code": code, "weekend": 2, "round": 0})
+			}else {
+				var pall = JSON.stringify({ "code": code,  "weekend": 1, "round": 0})
+			}
+		} 		
+	
+       $.ajax({
+	       async:true,
+	       type:'POST',
+	       data:pall,
+	       url:"<%=request.getContextPath()%>/ResPriceList",
+	       dataType:"json",
+	       contentType:"application/json; charset=UTF-8",
+	       success : function(data){
+
+		  	   var str = '';  
+	    	   
+	    for(var i =0; i<data.length; i++){
+		  	           str += '<tr>'+'<td class="l">'+data[i].type +'<br></td><td>'+ data[i].price + '</td><td><select class="amticket"></select></td><td><input type ="hidden" class ="ppNum" name="ppNum" value="'+data[i].num+'"></td>'; 
+					 $('.pbody').html(str);
+		  	      ticketAmount() 
+	    	    }
+
+	     } 
+ 
+		}) 
+	}
+		
 
 
 	//http://noveloper.github.io/blog/javascript/2015/03/08/submit-form-except-specific-tag.html (form시 특정 태그 제외 하기)

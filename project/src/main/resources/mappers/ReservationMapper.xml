@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.green.project.dao.ReservationDao">
+
+  <insert id ="insertReservation">
+  		insert into 
+  			reservation(ppNum,rvId,rvamount,totalPrice,payStatus,paymethod,roundNum,revocableDate,gsCode,useStart,useEnd,methodBank)
+  			values(#{reservation.ppNum},#{reservation.rvId},#{reservation.rvamount},#{reservation.totalPrice},#{reservation.payStatus},#{reservation.paymethod},
+  					#{reservation.roundNum},#{reservation.revocableDate},#{reservation.gsCode},#{reservation.useStart},#{reservation.useEnd},#{reservation.methodBank})
+  </insert>
+  
+   
+        
+  </mapper>
+ 

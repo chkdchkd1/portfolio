@@ -290,6 +290,23 @@
 
 <script>
 
+	isRightNow();
+
+	// 상품이 상시인 경우  
+	function isRightNow(){
+
+
+	   	var godType = "${productD.godType}";
+	   	var seDate ="${productD.startDate}";
+    	if (godType == '상시'){
+    		$('.selectDate').val(seDate)
+    		$('.selectRound').val("-1")
+    		$('.selectWeek').val("-1")
+    	}
+         }
+         
+
+
 	var roundList = document.querySelector(".rn-04-left-calist");
 	var test;
 

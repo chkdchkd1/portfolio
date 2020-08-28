@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.project.service.ProductService2;
+import kr.green.project.service.ReservationService;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductPriceVo;
+import kr.green.project.vo.ReservationVo;
+import kr.green.project.vo.TicketBookVo;
 import kr.green.project.vo.WantResVo;
 
 
@@ -28,6 +32,9 @@ public class ReservationController {
 	
 	@Autowired
 	private ProductService2 productService2;
+	
+	@Autowired
+	private ReservationService reservationService;
 	
 	@RequestMapping(value = "/reservation", method = RequestMethod.GET)
 	public ModelAndView reservation(ModelAndView mv) throws Exception{
@@ -70,6 +77,31 @@ public class ReservationController {
 	 	System.out.println(Resprice);
 	    return Resprice;
 	}
+	
+	
+	@RequestMapping(value = "/ticketBook", method = RequestMethod.POST)
+	public ModelAndView ticketBookPost(ModelAndView mv, TicketBookVo book, int[] ppNum, int[] totalPrice , int[] rvamount  ) throws Exception{
+
+		
+		
+		for (int i=0 ; i<ppNum.length ; i++) {	
+			ReservationVo bookMain  = new ReservationVo();
+			// 객체를 먼저 생성 하고 그 객체에 복사 해온 값을 넣어준다 . 
+			BeanUtils.copyProperties(book, bookMain);
+			bookMain.setPpNum(ppNum[i]);
+			bookMain.setTotalPrice(totalPrice[i]);
+			bookMain.setRvamount(rvamount[i]);
+			System.out.println(bookMain);
+			
+			reservationService.registerReservation(book,bookMain);
+			
+		}
+		
+	
+		
+	    return mv;
+	}
+	
 	
 	
 }

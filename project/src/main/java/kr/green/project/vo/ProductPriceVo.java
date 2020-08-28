@@ -2,10 +2,17 @@ package kr.green.project.vo;
 
 public class ProductPriceVo {
 
+	private int num;
 	private String type;
 	private int price;
 	private int kinds;
 	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
 	public String getType() {
 		return type;
 	}
@@ -26,9 +33,12 @@ public class ProductPriceVo {
 	}
 	@Override
 	public String toString() {
-		return "ProductPriceVo [type=" + type + ", price=" + price + ", kinds=" + kinds + "]";
+		return "ProductPriceVo [num=" + num + ", type=" + type + ", price=" + price + ", kinds=" + kinds + "]";
 	}
-
+	
+	
+	
+	
 	
 	
 
