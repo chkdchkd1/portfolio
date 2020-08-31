@@ -2,6 +2,8 @@ package kr.green.project.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +19,8 @@ import kr.green.project.service.ProductService2;
 import kr.green.project.service.ReservationService;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductPriceVo;
+import kr.green.project.vo.Reservation2Vo;
+import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
 import kr.green.project.vo.TicketBookVo;
 import kr.green.project.vo.WantResVo;
@@ -57,14 +61,36 @@ public class ReservationController {
 	
 	
 	@RequestMapping(value = "/myOrder/list", method = RequestMethod.GET)
-	public ModelAndView MyreservationList(ModelAndView mv) throws Exception{
+	public ModelAndView MyreservationList(ModelAndView mv , HttpServletRequest request ) throws Exception{
 	    mv.setViewName("/reservation/resList");
+	    ArrayList<ReservationListVo> list;
+	    list = reservationService.getReservationList(request);
+	    mv.addObject("list", list);
+	    System.out.println(list);
 	    return mv;
 	}
 	
 	@RequestMapping(value = "/myOrder/detail", method = RequestMethod.GET)
-	public ModelAndView MyreservationDetail(ModelAndView mv) throws Exception{
-	    mv.setViewName("/reservation/resDetail");
+	public ModelAndView MyreservationDetail(ModelAndView mv, String num) throws Exception{
+		
+		Reservation2Vo reservedDetail = reservationService.ReservationDetail(num);
+		ArrayList<ReservationListVo> sameTime ;
+		sameTime = reservationService.getSameTimeReservation(reservedDetail.getRvDate(),reservedDetail.getRvId(),reservedDetail.getGsCode());
+		System.out.println(sameTime);
+		
+		/*
+		 * ProductImageVo image2 ; image2 = productService2.getImage2(code,2);
+		 */
+		mv.addObject("reservedDetail", reservedDetail);
+		mv.addObject("sameTimeList", sameTime);
+
+		
+		/*
+		 * mv.addObject("image2", image2);
+		 */	
+		
+		
+		    mv.setViewName("/reservation/resDetail");
 	    return mv;
 	}
 	
@@ -104,6 +130,20 @@ public class ReservationController {
 	
 	
 	
+	@RequestMapping(value ="/reservedQuantity")
+	@ResponseBody
+	public int reservedQuantity(@RequestBody TestVo3 test){
+	
+	  int reservedSeat = reservationService.getReserved(test.getCode(),test.getDate(),test.getRound());
+	  System.out.println(reservedSeat);
+		   return reservedSeat;
+	
+	}
+	
+	
+	
+	
+	
 }
 
 
@@ -131,8 +171,40 @@ class TestVo2{
 		return "TestVo2 [code=" + code + ", weekend=" + weekend + "]";
 	}
 
+
+}
+
+class TestVo3{
 	
+	private int code;
+	private int round;
+	private String date;
+	
+	public int getCode() {
+		return code;
+	}
+	public void setCode(int code) {
+		this.code = code;
+	}
+	public int getRound() {
+		return round;
+	}
+	public void setRound(int round) {
+		this.round = round;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	@Override
+	public String toString() {
+		return "TestVo3 [code=" + code + ", round=" + round + ", date=" + date + "]";
+	}
 	
 	
 }
+
+
 

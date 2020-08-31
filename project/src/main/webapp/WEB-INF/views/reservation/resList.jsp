@@ -1,9 +1,12 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  
   <div class="mypage_contain">
                     <h1>예매확인 / 취소</h1>
                     <div class="date_list bg">
-                        <p class="tit"><strong>OOO</strong>님의 <span id="lblSearch" class="red">최근 1개월</span> 예매내역입니다. 지난 예매확인을 원하시면 조회조건을 선택해 주세요.</p>
+                        <p class="tit"><strong>${user.name}</strong>님의 <span id="lblSearch" class="red">최근 1개월</span> 예매내역입니다. 지난 예매확인을 원하시면 조회조건을 선택해 주세요.</p>
                         <ul>
                             <li id="liTerm">
                                 <img src="<%=request.getContextPath()%>/resources/image/th_05.gif" alt="기간별조회">
@@ -87,30 +90,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            		<c:forEach var="reservation" items="${list}">
                                 <tr>
-                                    <td class="le">2020.08.17</td>
-                                    <td><strong><a href="#" class="orderticketview" idorder="1533679135">197624826</a></strong></td>
-                                    <td class="tit"><a href="#" title="K-핸드메이드페어 2020">K-핸드메이드페어 2020</a></td>
-                                    <td>2020.11.19-2020.12.21</td>
-                                    <td>1</td>
-                                    <td class="ri">예약<a href="#" class="orderticketview" idorder="1533679135"><img src="<%=request.getContextPath()%>/resources/image/btn_more02.gif" alt="상세정보"></a></td>
+                                    <td class="le">${reservation.rvDate}</td>
+                                    <td><strong><a href="<%=request.getContextPath()%>/myOrder/detail?num=${reservation.rvNum}" class="orderticketview">${reservation.rvNum}</a></strong></td>
+                                    <td class="tit">${reservation.title}</td>
+                                    <td>${reservation.useStart} ~ ${reservation.useEnd} <br>${reservation.roundTime}</td>
+                                    <td>${reservation.rvamount}</td>
+                                    <td class="ri">${reservation.status}<a href="#" class="orderticketview"><img src="<%=request.getContextPath()%>/resources/image/btn_more02.gif" alt="상세정보"></a></td>
                                 </tr>
-                                <tr>
-                                    <td class="le">2020.08.17</td>
-                                    <td><strong><a href="#" class="orderticketview" idorder="1533678427">197624815</a></strong></td>
-                                    <td class="tit"><a href="#" title="코리아비건페어">코리아비건페어</a></td>
-                                    <td>2020.09.11-10:00</td>
-                                    <td>7</td>
-                                    <td class="ri">예약<a href="#" class="orderticketview" idorder="1533678427"><img src="<%=request.getContextPath()%>/resources/image/btn_more02.gif" alt="상세정보"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="le">2020.08.17</td>
-                                    <td><strong><a href="#" class="orderticketview" idorder="1533678078">197624810</a></strong></td>
-                                    <td class="tit"><a href="#" title="K-핸드메이드페어 2020">K-핸드메이드페어 2020</a></td>
-                                    <td>2020.11.19-11:00</td>
-                                    <td>1</td>
-                                    <td class="ri">예약<a href="#" class="orderticketview" idorder="1533678078"><img src="<%=request.getContextPath()%>/resources/image/btn_more02.gif" alt="상세정보"></a></td>
-                                </tr>
+                                	</c:forEach>
                             </tbody>
                         </table>
                         <input id="hiddenTicketTotal" type="hidden" value="3"></div>

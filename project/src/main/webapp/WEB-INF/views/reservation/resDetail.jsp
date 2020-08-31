@@ -1,12 +1,16 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    ${reservedDetail}
  <div class="mp_contents">
                     <div class="reserveInfo">
                         <h1>예매확인 / 취소</h1>
                         <h3><img src="<%=request.getContextPath()%>/resources/image/h2_mtit06.gif" alt="예매내역 확인·취소"></h3>
                         <!-- 예매내역 -->
                         <div class="subject">
-                            <span class="s-title">유미의 세포들 특별전 (2021.1월-3월)</span> 
+                            <span class="s-title">${reservedDetail.title}</span> 
                         </div>
                         <div class="info">
                             <div class="poster">
@@ -20,11 +24,17 @@
                                     </colgroup>
                                     <tbody><tr>
                                         <th>예매자</th>
-                                        <td>김지수</td>
+                                        <td>${reservedDetail.name}</td>
                                     </tr>
                                     <tr>
                                         <th>예약번호</th>
-                                        <td><div id="divTicketno">T1656191350 ~ T1656191351 (총 2매)</div>
+                                        <td><div id="divTicketno">
+                                        <c:forEach var="reserved" items="${sameTimeList}" varStatus="index">
+                                           <c:if test="${index.first}">${reserved.rvNum} ~ </c:if>
+                                           <c:if test="${index.last}">${reserved.rvNum}  ( 총 ${index.count}매 ) </c:if>
+                                          		
+										</c:forEach>										
+                                        </div>
                                         
                                         </td>
                                     </tr>

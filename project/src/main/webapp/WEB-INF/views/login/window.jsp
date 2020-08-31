@@ -52,7 +52,7 @@
                                     <ul id="ulSeatSpace" class="hi">
                                         <li class="grade">
                                             <div>
-                                                <strong class="c_name">입장권</strong> <span class="c_price">0석</span>
+                                                <strong class="c_name">입장권</strong> <span class="c_price">석</span>
                                                 </div>
                                             </li>
                                         </ul>
@@ -391,7 +391,7 @@
             </div>
     </div>
 
- 
+ 	<input type ="hidden" class ="oriQuan" >
  	<input type ="hidden" class ="genre" >
  	<input type ="hidden" class ="no" name="semiDay" alt="주말평일">
  	
@@ -419,15 +419,18 @@
     	 else 
     	    $('.genre').val(300) 
 
-    	    if (goodsType == '상시'){
-        	    $('#step01').css("display","none");
-        	    $('#step02').css("display","block");
-        	    $('#StepCtrlBtn01').css("display","none");
-        	    $('#StepCtrlBtn02').css("display","block");3
+   	    if (goodsType == '상시'){
+       	    $('#step01').css("display","none");
+       	    $('#step02').css("display","block");
+       	    $('#StepCtrlBtn01').css("display","none");
+       	    $('#StepCtrlBtn02').css("display","block");
+       	    $('#tk_time').text('상시상품');
+       		$('.roundNum').val(${want.selectRound});
 
-                getPriceList()
 
-        	    
+               getPriceList()
+
+          	    
         	    }
          
          })
@@ -448,6 +451,7 @@
 	        callRound(day,${productR.code});
 	        $('.no').val(day);
 	        $('.finaldate').val(date);
+	        $('.roundNum').val('');
         	}
      });
 
@@ -542,11 +546,13 @@
 	       contentType:"application/json; charset=UTF-8",
 	       success : function(data){
 				$('#SeatRemain').empty();	
-				$('.c_price').text(data[0].quantity+'석')
+				$('.oriQuan').val(data[0].quantity)
 				$('#tk_time').text(data[0].round+' '+ data[0].roundTime)
 				$('.roundNum').val(data[0].qNum);		
-				// 나중에 입장권권 // 몇장 남았는지 예약 테이블에서 같은 코드- 같은 회차 가지고 있는거 카운트 해서 전체 좌석 표중에서 빼서 보여주기 
+				// 나중에 입장권권 // 몇장 남았는지 예약 테이블에서 같은 코드- 같은 회차코드 가지고 있는거 카운트 해서 전체 좌석 표중에서 빼서 보여주기 
 				console.log(data);
+				reservedQuantity()
+				
 				
 	     } 
  
@@ -554,9 +560,56 @@
 		
 	   
 	  }
+
+	  // 현재 같은 상품코드 + 해당 날짜 + 해당 회차에 예약된 좌석 읽어오기 c_price의 text 값을 읽어와서 빼기 
+	  
+	  function reservedQuantity(){
+
+		  var code = ${productR.code}; 
+		  var round = $('.roundNum').val();
+		  var date = $('.finaldate').val();
+		  var dt = JSON.stringify({ "code": code, "date": date, "round": round});
+
+
+		  $.ajax({
+		       async:true,
+		       type:'POST',
+		       data:dt,
+		       url:"<%=request.getContextPath()%>/reservedQuantity",
+		       dataType:"json",
+		       contentType:"application/json; charset=UTF-8",
+		       success : function(data){
+				
+					// 나중에 입장권권 // 몇장 남았는지 예약 테이블에서 같은 코드- 같은 회차코드 가지고 있는거 카운트 해서 전체 좌석 표중에서 빼서 보여주기 
+		    	   var originalQ = $('.oriQuan').val()
+		    	   var now = Number(originalQ) - Number(data);
+		    	   $('.c_price').text(now+'석');
+		    	   console.log(now)
+					
+		     } 
+	 
+			})
+			
+
+		  
+		  }
 	
 
       function fdc_VerifySelSeatNumber(){
+
+			// 잔여석 0일때 예약 막기
+        	var catRes =  $('.c_price').text()
+			if (catRes == '0석'){
+				alert("예약 불가능한 회차입니다.")
+				return false;
+				}
+
+        	if($('.roundNum').val() == null || $('.roundNum').val() == ''){
+					alert('회차를 선택해주세요')
+					return false;
+            	}
+
+		          
           // step01, step03의 display의 속성 바꾸고 li에있는 on속성을 제거하고 그 다음 li로 on클래스 붙이기 
           $('#step01').css('display','none');
           $('#step02').css('display','block');
@@ -566,6 +619,7 @@
           $('#StepCtrlBtn02').css('display','block');
 
           getPriceList()
+
 
   	 	
 
@@ -588,23 +642,35 @@
 
      function fdc_GoPrevStep(jcSTEP){
 
-    	
-    	     
+ 	     // 상시 상품이면 1페이지로 못가게 하기 
+ 	     
+    		var goodsType = "${productR.godType}";
+    	    if (goodsType == '상시' && jcSTEP == jcSTEP1 ){
+    	    		return false;
+    	    }
+
 	      jcSTEP.main.previousElementSibling.style.display = 'block';
 	      jcSTEP.main.style.display = 'none';
 	      jcSTEP.btn.previousElementSibling.style.display = 'block';
 	      jcSTEP.btn.style.display = 'none';
 
-	      // 설정했던 가격 값들 지우기
-	 	 $('input[name=ppNum]').remove();
-	 	 $('input[name=totalPrice]').remove();
-	 	 $('input[name=rvamount]').remove();
-	     
+	      // 2번째 페이지로 가면 설정했던 가격 값들 지우고, 가격 리스트 다시불러오기
+	      if (jcSTEP == jcSTEP2 ){
+	 	 	 $('input[name=ppNum]').remove();
+		 	 $('input[name=totalPrice]').remove();
+		 	 $('input[name=rvamount]').remove();
+
+				getPriceList()
+	    	}
+		    
+
      }
 
       
      function fdc_PromotionEnd(){
- 		  selectedAmount()
+
+   
+     selectedAmount()
  	      
       jcSTEP1.main.style.display = 'none';
       jcSTEP1.btn.style.display = 'none';
@@ -612,7 +678,11 @@
       jcSTEP2.btn.style.display = 'block';
 
       OrdererInfo()
+
+      // 잔여석 + 내가 예약하려는 매수 > 원래 상품 잔여석 return false; 
      }
+
+  
 
 
        
@@ -624,6 +694,13 @@
 					alert("생년월일을 입력해주세요")
 					return false;
 				} 
+
+		   if($('#tk_count').text() == '0매'|| $('#tk_count').text() == ''){
+	   	          alert('매수를 선택해주세요')
+	   	          return false
+	   	          }
+			   			
+			   	      
 					
 	        jcSTEP2.main.style.display = 'none';  
 	        jcSTEP2.btn.style.display = 'none';
@@ -823,7 +900,13 @@
 	// 마감시간 계산하기
 	function jsDateCalculation () {
 
-	var selectedDate = $('.finaldate').val();
+  	var goodsType = "${productR.godType}";
+  	var selectedDate = $('.finaldate').val();
+    if (goodsType == '상시'){
+    	selectedDate = "${productR.endDate}";
+    }
+    
+        
     var beforeDate = selectedDate.split('.')
     var changeDate = new Date();
     changeDate.setFullYear(beforeDate[0], beforeDate[1], beforeDate[2]-1)
@@ -839,8 +922,6 @@
 
 
 	function getPriceList(){
-
-		//이전버튼을 누르면 ppnum 리셋 되는 이유 ㅇ..
 
 	  var code = ${productR.code};
 	  var day = $('.no').val();
@@ -878,7 +959,7 @@
  
 		}) 
 	}
-		
+
 
 
 	//http://noveloper.github.io/blog/javascript/2015/03/08/submit-form-except-specific-tag.html (form시 특정 태그 제외 하기)

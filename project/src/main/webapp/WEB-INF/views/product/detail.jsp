@@ -279,6 +279,7 @@
 </div>
 
 
+<input type ="hidden" class ="oriQuan" >
 <input type = "hidden" class="no">    
 <form name = "f1" method="Post">
 <input type = "text" class = "selectCode" name = "selectCode" value = "${productD.code}">
@@ -300,8 +301,11 @@
 	   	var seDate ="${productD.startDate}";
     	if (godType == '상시'){
     		$('.selectDate').val(seDate)
-    		$('.selectRound').val("-1")
     		$('.selectWeek').val("-1")
+    		 var code = ${productD.code};
+		     var day = '-1'; 		 
+	        callRound(day,code);
+    		
     	}
          }
          
@@ -322,10 +326,12 @@
 				        var day = d.getDay();
 				        var code = ${productD.code};
 				        callRound(day,code);
+			  			$('.selectRound').val('');				        
 			       	 	$('.no').val(day);
 			       	 	$('.selectWeek').val(day);			       	 	
 						$('#SeatRemain').empty();
 			       	 	$('.selectDate').val(date);
+			       		 	
 						
 			 	        // day가 0 or 6 이면 주말임 
 				 	      
@@ -368,8 +374,10 @@
 			         span.innerHTML = data[i].round; 
 			         if (data[i].roundTime != null ){
 			         	a.innerHTML = '&nbsp'+data[i].roundTime;
-			         } else 
+			         } else {
 				         a.innerHTML = '';
+			    		$('.selectRound').val(data[i].qNum)
+			         }
 			         a.prepend(span)
 			    	 roundList.appendChild(a)
 			    	 a.addEventListener("click",quantityNum)
@@ -383,7 +391,6 @@
 
 	  function quantityNum(event){
 
-		 
 		 const lefta = roundList.querySelectorAll("a")
 		 const ON = "on"
 
@@ -394,7 +401,7 @@
 		 event.target.classList.add(ON)
 		 
 	     var code = ${productD.code};
-		 var round = event.currentTarget.firstChild.innerText;
+		 var round = event.currentTarget.innerText.substring(0,2);
 		 var day = $('.no').val();
 		 
 			var pType = ${productD.weekDif};
@@ -426,10 +433,14 @@
 					if(data[0].round == '상시상품'){
 						span.innerHTML = '본 상품은 잔여석 서비스를 제공하지 않는 상품입니다.'	
 					}	else 
+							$('.oriQuan').val(data[0].quantity)
+							
 							span.innerHTML = '입장권	' + data[0].quantity + ' 석'
 					dd.appendChild(span)
 					seatList.appendChild(dd)
 		       	 	$('.selectRound').val(data[0].qNum);
+					reservedQuantity()
+		       	 	
 					
 					
 		     } 
@@ -438,12 +449,62 @@
 			
 		  
 		  }
+
+
+	  function reservedQuantity(){
+
+		  var code = ${productD.code}; 
+		  var round = $('.selectRound').val();
+		  var date = $('.selectDate').val();
+		  var dt = JSON.stringify({ "code": code, "date": "2020-10-09", "round": round});
+		  console.log(dt);
+
+
+		  $.ajax({
+		       async:true,
+		       type:'POST',
+		       data:dt,
+		       url:"<%=request.getContextPath()%>/reservedQuantity",
+		       dataType:"json",
+		       contentType:"application/json; charset=UTF-8",
+		       success : function(data){
+				
+					// 나중에 입장권권 // 몇장 남았는지 예약 테이블에서 같은 코드- 같은 회차코드 가지고 있는거 카운트 해서 전체 좌석 표중에서 빼서 보여주기 
+		    	   var originalQ = $('.oriQuan').val()
+		    	   var now = Number(originalQ) - Number(data);
+		    	   $('#SeatRemain span').text('입장권  '+now+' 석')
+/* 		    	   $('.c_price').text(now+'석');
+ */		    	   console.log(data)
+					
+		     } 
+	 
+			})
+			
+
+		  
+		  }
+	  
 	
 
 		
 	//예약하기 새창열기 
 	function openRservation(){
 
+
+		var catRes =  $('#SeatRemain span').text()
+		if (catRes == '입장권  0 석'){
+			alert("예약 불가능한 회차입니다.")
+			return false;
+			}
+
+		if ($('.selectDate').val() == null || $('.selectDate').val() == ''){
+				alert('원하시는 예매일을 선택해주세요.')
+				return false;
+		}	else if ($('.selectRound').val() == null || $('.selectRound').val() == '' ){
+				alert('원하시는 회차를 선택해주세요.')
+				return false;
+		}
+		
 		var target = '예약페이지 ';
 	    window.open("<%=request.getContextPath()%>/reservation", target, "width=985,height=650");
 	    var form = document.f1;

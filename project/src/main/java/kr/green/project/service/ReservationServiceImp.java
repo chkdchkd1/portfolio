@@ -1,14 +1,20 @@
 package kr.green.project.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.project.dao.ReservationDao;
 import kr.green.project.vo.ProductDetailVo;
+import kr.green.project.vo.Reservation2Vo;
+import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
 import kr.green.project.vo.TicketBookVo;
+import kr.green.project.vo.UserVo;
 
 @Service
 public class ReservationServiceImp implements ReservationService {
@@ -55,6 +61,35 @@ public class ReservationServiceImp implements ReservationService {
 		
 
 	}
+
+	@Override
+	public int getReserved(int i, String text, int j) {
+		// TODO Auto-generated method stub
+		return reservationDao.selectReserved(i,text,j);
+	}
+
+	@Override
+	public ArrayList<ReservationListVo> getReservationList(HttpServletRequest request) {
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		
+		return reservationDao.selectReservationList(user.getId());
+	}
+
+	@Override
+	public Reservation2Vo ReservationDetail(String num) {
+		// TODO Auto-generated method stub
+		return reservationDao.selectReservationDetail(num);
+	}
+
+	@Override
+	public ArrayList<ReservationListVo> getSameTimeReservation(Date rvDate, String rvId, int gsCode) {
+		// TODO Auto-generated method stub
+		return reservationDao.getSameTimeReservation(rvDate,rvId,gsCode);
+	}
+
+	
+
+	
 
 
 

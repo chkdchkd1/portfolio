@@ -11,7 +11,54 @@
   					#{reservation.roundNum},#{reservation.revocableDate},#{reservation.gsCode},#{reservation.useStart},#{reservation.useEnd},#{reservation.methodBank})
   </insert>
   
-   
+  
+  <select id ="selectReserved" resultType="int">
+  
+  SELECT COUNT(*) FROM ticket.reservation
+where useStart = #{date} and roundNum = #{round}  and gsCode = #{code};
+  		
+  </select>
+  
+  
+ <select id ="selectReservationList" resultType="kr.green.project.vo.ReservationListVo">
+  SELECT rvDate,rvNum,useStart,useEnd,status,gsCode,title,roundTime, count(*) as rvamount 
+	FROM ticket.reservation 
+    join (select * from goodsdetail ) as t
+    on reservation.gsCode = goodsMainCode
+	join (select * from goodsquantity ) as z
+    on reservation.roundNum = qNum
+    WHERE rvDate BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() 
+    and rvId = #{user}
+    group by rvDate
+    HAVING COUNT(*)>=1;
+
+ </select>
+  
+  <select id ="selectReservationDetail" resultType="kr.green.project.vo.Reservation2Vo">
+select * 
+	from reservation
+    join (select code, place from goods) as t 
+    on gsCode = t.code
+	join (select goodsMainCode, title from goodsdetail) as z
+    on t.code = goodsMainCode
+    join (select id, name from ticket.user) as u
+    on rvId = id
+     where rvNum = #{num};
+	</select>
+       
+       
+<select id ="getSameTimeReservation" resultType="kr.green.project.vo.ReservationVo">
+	SELECT * 
+	FROM ticket.reservation
+	join (select * from goodsprice) as p
+	on ppNum = num
+	where rvId = #{user}
+	and rvDate = #{rvdate}
+	and gsCode = #{code};
+	</select>
+	
+        
+        
         
   </mapper>
  
