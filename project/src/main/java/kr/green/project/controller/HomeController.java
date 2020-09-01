@@ -55,7 +55,13 @@ public class HomeController {
 	}
 	
 	
-
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public ModelAndView adminGet(ModelAndView mv) throws Exception{
+	    mv.setViewName("/admin/adminMain");
+	    return mv;
+	}
+	
+	
 	
 	
 	

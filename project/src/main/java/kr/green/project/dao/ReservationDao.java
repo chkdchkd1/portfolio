@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
+import kr.green.project.vo.ReservedSameVo;
 
 
 public interface ReservationDao {
@@ -20,7 +21,11 @@ public interface ReservationDao {
 
 	Reservation2Vo selectReservationDetail(@Param("num")String num);
 
-	ArrayList<ReservationListVo> getSameTimeReservation(@Param("rvdate")Date rvDate, @Param("user")String rvId, @Param("code")int gsCode);
+	ArrayList<ReservedSameVo> getSameTimeReservation(@Param("rvdate")Date rvDate, @Param("user")String rvId, @Param("code")int gsCode);
+
+	ReservationVo selectReservation(@Param("rvNum")String string);
+
+	void updateReservation(@Param("reservation")ReservationVo reservation);
 
 	
 

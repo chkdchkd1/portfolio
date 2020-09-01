@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
+import kr.green.project.vo.ReservedSameVo;
 import kr.green.project.vo.TicketBookVo;
 
 public interface ReservationService {
@@ -20,7 +21,9 @@ public interface ReservationService {
 
 	Reservation2Vo ReservationDetail(String num);
 
-	ArrayList<ReservationListVo> getSameTimeReservation(Date rvDate, String rvId, int gsCode);
+	ArrayList<ReservedSameVo> getSameTimeReservation(Date date, String rvId, int gsCode);
+
+	void cancelreservation(String string, HttpServletRequest request);
 
 
 

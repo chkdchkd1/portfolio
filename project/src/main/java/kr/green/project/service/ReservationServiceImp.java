@@ -13,6 +13,7 @@ import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
+import kr.green.project.vo.ReservedSameVo;
 import kr.green.project.vo.TicketBookVo;
 import kr.green.project.vo.UserVo;
 
@@ -82,9 +83,22 @@ public class ReservationServiceImp implements ReservationService {
 	}
 
 	@Override
-	public ArrayList<ReservationListVo> getSameTimeReservation(Date rvDate, String rvId, int gsCode) {
+	public ArrayList<ReservedSameVo> getSameTimeReservation(Date rvDate, String rvId, int gsCode) {
 		// TODO Auto-generated method stub
 		return reservationDao.getSameTimeReservation(rvDate,rvId,gsCode);
+	}
+
+	@Override
+	public void cancelreservation(String string, HttpServletRequest request) {
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		ReservationVo reservation = reservationDao.selectReservation(string);
+		if(user.getId().equals(reservation.getRvId())) {
+			reservation.setCancelDate(new Date());
+			reservation.setRevocable("unable");
+			reservation.setStatus("cancel");
+			reservationDao.updateReservation(reservation);
+		}
+			
 	}
 
 	

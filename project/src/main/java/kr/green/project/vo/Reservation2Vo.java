@@ -22,14 +22,15 @@ public class Reservation2Vo {
 	private int roundNum;
 	private String revocableDate;
 	private int gsCode;
-	private String useStart;
-	private String useEnd;
+	private Date useStart;
+	private Date useEnd;
 	private String useStatus;
 	private Date cancelDate;
 	private int methodBank;
 	private String place;
 	private String title; 
 	private String name; 
+	private String roundTime;
 
 	
 	public String getRvNum() {
@@ -129,15 +130,19 @@ public class Reservation2Vo {
 		this.gsCode = gsCode;
 	}
 	public String getUseStart() {
-		return useStart;
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy.MM.dd");
+		String to2 = format1.format(useStart);
+		return to2;
 	}
-	public void setUseStart(String useStart) {
+	public void setUseStart(Date useStart) {
 		this.useStart = useStart;
 	}
 	public String getUseEnd() {
-		return useEnd;
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy.MM.dd");
+		String to3 = format1.format(useEnd);
+		return to3;
 	}
-	public void setUseEnd(String useEnd) {
+	public void setUseEnd(Date useEnd) {
 		this.useEnd = useEnd;
 	}
 	public String getUseStatus() {
@@ -180,6 +185,14 @@ public class Reservation2Vo {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+	public String getRoundTime() {
+		return roundTime;
+	}
+	public void setRoundTime(String roundTime) {
+		this.roundTime = roundTime;
+	}
 	@Override
 	public String toString() {
 		return "Reservation2Vo [rvNum=" + rvNum + ", ppNum=" + ppNum + ", rvId=" + rvId + ", rvDate=" + rvDate
@@ -187,7 +200,7 @@ public class Reservation2Vo {
 				+ payStatus + ", revocable=" + revocable + ", paymethod=" + paymethod + ", roundNum=" + roundNum
 				+ ", revocableDate=" + revocableDate + ", gsCode=" + gsCode + ", useStart=" + useStart + ", useEnd="
 				+ useEnd + ", useStatus=" + useStatus + ", cancelDate=" + cancelDate + ", methodBank=" + methodBank
-				+ ", place=" + place + ", title=" + title + ", name=" + name + "]";
+				+ ", place=" + place + ", title=" + title + ", name=" + name + ", roundTime=" + roundTime + "]";
 	}
 	
 	

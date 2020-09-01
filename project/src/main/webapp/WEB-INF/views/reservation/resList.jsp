@@ -97,7 +97,7 @@
                                     <td class="tit">${reservation.title}</td>
                                     <td>${reservation.useStart} ~ ${reservation.useEnd} <br>${reservation.roundTime}</td>
                                     <td>${reservation.rvamount}</td>
-                                    <td class="ri">${reservation.status}<a href="#" class="orderticketview"><img src="<%=request.getContextPath()%>/resources/image/btn_more02.gif" alt="상세정보"></a></td>
+                                    <td class="ri">${reservation.status}<a href="<%=request.getContextPath()%>/myOrder/detail?num=${reservation.rvNum}" class="orderticketview"><img src="<%=request.getContextPath()%>/resources/image/btn_more02.gif" alt="상세정보"></a></td>
                                 </tr>
                                 	</c:forEach>
                             </tbody>

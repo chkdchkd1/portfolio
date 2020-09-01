@@ -43,12 +43,14 @@ select *
     on t.code = goodsMainCode
     join (select id, name from ticket.user) as u
     on rvId = id
-     where rvNum = #{num};
+    join (select qNum, roundTime from goodsquantity) as e
+    on roundNum = qNum
+    where rvNum = #{num};
 	</select>
        
        
-<select id ="getSameTimeReservation" resultType="kr.green.project.vo.ReservationVo">
-	SELECT * 
+<select id ="getSameTimeReservation" resultType="kr.green.project.vo.ReservedSameVo">
+	SELECT rvNum, ppNum,rvId,rvDate,totalPrice,revocable,gsCode,type,price,cancelDate
 	FROM ticket.reservation
 	join (select * from goodsprice) as p
 	on ppNum = num
@@ -58,7 +60,23 @@ select *
 	</select>
 	
         
-        
+  <select id ="selectReservation" resultType="kr.green.project.vo.ReservationVo">
+SELECT * FROM ticket.reservation
+where rvNum = #{rvNum};
+	</select>
+	
+	
+	  <update id="updateReservation">
+    update ticket.reservation 
+    	set 
+    		status = #{reservation.status},
+    		revocable = #{reservation.revocable},
+    		cancelDate = #{reservation.cancelDate}
+ 		where 
+    		rvNum = #{reservation.rvNum};
+  </update>
+  
+	
         
   </mapper>
  

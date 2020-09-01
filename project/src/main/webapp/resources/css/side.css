@@ -2499,6 +2499,43 @@ table {
 
 
 
+/*관리자 메인 페이지 */
+
+ .adminMenu-box{
+           height: 130px;
+           width: 460px;
+           margin: 0 auto;
+           margin-top: 200px ;
+
+
+ }
+
+ .adminMenu-box ul{
+     float: left;
+
+ }
+
+  .adminMenu-box ul li{
+      float: left;
+      border: solid 2px rgba(210, 215, 217, 0.75);
+      width: 100px;
+      height: 100px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 40px;
+      margin-left: 10px;
+      color: #7f807d;
+  }
+
+  .adminMenu-box ul li span{
+      font-size: 17px;
+      line-height: 17px;
+      display: block;
+      color: #7f807d;
+      font-weight: bold;
+  }
+   
+
 /* 메인화면 슬라이더 */
 
 

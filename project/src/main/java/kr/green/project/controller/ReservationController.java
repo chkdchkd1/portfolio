@@ -18,10 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.green.project.service.ProductService2;
 import kr.green.project.service.ReservationService;
 import kr.green.project.vo.ProductDetailVo;
+import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductPriceVo;
 import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
+import kr.green.project.vo.ReservedSameVo;
 import kr.green.project.vo.TicketBookVo;
 import kr.green.project.vo.WantResVo;
 
@@ -66,7 +68,6 @@ public class ReservationController {
 	    ArrayList<ReservationListVo> list;
 	    list = reservationService.getReservationList(request);
 	    mv.addObject("list", list);
-	    System.out.println(list);
 	    return mv;
 	}
 	
@@ -74,25 +75,34 @@ public class ReservationController {
 	public ModelAndView MyreservationDetail(ModelAndView mv, String num) throws Exception{
 		
 		Reservation2Vo reservedDetail = reservationService.ReservationDetail(num);
-		ArrayList<ReservationListVo> sameTime ;
+		ArrayList<ReservedSameVo> sameTime ;
 		sameTime = reservationService.getSameTimeReservation(reservedDetail.getRvDate(),reservedDetail.getRvId(),reservedDetail.getGsCode());
-		System.out.println(sameTime);
+			
+		ProductImageVo image2 ; 
+		image2 = productService2.getImage2(reservedDetail.getGsCode(),2);
 		
-		/*
-		 * ProductImageVo image2 ; image2 = productService2.getImage2(code,2);
-		 */
 		mv.addObject("reservedDetail", reservedDetail);
 		mv.addObject("sameTimeList", sameTime);
 
+		mv.addObject("image2", image2);
 		
-		/*
-		 * mv.addObject("image2", image2);
-		 */	
-		
-		
-		    mv.setViewName("/reservation/resDetail");
+		mv.setViewName("/reservation/resDetail");
 	    return mv;
 	}
+	
+	
+	@RequestMapping(value = "/myOrder/detail", method = RequestMethod.POST)
+	public ModelAndView reservationCancel(ModelAndView mv, String[] chkPartCancel1 ,  HttpServletRequest request) throws Exception{
+		
+		for (int i=0 ; i<chkPartCancel1.length ; i++) {	
+			reservationService.cancelreservation(chkPartCancel1[i], request);
+		}
+		
+		mv.setViewName("redirect:/myOrder/list");
+	    return mv;
+	}
+	
+	
 	
 	@RequestMapping(value ="/ResPriceList")
 	@ResponseBody
@@ -108,8 +118,6 @@ public class ReservationController {
 	@RequestMapping(value = "/ticketBook", method = RequestMethod.POST)
 	public ModelAndView ticketBookPost(ModelAndView mv, TicketBookVo book, int[] ppNum, int[] totalPrice , int[] rvamount  ) throws Exception{
 
-		
-		
 		for (int i=0 ; i<ppNum.length ; i++) {	
 			ReservationVo bookMain  = new ReservationVo();
 			// 객체를 먼저 생성 하고 그 객체에 복사 해온 값을 넣어준다 . 
@@ -122,8 +130,6 @@ public class ReservationController {
 			reservationService.registerReservation(book,bookMain);
 			
 		}
-		
-	
 		
 	    return mv;
 	}

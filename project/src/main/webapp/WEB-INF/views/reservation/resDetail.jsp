@@ -2,8 +2,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-    ${reservedDetail}
+
  <div class="mp_contents">
                     <div class="reserveInfo">
                         <h1>예매확인 / 취소</h1>
@@ -14,7 +13,7 @@
                         </div>
                         <div class="info">
                             <div class="poster">
-                                <p class="post"><a href="http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=20005170"><img src="//ticketimage.interpark.com/Play/image/large/20/20005170_p.gif"></a></p>
+                                <p class="post"><a href="http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=20005170"><img src="${image2.file}"></a></p>
                             </div>
                             <div class="con">
                                 <table width="570" class="none">
@@ -30,9 +29,15 @@
                                         <th>예약번호</th>
                                         <td><div id="divTicketno">
                                         <c:forEach var="reserved" items="${sameTimeList}" varStatus="index">
-                                           <c:if test="${index.first}">${reserved.rvNum} ~ </c:if>
-                                           <c:if test="${index.last}">${reserved.rvNum}  ( 총 ${index.count}매 ) </c:if>
-                                          		
+                                        
+                                        <c:choose> 
+                                        <c:when test="${index.count == 1}"> 
+                                        	<c:if test="${index.first}">${reserved.rvNum} </c:if>
+                                        	 </c:when> 
+                                        <c:when test="${index.count > 1}">
+                                        	  <c:if test="${index.last}"> ~ ${reserved.rvNum}  ( 총 ${index.count}매 ) </c:if> 
+                                        </c:when> 
+                                        </c:choose>                           
 										</c:forEach>										
                                         </div>
                                         
@@ -42,14 +47,15 @@
                                         <th>이용일</th>
                                         <td>
                                         <div id="divPlayDate">
-                                        2021년 01월 28일&nbsp;(목)&nbsp;<span class="txtGray">|</span> 10시 20분
+                                        <c:if test="${reservedDetail.useStart eq reservedDetail.useEnd}"> ${reservedDetail.useStart} </c:if>
+                                         <c:if test="${reservedDetail.useStart ne reservedDetail.useEnd}"> ${reservedDetail.useStart} ~ ${reservedDetail.useEnd}</c:if><span class="txtGray"> |</span> ${reservedDetail.roundTime}
                                         </div>
                                         </td>
                                     </tr>
                                     
                                     <tr>
                                         <th>장소</th>
-                                        <td>그라운드시소 서촌</td>
+                                        <td>${reservedDetail.place}</td>
                                     </tr>
                                     
                                     <tr>
@@ -92,15 +98,28 @@
                             </colgroup>
                             <tbody><tr>
                                 <th>예매일</th>
-                                <td class="bdr">2020.08.17</td>
+                                <td class="bdr reday">
+                                    <c:forEach var="reserved1" items="${sameTimeList}" varStatus="index">
+                            
+                                        	<c:if test="${index.first}">${reserved1.rvDate} </c:if>
+                                                            
+										</c:forEach>
+										</td>
                                 <th>현재상태</th>
-                                <td><span class="red">입금대기</span></td>
+                                <td><span class="red nowww"> 
+                                	<c:if test="${reservedDetail.paymethod == 2}">예매완료</c:if>
+                                	<c:if test="${reservedDetail.paymethod == 22}">입금대기</c:if>                                         
+                                </span></td>
                             </tr>
                             <tr>
                                 <th>결제수단</th>
-                                <td class="bdr"><span class="red">무통장 입금</span></td>
+                                <td class="bdr"><span class="red">
+                               		 <c:if test="${reservedDetail.paymethod == 2}">카드결제</c:if>
+                                	<c:if test="${reservedDetail.paymethod == 22}">무통장 입금</c:if>
+                                	</span></td>
                                 <th>결제상태</th>
-                                <td>미입금</td>
+                                <td><c:if test="${reservedDetail.paymethod == 2}">결제완료</c:if>
+                                	<c:if test="${reservedDetail.paymethod == 22}">미입금</c:if></td>
                             </tr>
                             
                             <tr>
@@ -117,20 +136,7 @@
                                     
                                     <!-- 예매정보리스트 -->
                                     <a name="TabTop"></a>
-                                    <form name="TPDetailBooked" id="TPDetailBooked" method="Post">
-                                    <input type="hidden" id="BDate" name="BDate" value="20200817">
-                                    <input type="hidden" id="BDateSeq" name="BDateSeq" value="1F540">
-                                    <input type="hidden" id="SalesType" name="SalesType" value="21001">
-                                    <input type="hidden" id="GoodsCode" name="GoodsCode" value="20005170">
-                                    <input type="hidden" id="PlaceCode" name="PlaceCode" value="20000530">
-                                    <input type="hidden" id="CustName" name="CustName" value="김지수">
-                                    <input type="hidden" id="Option" name="Option" value="">
-                                    <input type="hidden" id="KindOfGoods" name="KindOfGoods" value="01009">
-                                    <input type="hidden" id="BYearMonth" name="BYearMonth" value="">
-                                    <input type="hidden" id="Penalty" name="Penalty" value="10%">
-                                    <input type="hidden" id="OtherMemberCode" name="OtherMemberCode" value="114656635">
-                                    <input type="hidden" id="MemBizCD" name="MemBizCD" value="">
-                                    
+                                    <form name="cancelBooked" id="cancelBooked" method="Post"  action = '<%=request.getContextPath()%>/myOrder/detail'>
                                     <div class="reservetable">
                                         <table class="bdn">
                                             <colgroup>
@@ -152,45 +158,43 @@
                                                 <th>가격</th>
                                                 <th>취소여부</th>
                                                 <th class="bdr">
-
+												<c:if test="${reservedDetail.revocable  eq 'able'}">
                                                     <img src="<%=request.getContextPath()%>/resources/image/btn_all.gif" id="btnAllSelect" style="cursor:pointer;">
                                                     <input id="chkAllSelect" name="chkAllSelect" value="checkbox" type="checkbox">
+                                                    </c:if>
                                                 </th>
                                             </tr>
                                             
+                                           <c:forEach var="reservedSame" items="${sameTimeList}">                                        
                                             <tr>
-                                                <td class="bdl">T1656191350</td>
+                                                <td class="bdl">${reservedSame.rvNum}</td>
                                                 <td>입장권</td>
-                                                <td>1인 입장권_주중</td>
+                                                <td>${reservedSame.type}</td>
                                                 <td>
                                                 비지정석
                                                 </td>
-                                                <td>
-                                                    9,000원
+                                                <td class="listP">
+                                                    ${reservedSame.price}원
+                                                    <input type="hidden" class="fPrice" value="${reservedSame.totalPrice}">
+                                                    <c:if test = "${reservedSame.revocable eq 'able'}">
+                                                    	<input type="hidden" class="possPrice" value="${reservedSame.totalPrice}">
+                                                    </c:if>
                                                 </td>
-                                                <td>취소가능</td>
+                                                <td><c:if test = "${reservedSame.revocable eq 'able'}">취소가능</c:if>
+                                                <c:if test = "${reservedSame.revocable eq 'unable'}">취소됨</c:if></td>
+                                                <c:if test = "${reservedSame.revocable eq 'able'}">
                                                 <td class="bdr">
-                                                    취소하기<input type="checkbox" class="chk" name="chkPartCancel1" id="chkPartCancel1" value="T1656191350"><input type="hidden" name="TicketNo1" id="TicketNo1" value="T1656191350">
+                                                    취소하기<input type="checkbox" class="chk" name="chkPartCancel1" id="chkPartCancel1" value="${reservedSame.rvNum}"><input type="hidden" name="TicketNo1" id="TicketNo1" value="${reservedSame.rvNum}">
                                                 </td>
+                                                </c:if>
+                                                <c:if test = "${reservedSame.revocable eq 'unable'}">
+                                                  <td class="bdr">${reservedSame.cancelDate}</td>
+                                                   </c:if>
                                             </tr>
-                                            
-                                            <tr>
-                                                <td class="bdl">T1656191351</td>
-                                                <td>입장권</td>
-                                                <td>1인 입장권_주중</td>
-                                                <td>
-                                                비지정석
-                                                </td>
-                                                <td>
-                                                    9,000원
-                                                </td>
-                                                <td>취소가능</td>
-                                                <td class="bdr">
-                                                    취소하기<input type="checkbox" class="chk" name="chkPartCancel2" id="chkPartCancel2" value="T1656191351"><input type="hidden" name="TicketNo2" id="TicketNo2" value="T1656191351">
-                                                </td>
-                                            </tr>
-                                            
-                                        </tbody></table>
+                                            </c:forEach>
+  
+                                       		</tbody>
+                                        </table>
 
                                         <input type="hidden" name="ParCancelAbleCnt" id="ParCancelAbleCnt" value="2">
                                     </div>
@@ -202,7 +206,7 @@
                             <tr>
                                 
                                 <th>예매 수수료</th>
-                                <td class="bdr">0원</td>
+                                <td class="bdr bdr2">0원</td>
                                 <th>배송비</th>
                                 <td>현장수령&nbsp;</td>
                                 
@@ -210,18 +214,30 @@
                             <tr>
                                 <th>총 결제금액</th>
                                 <td colspan="3"><strong class="col1">
-                                18,000원
+                                
                                 </strong></td>
                             </tr>
-                            
+                       
+		                            <tr>
+										<th>환불 금액</th>
+										<td colspan="3" class="backM">0원 
+										<c:forEach var="reserved" items="${sameTimeList}">
+	                             		<c:if test = "${reserved.revocable eq 'unable' && reservedDetail.paymethod == 2}">  
+	                             		<input type = "hidden" class ="backprice" value ="${reserved.totalPrice}">
+	                             		</c:if>
+	                             		</c:forEach>
+										</td>		
+									</tr>
+							<c:if test ="${reservedDetail.paymethod == 22}">
                             <tr>
                                 <th>무통장 입금안내</th>
-                                <td colspan="3"><strong>입금계좌 :</strong> 국민은행:38769078838559 <strong>예금주 :</strong> (주)인터파크 <br>
-                                    <strong>입금마감시간 :</strong> <span class="red txtB">2020년 08월 18일 23시59분까지</span>
-                                    총결제금액 <strong>18,000원</strong>이 입금되지 않으면 자동 취소됩니다.<br>(은행에 따라서, 밤 11시 30분 이후로는  온라인입금이 제한될 수 있습니다.)
+                                <td colspan="3" class="h"><strong>입금계좌 :</strong> 국민은행:38769078838559 <strong>예금주 :</strong> (주)인터파크 <br>
+                                    <strong>입금마감시간 :</strong> <span class="red txtB limitT">2020년 08월 18일 23시59분까지</span>
+                                    총결제금액 <strong class="col1">18,000원</strong>이 입금되지 않으면 자동 취소됩니다.<br>(은행에 따라서, 밤 11시 30분 이후로는  온라인입금이 제한될 수 있습니다.)
                                 </td>
                             </tr>
-
+                            </c:if>
+								
                         </tbody></table>
                     </div>
                     <!-- //결제내역 -->
@@ -234,7 +250,7 @@
                             <tbody><tr>
                                 <th>취소 마감시간</th>
                                 <td><span class="red txtB">
-                                2021년 01월 27일 23시 59분까지
+                                ${reservedDetail.revocableDate} 까지
                                 </span></td>
                             </tr>
                         
@@ -246,58 +262,7 @@
                                     </span>
                                     
                                     <div class="none">
-                                        
-                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:5px;">
-                                            <tbody><tr>
-                                                <td height="23" align="center" style="background:#F0F0F0; border-top:2px solid #B6AFAF; border-bottom:1px dotted #B6AFAF; font-weight:bold;">내용</td>
-                                                <td align="center" style="background:#F0F0F0; border-top:2px solid #B6AFAF; border-bottom:1px dotted #B6AFAF; font-weight:bold;">취소일</td>
-                                                <td align="center" style="background:#F0F0F0; border-top:2px solid #B6AFAF; border-bottom:1px dotted #B6AFAF; font-weight:bold;">취소수수료</td>
-                                            </tr>
-                                            
-                                                <tr>
-                                                    <td height="18" align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; ">미부과기간</td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움;">
-                                                    2020.08.17 ~ 2020.08.24
-                                                    </td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; "><font color="ff0000">없음</font></td>
-                                                </tr>
-                                                
-                                                <tr>
-                                                    <td height="18" align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; ">예매후 8일~관람일 10일전까지</td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움;">
-                                                    2020.08.25 ~ 2021.01.18
-                                                    </td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; "><font color="ff0000">장당 2000원</font>(티켓금액의 10%한도)</td>
-                                                </tr>
-                                                
-                                                <tr>
-                                                    <td height="18" align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; background:#F9CCCC; ">관람일 9일전~7일전까지</td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움;">
-                                                    2021.01.19 ~ 2021.01.21
-                                                    </td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; ">티켓금액의 <font color="ff0000">10%</font></td>
-                                                </tr>
-                                                
-                                                <tr>
-                                                    <td height="18" align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; background:#F9CCCC; ">관람일 6일전~3일전까지</td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움;">
-                                                    2021.01.22 ~ 2021.01.25
-                                                    </td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; ">티켓금액의 <font color="ff0000">20%</font></td>
-                                                </tr>
-                                                
-                                                <tr>
-                                                    <td height="18" align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; background:#F9CCCC; ">관람일 2일전~1일전까지</td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움;">
-                                                    2021.01.26 ~ 2021.01.27
-                                                    </td>
-                                                    <td align="center" style="border-bottom:1px dotted #ccc; padding-top:3px; font-size:11px; font-family:돋움; ">티켓금액의 <font color="ff0000">30%</font></td>
-                                                </tr>
-                                                
-                                        </tbody></table>
-                                        
                                     </div>
-                                    
                                 </td>
                             </tr>
                             
@@ -307,7 +272,7 @@
 
                     <!-- 버튼 -->
                     <div class="reserveBTN">
-                        <img src="<%=request.getContextPath()%>/resources/image/bt_reserve_cancel_101129.gif" alt="예매내역 목록" style="cursor:pointer;">
+                        <img class = "cancelBtn" src="<%=request.getContextPath()%>/resources/image/bt_reserve_cancel_101129.gif" alt="예매내역 목록" style="cursor:pointer;">
                         <a href="<%=request.getContextPath()%>/myOrder/list"><img src="<%=request.getContextPath()%>/resources/image/btn_list.gif" alt="예매내역 목록" style="cursor:pointer;"></a>
                     </div>
 
@@ -315,7 +280,7 @@
                     <div class="rCation">
                         <h3><img src="<%=request.getContextPath()%>/resources/image/h2_mtit09.gif" alt="유의사항"></h3>
                         <div class="cationTxt">
-                                <p class="txtGray2">- 예매수수료는 예매일 이후 취소시에는 환불되지 않습니다.</p>
+                                <p class="txtGray2">- 예매수수료는 기간 상관없이 취소후 환불 됩니다.</p>
                                 <p class="txtGray2">- 동일 상품에 대해서 날짜, 시간, 좌석, 가격 등급, 결제 등의 일부 변경을 원하시는 경우, 기존 예매 건을 취소하시고 재예매 하셔야 합니다. <span class="txtU">단, 취소 시점에 따라 예매수수료가 환불 되지 않으며,취소수수료가 부과될 수 있습니다.</span><br>(할인선택은 재예매 시점에 적용되는 할인률로만 적용 가능합니다.)</p>
                                 <p class="txtGray2">- 예매취소시점과 해당 카드사의 환불 처리기준에 따라 취소금액의 환급방법과 환급일은 다소 차이가 있을
                                 수 있습니다.</p>
@@ -327,3 +292,128 @@
                         </div>
                     </div>
                 </div>
+                
+                
+                
+    <script>
+
+    // 체크박스 모두 체크 하기 
+    
+    $("#chkAllSelect").click(function() {
+			$("input[name=chkPartCancel1]:checkbox").each(function() {
+				$(this).attr("checked", true);
+			});
+
+		});
+	
+
+   callimitdate()
+   calTotalp();
+   calFees();
+   calbackPrice();
+   calname();
+   
+      // 예매 수수료 구하기
+   
+   	function calFees(){
+		var sum = 0;
+		$('.listP').each(function()
+		{
+		    sum += parseFloat($(this).text());
+		});
+
+		var sum2 = 0;
+		$('.fPrice').each(function()
+		 		{
+		 		    sum2 += parseFloat($(this).val());
+		 		});
+ 		
+		var Fees = sum2 - sum
+		$('.bdr2').text(Fees+'원')
+		
+	 }
+
+	 
+ 	 	
+ 	// 총결제금액 
+ 	function calTotalp(){
+ 		var sum = 0;
+ 		$('.possPrice').each(function()
+ 		{
+ 		    sum += parseFloat($(this).val());
+ 		});
+ 		$('.col1').text(sum+'원');
+	 		
+ 	 	}
+
+ 	function calname(){
+
+ 		var col1 = $('.col1').text();
+
+ 		if(col1 == '0원0원')
+ 	 		$('.nowww').text('취소')
+ 	 		
+	 	}
+ 	
+   // 무통장 입금기간 
+   // -- 예매일 +1 
+   
+   function callimitdate(){
+
+	   
+	   var today = new Date($('.reday').text());
+	   var tomorrow = new Date();
+	   tomorrow.setDate(today.getDate()+1);
+		console.log(tomorrow)
+		
+	    var d = new Date(tomorrow),
+	        month = '' + d.getMonth(),
+	        day = '' + d.getDate(),
+	        year = d.getFullYear();
+
+	    if (month.length < 2) month = '0' + month;
+	    if (day.length < 2) day = '0' + day;
+
+	    $('.limitT').text(year+"년"+month+"월"+day+'일 23시59분까지');
+	}
+	
+   // 환불 
+   
+   $('.cancelBtn').click(function(){
+
+		var form = document.cancelBooked;
+		if(!$('.chk').is(':checked')){
+			$(this).attr( 'disabled', true );
+		}
+
+	  	 var selectedCheck = new Array();
+        $('.chk:checked').each(function() {
+            selectedCheck.push(this.value);
+        });
+        // alert(selectedCheck + '\n개수 : '+selectedCheck.length);
+        if(selectedCheck.length < 1 ){
+            alert('최소한 1개 이상 항목을 선택하셔야 합니다');
+            return false;
+        }
+
+	    form.submit();
+	    
+	   })
+	   
+	 // 환불 금액 구하기 
+	 
+	  	function calbackPrice(){
+ 		var sum = 0;
+ 		$('.backprice').each(function()
+ 		{
+ 		    sum += parseFloat($(this).val());
+ 		});
+ 		$('.backM').text(sum+'원');
+ 	 	}
+
+
+
+
+    
+
+    </script>
