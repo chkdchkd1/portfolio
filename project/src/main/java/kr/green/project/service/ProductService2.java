@@ -7,6 +7,7 @@ import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductListVo;
 import kr.green.project.vo.ProductPriceVo;
 import kr.green.project.vo.ProductQuantityVo;
+import kr.green.project.vo.ProductRegisterVo;
 
 public interface ProductService2 {
 
@@ -23,6 +24,12 @@ public interface ProductService2 {
 	ArrayList<ProductQuantityVo> getQuantityNum(int code, int weekend, String round);
 
 	ArrayList<ProductPriceVo> getResPriceList(int code, int weekend);
+
+	void registerProduct(ProductRegisterVo register);
+
+	void registerPrice(ProductPriceVo pprice);
+
+	void registerQuantity(ProductQuantityVo pQuantity);
 
 
 

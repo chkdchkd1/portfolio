@@ -11,6 +11,7 @@ import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductListVo;
 import kr.green.project.vo.ProductPriceVo;
 import kr.green.project.vo.ProductQuantityVo;
+import kr.green.project.vo.ProductRegisterVo;
 
 @Service
 public class ProductServiceImp2 implements ProductService2 {
@@ -55,6 +56,25 @@ public class ProductServiceImp2 implements ProductService2 {
 	public ArrayList<ProductPriceVo> getResPriceList(int code, int weekend) {
 		// TODO Auto-generated method stub
 		return  productDao.selectResPriceList(code,weekend);
+	}
+
+	@Override
+	public void registerProduct(ProductRegisterVo register) {
+		productDao.insertProductInfoTogoods(register);
+		productDao.insertProductInfoTogoodsDetail(register);
+		
+	}
+
+	@Override
+	public void registerPrice(ProductPriceVo pprice) {
+		productDao.insertPrice(pprice);
+		
+	}
+
+	@Override
+	public void registerQuantity(ProductQuantityVo pQuantity) {
+		productDao.insertQuantity(pQuantity);
+		
 	}
 
 

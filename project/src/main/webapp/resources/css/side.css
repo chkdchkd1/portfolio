@@ -2534,6 +2534,356 @@ table {
       color: #7f807d;
       font-weight: bold;
   }
+  
+  
+/*상품등록하기 */
+
+.csCenter_subRgt {
+    padding: 40px 0;
+    width: 660px;
+    text-align: left;
+    border: 1px solid fuchsia;
+    margin: 0 auto;
+}
+
+.yesTb table {
+    border-collapse: collapse !important;
+    table-layout: fixed;
+    border-top: solid 1px #d8d8d8;
+    border-bottom: solid 1px #d8d8d8;
+}
+
+.yesTb table tbody tr:first-child > th {
+    border-top: none;
+}
+.yesTb table tbody.xb_size th {
+    padding: 13px 0 16px;
+    min-height: 22px;
+    line-height: 20px;
+    font-size: 16px;
+}
+.yesTb table tbody th {
+    padding: 6px 0 6px 0;
+    line-height: 16px;
+    font-size: 13px;
+    text-align: center;
+    color: #333;
+    text-indent: 0;
+    border-top: solid 1px #ebebeb;
+    border-right: solid 1px #ebebeb;
+    background-color: #f8f8f8;
+}
+
+.yesTb table tbody.xb_size td.inpArea {
+    padding: 6px 10px 4px 10px !important;
+}
+.yesTb table tbody tr:first-child > td {
+    border-top: none;
+}
+.yesTb table tbody.xb_size td {
+    padding: 13px 19px 16px;
+    min-height: 22px;
+    line-height: 20px;
+    font-size: 16px;
+}
+.yesTb table td.inpArea {
+    padding: 6px 10px 4px 10px !important;
+}
+.yesTb table .lastCol {
+    border-right: none;
+}
+.yesTb table tbody td {
+    padding: 6px 14px 6px;
+    line-height: 16px;
+    color: #666;
+    text-indent: 0;
+    border-top: solid 1px #ebebeb;
+    border-right: solid 1px #ebebeb;
+}
+.yesTb table td {
+    text-align: left;
+}
+
+.inpArea .inpRow {
+    margin: 0;
+    padding: 4px 0 6px 0;
+}
+
+.inpArea .inpRow .yesIpt {
+    vertical-align: middle;
+}
+.yesIpt.ipt_wSizeF {
+    display: block;
+}
+.yesIpt.m_size {
+    padding: 4px 11px 6px;
+    width: auto;
+    height: 40px;
+    line-height: 28px;
+}
+.yesIpt {
+    box-sizing: border-box;
+    position: relative;
+    padding: 3px 8px 5px;
+    width: auto;
+    height: 30px;
+    line-height: 20px;
+    border: solid 1px #ebebeb;
+    border-top-color: #d8d8d8;
+    border-left-color: #d8d8d8;
+    background-color: #fff;
+}
+.yesIpt {
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    text-align: left;
+    vertical-align: middle;
+    box-shadow: inset 0 1px 2px 0 #fafafa;
+}
+
+.yesIpt.m_size input {
+    padding: 0;
+    height: 28px;
+    line-height: 27px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.yesIpt input {
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    overflow: hidden;
+    border: none;
+    border-color: transparent;
+    font-size: 12px;
+    color: #333;
+    -webkit-appearance: none;
+    border-radius: 0;
+    outline-style: none;
+    background-color: transparent;
+    vertical-align: top;
+}
+
+.yesTb table tbody.xb_size th {
+    padding: 13px 0 16px;
+    min-height: 22px;
+    line-height: 20px;
+    font-size: 16px;
+}
+.yesTb table tbody th {
+    padding: 6px 0 6px 0;
+    line-height: 16px;
+    font-size: 13px;
+    text-align: center;
+    color: #333;
+    text-indent: 0;
+    border-top: solid 1px #ebebeb;
+    border-right: solid 1px #ebebeb;
+    background-color: #f8f8f8;
+}
+
+.yesTb table tbody.xb_size td.inpArea {
+    padding: 6px 10px 4px 10px !important;
+}
+
+.yesTxtArea.m_size.botIptMsg {
+    padding: 9px 11px 25px;
+}
+.yesTxtArea.m_size {
+    padding: 9px 11px 11px;
+    width: auto;
+    font-size: 13px;
+}
+.yesTxtArea.txtA_wSizeF {
+    display: block;
+}
+.yesTxtArea.botIptMsg {
+    padding: 3px 8px 25px;
+}
+.yesTxtArea {
+    position: relative;
+    padding: 3px 8px 5px;
+    width: auto;
+    overflow: hidden;
+    line-height: 20px;
+    color: #666;
+    border: solid 1px #ebebeb;
+    border-top-color: #d8d8d8;
+    border-left-color: #d8d8d8;
+    background: #fff;
+}
+.yesTxtArea {
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    text-align: left;
+    vertical-align: top;
+}
+
+
+.yesTxtArea.m_size.row_7 textarea {
+    height: 168px;
+}
+.yesTxtArea.m_size textarea {
+    line-height: 24px;
+    border: none;
+    color: #666;
+    font-size: 13px;
+}
+.yesTxtArea textarea {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: auto;
+    line-height: 20px;
+    border: none;
+    color: #666;
+    font-size: 12px;
+    -webkit-appearance: none;
+    border-radius: 0;
+    resize: none;
+    vertical-align: top;
+}
+
+.yesFileInpAra .yesFileIpt {
+    position: relative;
+    float: left;
+    width: 80px;
+}
+
+.yesFileInpAra .yesFileIpt_files {
+    margin-left: 95px;
+}
+
+.yesFileInpAra .yesFileIpt label {
+    display: block;
+}
+
+.yesFileInpAra .yesFileIpt label .btnC {
+    margin: 0;
+}
+.yesTb table .btnC {
+    vertical-align: middle;
+}
+.btnC {
+    margin: 0 2px;
+    text-align: left;
+    white-space: nowrap;
+    text-indent: 0;
+}
+
+.btnC.m_size .bWrap {
+    height: 38px;
+    text-align: center;
+    display: inline-block;
+}
+.btnC.w_80 .bWrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 78px;
+}
+.btnC .bWrap {
+    position: relative;
+    padding: 0 7px;
+    height: 28px;
+    text-align: center;
+    text-indent: 0;
+    border: solid 1px #ebebeb;
+    border-bottom-color: #d8d8d8;
+    border-right-color: #d8d8d8;
+    background-color: #fff;
+    display: inline-block;
+}
+.btnC .bWrap {
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    display: inline;
+    text-align: center;
+    vertical-align: top;
+}
+
+.btnC.m_size .bWrap em.txt {
+    padding: 0;
+    height: 37px;
+    line-height: 37px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0;
+}
+.btnC .bWrap em.txt {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    line-height: 26px;
+    font-size: 12px;
+    color: #333 !important;
+    font-weight: bold;
+    text-indent: 0;
+    cursor: pointer;
+}
+.btnC .bWrap em.txt {
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    text-align: center;
+    vertical-align: top;
+}
+
+.csCenter_rowBtn {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.btnC.b_size .bWrap {
+    padding: 0 19px;
+    height: 48px;
+    text-align: center;
+    display: inline-block;
+}
+.btnC.w_180 .bWrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 178px;
+}
+
+.btnC.btn_blue .bWrap {
+    border-color: #e8787a;
+    border-bottom-color: #e8787a;
+    border-right-color: #e8787a;
+    background-color: #e8787a;
+}
+
+.btnC.b_size .bWrap em.txt {
+    height: 47px;
+    line-height: 47px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+}
+
+.btnC.btn_blue .bWrap em.txt {
+    color: #fff !important;
+}
+
+.yesFileInpAra .yesFileIpt_files li {
+    padding: 3px 0 2px 20px !important;
+    line-height: 16px !important;
+    text-indent: -19px !important;
+    color: #999;
+    font-size: 12px;
+    border: none !important;
+    text-align: left;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+  
+  
    
 
 /* 메인화면 슬라이더 */

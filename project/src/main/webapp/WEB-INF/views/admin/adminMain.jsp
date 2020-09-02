@@ -6,8 +6,10 @@
                     <ul>
                         <li>
                    		  <div style="margin-top: 20px">
+                   		  <a href="<%=request.getContextPath()%>/admin/registerProduct">
                    		  		<i class="fas fa-pen"></i><br>
                             	<span style="margin-top: 5px;">상품등록</span>
+                            	</a>
                            	 </div>
                     		</li>
                     		  <li>

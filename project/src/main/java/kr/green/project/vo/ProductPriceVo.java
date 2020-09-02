@@ -3,7 +3,8 @@ package kr.green.project.vo;
 public class ProductPriceVo {
 
 	private int num;
-	private String type;
+	private int gooCode;
+	private String Type;
 	private int price;
 	private int kinds;
 	
@@ -14,10 +15,10 @@ public class ProductPriceVo {
 		this.num = num;
 	}
 	public String getType() {
-		return type;
+		return Type;
 	}
 	public void setType(String type) {
-		this.type = type;
+		this.Type = type;
 	}
 	public int getPrice() {
 		return price;
@@ -31,10 +32,20 @@ public class ProductPriceVo {
 	public void setKinds(int kinds) {
 		this.kinds = kinds;
 	}
+	
+	public int getGooCode() {
+		return gooCode;
+	}
+	public void setGooCode(int gooCode) {
+		this.gooCode = gooCode;
+	}
 	@Override
 	public String toString() {
-		return "ProductPriceVo [num=" + num + ", type=" + type + ", price=" + price + ", kinds=" + kinds + "]";
+		return "ProductPriceVo [num=" + num + ", gooCode=" + gooCode + ", type=" + Type + ", price=" + price
+				+ ", kinds=" + kinds + "]";
 	}
+	
+	
 	
 	
 	

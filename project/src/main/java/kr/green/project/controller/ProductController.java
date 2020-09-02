@@ -1,8 +1,6 @@
 package kr.green.project.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,15 +10,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.project.service.ProductService2;
+import kr.green.project.utils.UploadFileUtils;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductListVo;
 import kr.green.project.vo.ProductPriceVo;
 import kr.green.project.vo.ProductQuantityVo;
-import kr.green.project.controller.TestVo;
+import kr.green.project.vo.ProductRegisterVo;
 
 /**
  * Handles requests for the application home page.
@@ -33,6 +33,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService2 productService2;
+
+//	@Resource
+	private String uploadPath = "C:\\Users\\Administrator\\Desktop\\upload";
 //	
 	@RequestMapping(value = "/exhibition/list", method = RequestMethod.GET)
 	public ModelAndView exList(ModelAndView mv) throws Exception{
@@ -66,6 +69,58 @@ public class ProductController {
 	    
 	    return mv;
 	}
+	
+	@RequestMapping(value = "/admin/registerProduct", method = RequestMethod.GET)
+	public ModelAndView registerProductGet(ModelAndView mv) throws Exception{
+	    mv.setViewName("/product/registerProduct");
+	    return mv;
+	}
+	
+	@RequestMapping(value = "/admin/registerProduct", method = RequestMethod.POST)
+	public ModelAndView registerProductPost(ModelAndView mv, ProductRegisterVo register, int[] kinds, int[] price, String[] Type, int[] qType,
+			String[] goodsType, String[] round, String[] roundTime, int[] quantity, MultipartFile[] file1) throws Exception{
+		
+		productService2.registerProduct(register);
+		
+		System.out.println(register);
+	
+		// 가격 등록하기 (상품코드 줘야함 ) 
+		 for (int i=0 ; i<kinds.length ; i++) {
+			ProductPriceVo pprice = new ProductPriceVo();
+			 pprice.setGooCode(register.getCode());
+			 pprice.setKinds(kinds[i]);
+			 pprice.setType(Type[i]);
+			 pprice.setPrice(price[i]);
+			 productService2.registerPrice(pprice);
+		 }
+		 
+		 //수량 등록하기 
+		 for (int i=0 ; i<qType.length ; i++) {
+				ProductQuantityVo pQuantity = new ProductQuantityVo();
+				 pQuantity.setgCode(register.getCode());
+				 pQuantity.setqType(qType[i]);
+				 pQuantity.setRound(round[i]);
+				 pQuantity.setQuantity(quantity[i]);
+				 pQuantity.setGoodsType(goodsType[i]);
+				 pQuantity.setRoundTime(roundTime[i]);
+				 
+				 System.out.println(pQuantity);
+				 //productService2.registerQuantity(pQuantity); <-이거 오류 나는거 잡기 
+			 }
+			 
+			 
+		
+		 
+	
+	/* -> 등록후 상폼코드로 infoNum 조회해서 넣기 
+		 * for(int i=0; i<file1.length; i++) { UploadFileUtils.uploadFile(uploadPath,
+		 * file1[i].getOriginalFilename(), file1[i].getBytes());
+		 * System.out.println(file1[i]); }
+		 */
+	    mv.setViewName("redirect:/exhibition/list");
+	    return mv;
+	}
+	
 	
 	
 	@RequestMapping(value ="/quantity")

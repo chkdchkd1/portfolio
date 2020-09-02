@@ -8,6 +8,7 @@ import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductListVo;
 import kr.green.project.vo.ProductPriceVo;
 import kr.green.project.vo.ProductQuantityVo;
+import kr.green.project.vo.ProductRegisterVo;
 import kr.green.project.vo.ProductImageVo;
 
 public interface ProductDao {
@@ -25,6 +26,14 @@ public interface ProductDao {
 	ArrayList<ProductQuantityVo> selectProductQuantityNum(@Param("code")int code,@Param("weekend")int weekend, @Param("round") String round);
 
 	ArrayList<ProductPriceVo> selectResPriceList(@Param("code")int code, @Param("weekend")int weekend);
+
+	void insertProductInfoTogoods(@Param("register")ProductRegisterVo register);
+
+	void insertProductInfoTogoodsDetail(@Param("register")ProductRegisterVo register);
+
+	void insertPrice(@Param("pprice")ProductPriceVo pprice);
+
+	void insertQuantity(@Param("Quantity")ProductQuantityVo pQuantity);
 
 
 

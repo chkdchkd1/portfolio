@@ -64,6 +64,27 @@
 
    </select>
    
+   <insert id="insertProductInfoTogoods">
+    insert 
+    	into goods(code, startDate,endDate,place,limitAmount,weekDif,godType)
+    	values (#{register.code},#{register.startDate},#{register.endDate},#{register.place},#{register.limitAmount},#{register.weekDif},#{register.godType});
+   </insert>
+   
+  <insert id="insertProductInfoTogoodsDetail">
+  
+   insert into goodsdetail(title,genre,ratings,enterInfo,infoTime,infoNotice,goodsMainCode) 
+    values (#{register.title},#{register.genre},#{register.ratings},#{register.enterInfo},#{register.infoTime},#{register.infoNotice},#{register.code});
+    </insert>
+        
+    <insert id="insertPrice">
+    insert into goodsprice(gooCode,Type,price,kinds)
+    values(#{pprice.gooCode},#{pprice.Type},#{pprice.price},#{pprice.kinds});
+    </insert>
+    
+        <insert id="insertQuantity">
+    insert into goodsquantity(gCode,qType,round,quantity,goodsType,roundTime)
+    values(#{Quantity.gCode},#{Quantity.qType},#{Quantity.round},#{Quantity.quantity},#{Quantity.goodsType},#{Quantity.roundTime});
+    </insert>
         
   </mapper>
  

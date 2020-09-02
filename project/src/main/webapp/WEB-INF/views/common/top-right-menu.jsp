@@ -18,7 +18,9 @@
 	           		회원가입
 	           	</li>
            <li>로그아웃 </li>
-           <li>관리자페이지</li>
+           <li>
+         	  <a href="<%=request.getContextPath()%>/admin">관리자페이지</a>
+         	  </li>
            <li>회원정보</li>
            <li><a href="<%=request.getContextPath()%>/myOrder/list">예매확인/취소</a></li>
          </ul>

@@ -4,11 +4,12 @@ public class ProductQuantityVo {
 	
 	private int qNum;
 	private int gCode;
-	private String qType;
+	private int qType;
 	private String round;
 	private String roundTime;
 	private int quantity;
 	private String goodsType;
+	
 	public int getqNum() {
 		return qNum;
 	}
@@ -21,10 +22,10 @@ public class ProductQuantityVo {
 	public void setgCode(int gCode) {
 		this.gCode = gCode;
 	}
-	public String getqType() {
+	public int getqType() {
 		return qType;
 	}
-	public void setqType(String qType) {
+	public void setqType(int qType) {
 		this.qType = qType;
 	}
 	public String getRound() {
