@@ -20,7 +20,7 @@
                                     <div class="itemImage">
                                         <div class="imageWrap">
                                             <div class="coverWrap">
-                                                <img src="${product.file}">
+                                                <img src="/img/${product.file}">
                                             </div>
                                         </div>
                                     </div>

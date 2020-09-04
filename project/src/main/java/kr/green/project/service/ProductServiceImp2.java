@@ -77,6 +77,20 @@ public class ProductServiceImp2 implements ProductService2 {
 		
 	}
 
+	@Override
+	public void registerImage(ProductImageVo image, int i) {
+		int detailNum = productDao.selectInfoNum(i);
+		image.setGoodsInfoNum(detailNum);
+		productDao.insertImage(image);
+		
+	}
+
+	@Override
+	public ArrayList<ProductListVo> getProductList2() {
+		// TODO Auto-generated method stub
+		return  productDao.selectProductList2();
+	}
+
 
 
 	

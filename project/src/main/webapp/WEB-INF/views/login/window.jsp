@@ -270,7 +270,7 @@
             <!-- 상황판 -->
             <div id="StateBoard">
                 <div class="result">
-                    <div id="perfboard" class="title"><p><img src="https://stkfile.yes24.com/upload2/PerfBlog/202008/20200806/20200806-365681.jpg" width="79" height="98" alt=""></p>
+                    <div id="perfboard" class="title"><p><img src="/img/${image1.file}" width="79" height="98" alt=""></p>
                         <span id="ptitle" class="tit">${productR.title}</span>
                         <span class="date">${productR.startDate} ~ ${productR.endDate}</span>
                         <span id="ptheatername" class="date">${productR.place}</span>

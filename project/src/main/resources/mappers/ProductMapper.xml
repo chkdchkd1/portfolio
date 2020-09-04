@@ -9,11 +9,25 @@
 		from goods
 			join (select * from goodsdetail where genre = '전시') as t
 		    on goods.code = goodsMainCode
-		    join (select * from goodsimage group by goodsInfoNum ) as i
+		    join (select * from goodsimage where pLocation = 1 ) as i
 		    on infoNum = goodsInfoNum
-		   join (select * from goodsprice where goodsprice.type = '성인' or goodsprice.type = '주중 일반' or goodsprice.type = '주중 성인') as p
-		    on goods.code = gooCode;
+		   join (select * from goodsprice where goodsprice.type = '성인' or goodsprice.type = '일반' or goodsprice.type = '주중 일반' or goodsprice.type = '주중 성인') as p
+		    on goods.code = gooCode
+		  where DATE_FORMAT(STR_TO_DATE(endDate, '%Y.%m.%d'),'%Y.%m.%d') >= now();
    </select>
+   
+     <select id="selectProductList2" resultType="kr.green.project.vo.ProductListVo">
+	select genre, goods.code, title, startDate, endDate, place, type, price, file
+		from goods
+			join (select * from goodsdetail where genre = '행사') as t
+		    on goods.code = goodsMainCode
+		    join (select * from goodsimage where pLocation = 1 ) as i
+		    on infoNum = goodsInfoNum
+		   join (select * from goodsprice where goodsprice.type = '성인' or goodsprice.type = '일반' or goodsprice.type = '주중 일반' or goodsprice.type = '주중 성인') as p
+		    on goods.code = gooCode
+		  where DATE_FORMAT(STR_TO_DATE(endDate, '%Y.%m.%d'),'%Y.%m.%d') >= now();
+   </select>
+   
 
    <select id="selectProductDetail" resultType="kr.green.project.vo.ProductDetailVo">
 	 select * 
@@ -84,6 +98,18 @@
         <insert id="insertQuantity">
     insert into goodsquantity(gCode,qType,round,quantity,goodsType,roundTime)
     values(#{Quantity.gCode},#{Quantity.qType},#{Quantity.round},#{Quantity.quantity},#{Quantity.goodsType},#{Quantity.roundTime});
+    </insert>
+      
+      <select id= "selectInfoNum" resultType="int">
+      	SELECT infoNum 
+	FROM ticket.goodsdetail
+    where goodsMainCode = #{code};
+      </select>
+      
+           <insert id="insertImage">
+    insert into 
+	goodsimage(goodsInfoNum,file,pLocation)
+    values(#{image.goodsInfoNum},#{image.file},#{image.pLocation});
     </insert>
         
   </mapper>

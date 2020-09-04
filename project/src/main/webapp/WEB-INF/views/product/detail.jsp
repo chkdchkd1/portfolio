@@ -23,7 +23,7 @@
             <div class="rn-03">
                 <div class="rn-03-left"><!--포스터, 지역, 동영상-->
                     <div class="rn-product-imgbox">
-                        <img src="${image2.file}" style="width: 430px; height: 600px;">
+                        <img src="/img/${image2.file}" style="width: 430px; height: 600px;">
                     </div>				
                 </div><!--rn-03-left-->
                 <div class="rn-03-right"><!--상품정보-->
@@ -52,14 +52,15 @@
                     <div class="rn-product-area3"><!--공연시간안내, 배송정보-->
                         <dl>
                             <dt>공연시간 안내</dt>
-                            <dd>2020년 1월 1일부터 관람시간이 아래와 같이 변경됩니다. 
-    <br>
-    <br>${productD.infoTime} </dd>
+                            <dd><pre>${productD.infoTime}</pre> </dd>
                             <dt>배송정보</dt>
                             <dd>현장 수령만 가능</dd>
                         </dl>
                     </div>
                 </div><!--rn-03-right-->
+            </div>
+            <div id="divNoticeMsg" class="rnplus-tk-bar" style="display : none;">
+            	<span class="rnplus-tk-end">본 상품은 판매 진행 중이 아닙니다.</span>
             </div>
             <c:if test = "${productD.godType eq '회차'}">
             <!-- 날짜, 예매좌석 선택 박스 -->
@@ -105,14 +106,14 @@
                     <div class="rn-0801"><!--유의사항-->
                         <p class="rn08-tit" id="titPerfNotice">유의사항</p>
                         <div class="rn08-txt" id="divPerfNotice">
-                            <p>※ 매수제한 : 회차당 1인 10매</p>
-                            <p class="rn-red">※ 본 상품은 문화비 소득공제 제외 상품입니다.</p><br></div>
+                            <pre>${productD.infoNotice}</pre>
+                            </div>
                     </div><!--rn-0801-->
                     <div class="rn-0803"><!--공연정보-->
                         <p class="rn08-tit">공연정보</p>
                         <div class="rn08-txt" id="divPerfContent">
                         <p style="text-align: center;">
-                        	<img src="${image3.file}" class="txc-image" style="clear:none;float:none;"></p>
+                        	<img src="/img/${image3.file}" class="txc-image" style="clear:none;float:none;" width="700" height="auto"></p>
                         </div>
                     </div><!--rn-0803-->
                     <div class="rn-0804"><!--기획사정보-->
@@ -125,10 +126,9 @@
                                 </colgroup>
                                 <tbody>
                                     <tr><th scope="row" class="rn08-tbl-tit">기획사 정보</th>
-                                    <td id="divPerfOrganization">주최: (주)꼴라쥬플러스, 쿤스트원
-                                    <br>주관: 뮤지엄 다
-                                    <br>후원: KNN
-                                    <br></td>
+                                    <td id="divPerfOrganization">
+                                    <pre>${productD.enterInfo};</pre>
+                                    </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -142,7 +142,7 @@
                             <div class="rn-09-tit tab02-afterword">
                                 <p class="rn-red">매매, 욕설 등 게시판 운영 규정에 위반되는 글은 사전 통보없이 삭제될 수 있습니다.</p>
                                 <p>개인정보가 포함된 내용은 삼가 주시기 바라며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.</p>
-                                <a href="#"><img src="<%=request.getContextPath() %>/resources/image/rn-btn-review.png" alt=""></a>
+                                <a onclick="openReview();"><img src="<%=request.getContextPath() %>/resources/image/rn-btn-review.png" alt="" ></a>
                             </div>
                         </div><!--rn-0903-->
                     <div class="rn-0904-container">
@@ -160,6 +160,31 @@
                             </li>
                         </ul>
                     </div>
+                <div class="rn-0906-container">
+                <div class="rn-0906" style="display: block; height: 559px;">
+                    <div class="mCustomScrollBox" tabindex="0" style="max-height: none;">
+                        <div id="mCSB_5_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px; width: 100%;" dir="ltr">
+                            <div class="rn-0906-in">
+                                <p class="rn0906-big-tit">선릉 인문학산책</p>
+                                <div class="rn0906-write-area">
+                                    <p class="rn0906-tit">관람후기</p>
+                                    <div class="rn0906-write-box">
+                                        <textarea id="txtReview" placeholder="내용을 작성해주세요. (최소 10자 / 최대 500자)" onkeyup="reviewtextCount();"></textarea>
+                                    </div>
+                                </div>
+                                <div class="rn0906-caution">
+                                    <p class="rn0906-caution-tit">관람후기 작성 시 유의사항</p>
+                                    <p class="rn0906-caution-txt">게시판 운영 규정에 위반된다고 판단되는 글은 사전고지 없이 삭제될 수 있습니다. </p>
+                                    <p class="rn0906-caution-txt">작성된 게시물의 저작권은 작성자에게 있으며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.<br>작성 시 유의해주시기 바랍니다.</p>
+                                </div>
+                                <div class="rn0906-btns">
+                                    <a href="#" class="rn0906btn1">취소</a><a href="#" class="rn0906btn2">등록</a>
+                                </div>
+                            </div>
+                            <a href="#" class="rn-0906-close"><img src="http://tkfile.yes24.com/imgNew/common/rn-pop-close.png" alt="" class="mCS_img_loaded"></a>
+                        </div></div>
+                </div><!--rn-0906-->
+               </div>
                 </div>
                 <!-- 예매/취소 -->
                 <div class="rn-tab-area rn-12 on" id="rn-tab05">
@@ -292,6 +317,7 @@
 <script>
 
 	isRightNow();
+	isDateOver();
 
 	// 상품이 상시인 경우  
 	function isRightNow(){
@@ -308,6 +334,23 @@
     		
     	}
          }
+    // 상품 기간이 현재 날짜를 지난 경우 예약하기 버튼 비활성화
+    
+    function isDateOver(){
+
+    	// 상품 종료날짜 오늘 날짜랑 비교해서 이전이면 
+    	// divNoticeMsg display block 예약버튼 회차박스 display none;
+
+		var today = new Date();
+		var endDate = new Date("${productD.endDate}");
+			
+		if(today.getTime() > endDate.getTime()){
+			$('.rnplus-tk-bar').css("display","block")
+			$('.rn-04').css("display","none");
+			$('.rn-05').css("display","none");
+		}
+        }
+    
          
 
 
@@ -426,16 +469,16 @@
 		       dataType:"json",
 		       contentType:"application/json; charset=UTF-8",
 		       success : function(data){
+			       var aw = "상시상품";
 					var seatList = document.querySelector("#SeatRemain");
 					$('#SeatRemain').empty();	
 					var dd = document.createElement("dd")
 					var span = document.createElement("span")
-					if(data[0].round == '상시상품'){
-						span.innerHTML = '본 상품은 잔여석 서비스를 제공하지 않는 상품입니다.'	
-					}	else 
+					
+					
 							$('.oriQuan').val(data[0].quantity)
-							
 							span.innerHTML = '입장권	' + data[0].quantity + ' 석'
+				
 					dd.appendChild(span)
 					seatList.appendChild(dd)
 		       	 	$('.selectRound').val(data[0].qNum);
@@ -456,7 +499,7 @@
 		  var code = ${productD.code}; 
 		  var round = $('.selectRound').val();
 		  var date = $('.selectDate').val();
-		  var dt = JSON.stringify({ "code": code, "date": "2020-10-09", "round": round});
+		  var dt = JSON.stringify({ "code": code, "date": date, "round": round});
 		  console.log(dt);
 
 
@@ -524,6 +567,57 @@
 				return today
         }
 
+
+
+	
+    
+    //리뷰창 글자수 카운팅 
+    function reviewtextCount(){
+        var content = $('#txtReview').val();
+        console.log(content)
+    /*if (content.length < 10){
+        alert("최소 10자 이상 입력해주세요.");
+    }*/
+	    if (content.length > 500){
+	        alert("최대 500자까지 입력 가능합니다.");
+	        $('#txtReview').val(content.substring(0, 500));
+	        
+	    }
+    }
+
+    //리뷰창 열기 
+    function openReview(){
+        // 사용자 아이디와 상품코드를 주어서 예약 정보를 가져오고 그 예약 정보의 이용일이 오늘 날짜를 지났거나 사용되었으면 관람후기 쓸 수 있는 창 block
+          alert("??")
+         var code = ${productD.code}; 
+         console.log(code);
+
+   	  $.ajax({
+	       async:true,
+	       type:'POST',
+	       data:code,
+	       url:"<%=request.getContextPath()%>/openReview",
+	       dataType:"json",
+	       contentType:"application/json; charset=UTF-8",
+	       success : function(data){
+			
+				
+	    	   console.log(data)
+				
+	     } 
+
+		})
+		
+         
+
+		// -다 쓴후에 폼 내용을 보내고 해당 상품코드의 관람후기 목록 다시불러오기 
+
+		// 아니면 alert하고 ('이용내역이 없습니다 ')
+		
+
+        }
+    
+    
     
     
 </script>

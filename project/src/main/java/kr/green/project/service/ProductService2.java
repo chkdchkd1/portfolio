@@ -31,6 +31,10 @@ public interface ProductService2 {
 
 	void registerQuantity(ProductQuantityVo pQuantity);
 
+	void registerImage(ProductImageVo image, int i);
+
+	ArrayList<ProductListVo> getProductList2();
+
 
 
 

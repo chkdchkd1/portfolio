@@ -139,7 +139,7 @@
                                    <select name="qType" id="qType">
                                        <option value="1">주중</option>
                                        <option value="2">주말</option>
-                                       <option value="3">상시상품</option>
+                                       <option value="3">일반</option>
                                    </select>
                                    상품 종류
                                    <select name="goodsType" id="goodsType">
@@ -282,12 +282,12 @@ function RegisterSubmit(){
         
         var str = '';
         str = '<div class="inpRow ListRound">회차 종류 <select name="qType" id="qType"><option value="1">주중</option>'
-        +'<option value="2">주말</option><option value="3">상시상품</option></select>'
-        +'상품 종류<select name="goodsType" id="goodsType"><option value="회차">회차</option><option value="상시">상시</option></select><br>'
-        +'회차<select name="qType" id="qType">'+
+        +'<option value="2">주말</option><option value="3">일반</option></select>'
+        +'상품 종류<select name="goodsType"><option value="회차">회차</option><option value="상시">상시</option></select><br>'
+        +'회차<select name="round">'+
         '<option value="상시상품">상시상품</option><option value="1회">1회</option><option value="2회">2회</option>'+
         '<option value="3회">3회</option><option value="4회">4회</option><option value="5회">5회</option><option value="6회">6회</option>'+
-        '</select><br>회차 시간<input type="text" name="Type" id="Type">회차당 수량<input type="text" name="price" id="price"></div> '
+        '</select><br>회차 시간<input type="text" name="roundTime" id="roundTime">회차당 수량<input type="text" name="quantity" id="quantity"></div> '
         $('.lastR').append(str);
     })
 

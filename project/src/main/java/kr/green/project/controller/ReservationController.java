@@ -57,6 +57,8 @@ public class ReservationController {
 		ArrayList<ProductPriceVo> priceR = productService2.getPriceList(want.getSelectCode());
 		mv.addObject("priceR", priceR);
 		System.out.println(priceR);
+		ProductImageVo image1 = productService2.getImage2(want.getSelectCode(),1);
+		mv.addObject("image1", image1);
 	    mv.setViewName("/login/window");
 	    return mv;
 	}

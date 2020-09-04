@@ -35,6 +35,12 @@ public interface ProductDao {
 
 	void insertQuantity(@Param("Quantity")ProductQuantityVo pQuantity);
 
+	int selectInfoNum(@Param("code")int i);
+
+	void insertImage(@Param("image")ProductImageVo image);
+
+	ArrayList<ProductListVo> selectProductList2();
+
 
 
 }

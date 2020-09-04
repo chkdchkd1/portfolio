@@ -2,6 +2,8 @@ package kr.green.project.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -70,6 +73,17 @@ public class ProductController {
 	    return mv;
 	}
 	
+	@RequestMapping(value = "/event/list", method = RequestMethod.GET)
+	public ModelAndView eventList(ModelAndView mv) throws Exception{
+	    mv.setViewName("/product/list");
+	    ArrayList<ProductListVo> list;
+	    list = productService2.getProductList2();
+	    mv.addObject("list", list);
+	    
+	    return mv;
+	}
+	
+	
 	@RequestMapping(value = "/admin/registerProduct", method = RequestMethod.GET)
 	public ModelAndView registerProductGet(ModelAndView mv) throws Exception{
 	    mv.setViewName("/product/registerProduct");
@@ -77,23 +91,23 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/admin/registerProduct", method = RequestMethod.POST)
-	public ModelAndView registerProductPost(ModelAndView mv, ProductRegisterVo register, int[] kinds, int[] price, String[] Type, int[] qType,
-			String[] goodsType, String[] round, String[] roundTime, int[] quantity, MultipartFile[] file1) throws Exception{
+	public ModelAndView registerProductPost(ModelAndView mv, ProductRegisterVo register, int[] kinds, int[] price, String[] Type, 
+			int[] qType, String[] goodsType, String[] round, String[] roundTime, int[] quantity, MultipartFile[] file1) throws Exception{
 		
+
 		productService2.registerProduct(register);
 		
-		System.out.println(register);
-	
-		// 가격 등록하기 (상품코드 줘야함 ) 
+		//가격등록
 		 for (int i=0 ; i<kinds.length ; i++) {
 			ProductPriceVo pprice = new ProductPriceVo();
 			 pprice.setGooCode(register.getCode());
 			 pprice.setKinds(kinds[i]);
 			 pprice.setType(Type[i]);
 			 pprice.setPrice(price[i]);
+			 System.out.println(pprice);
 			 productService2.registerPrice(pprice);
 		 }
-		 
+
 		 //수량 등록하기 
 		 for (int i=0 ; i<qType.length ; i++) {
 				ProductQuantityVo pQuantity = new ProductQuantityVo();
@@ -102,21 +116,23 @@ public class ProductController {
 				 pQuantity.setRound(round[i]);
 				 pQuantity.setQuantity(quantity[i]);
 				 pQuantity.setGoodsType(goodsType[i]);
-				 pQuantity.setRoundTime(roundTime[i]);
-				 
-				 System.out.println(pQuantity);
-				 //productService2.registerQuantity(pQuantity); <-이거 오류 나는거 잡기 
+				 if(goodsType[i].equals("상시")) {
+					 pQuantity.setRoundTime(null);
+				 }else {
+					 pQuantity.setRoundTime(roundTime[i]);
+				 }
+				 productService2.registerQuantity(pQuantity);  
 			 }
-			 
-			 
+
+	 // 등록후 상폼코드로 infoNum 조회해서 넣기 
+		  for(int i=0; i<file1.length; i++) { 
+			 ProductImageVo image = new ProductImageVo();
+		     String imageName = UploadFileUtils.uploadFile(uploadPath,file1[i].getOriginalFilename(), file1[i].getBytes());
+		     image.setFile(imageName);
+		     image.setpLocation(i+1);
+		     productService2.registerImage(image,register.getCode());
+	     }
 		
-		 
-	
-	/* -> 등록후 상폼코드로 infoNum 조회해서 넣기 
-		 * for(int i=0; i<file1.length; i++) { UploadFileUtils.uploadFile(uploadPath,
-		 * file1[i].getOriginalFilename(), file1[i].getBytes());
-		 * System.out.println(file1[i]); }
-		 */
 	    mv.setViewName("redirect:/exhibition/list");
 	    return mv;
 	}
@@ -136,6 +152,9 @@ public class ProductController {
 	@ResponseBody
 	public ArrayList<ProductQuantityVo> quantityNum(@RequestBody TestVo test){
 		System.out.println(test);
+		if(test.getRound().equals("상시")) {
+			test.setRound("상시상품");
+		}
 		ArrayList<ProductQuantityVo> quantity;
 		quantity = productService2.getQuantityNum(test.getCode(),test.getWeekend(),test.getRound());
 	 	System.out.println(quantity);
@@ -143,6 +162,16 @@ public class ProductController {
 	}
 	
 
+	@RequestMapping(value ="/openReview")
+	@ResponseBody
+	public ArrayList<ProductQuantityVo> openReview(@RequestBody int code){
+		System.out.println(code);
+		//이거 이어서 하기 
+	
+		
+	    return null;
+	}
+	
 	
 	
 	
@@ -180,11 +209,8 @@ class TestVo{
 	public String toString() {
 		return "TestVo [code=" + code + ", weekend=" + weekend + ", round=" + round + "]";
 	}
-	
-	
-	
-	
-	
 
-	
 }
+
+
+

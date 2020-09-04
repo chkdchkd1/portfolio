@@ -13,7 +13,7 @@
                         </div>
                         <div class="info">
                             <div class="poster">
-                                <p class="post"><a href="http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=20005170"><img src="${image2.file}"></a></p>
+                                <p class="post"><a href="#"><img src="/img/${image2.file}"></a></p>
                             </div>
                             <div class="con">
                                 <table width="570" class="none">

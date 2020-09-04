@@ -13,6 +13,11 @@ body {
     color: #333;
 }
 
+pre{
+	    font-family: 'Gothic A1', sans-serif;
+	
+}
+
 a{
     text-decoration: none;
     font-size: 18px;
@@ -619,6 +624,157 @@ p.rn-04-xtit {
     letter-spacing: -0.09em;
     font-weight: 600;
 }
+
+
+.rnplus-tk-bar {
+    border: 1px solid #ddd;
+    background: #f6f6f6;
+    height: 63px;
+    line-height: 66px;
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.rnplus-tk-end {
+    display: inline-block;
+    height: 63px;
+    line-height: 66px;
+    font-weight: 300;
+    font-size: 20px;
+    color: #b3b3b3;
+    padding-left: 43px;
+}
+
+/* 관람후기 */
+.rn-09 .rn-0906 {
+    width: 768px;
+    height: 700px;
+    overflow: hidden;
+    overflow-y: auto;
+    border: 1px solid #000;
+    background: #fff;
+    position: fixed;
+    top: 132px;
+    left: 50%;
+    margin-left: -384px;
+    z-index: 2;
+    display: block;
+}
+
+.mCustomScrollBox {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    max-width: 100%;
+    outline: 0;
+    direction: ltr;
+}
+
+.rn-09 .rn-0906-in {
+    width: 670px;
+    margin: 0 auto;
+}
+
+.rn-09 .rn0906-big-tit {
+    padding: 48px 0 20px;
+    border-bottom: 2px solid #000;
+    font-size: 25px;
+    color: #000;
+    font-weight: bold;
+}
+
+.rn-09 .rn0906-write-area {
+    height: 197px;
+    border-bottom: 1px solid #ddd;
+}
+
+.rn-09 .rn0906-write-area .rn0906-tit {
+    line-height: 197px;
+}
+.rn-09 .rn0906-tit {
+    float: left;
+    width: 98px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.rn-09 .rn0906-tit + div {
+    float: left;
+    width: calc(670px - 98px);
+}
+.rn-09 .rn0906-write-box {
+    margin-top: 20px;
+    position: relative;
+}
+
+.rn-09 .rn0906-write-box textarea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 546px;
+    height: 135px;
+    border: 1px solid #000;
+    padding: 10px;
+    resize: none;
+    font-family: 'NanumBarunGothic', '맑은 고딕', 'Malgun Gothic', sans-serif;
+}
+
+.rn0906-write-box textarea:focus {outline:none;}
+
+
+.rn-09 .rn0906-caution {
+    border-bottom: 1px solid #000;
+    padding: 24px 0 10px 6px;
+}
+
+.rn-09 .rn0906-caution-tit {
+    line-height: 20px;
+    font-size: 16px;
+    color: hsl(355, 57%, 65%);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.rn-09 .rn0906-caution-txt {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 10px 3px;
+    line-height: 20px;
+}
+
+.rn-09 .rn0906-btns {
+    padding: 25px 0 25px 0;
+    text-align: center;
+    font-size: 0;
+}
+
+.rn-09 .rn0906-btns a {
+    display: inline-block;
+    width: 148px;
+    height: 48px;
+    line-height: 48px;
+    border: 1px solid hsl(355, 57%, 65%);
+    text-align: center;
+    font-size: 15px;
+    margin: 0 5px;
+}
+
+.rn-09 .rn0906btn1 {
+    color: hsl(355, 57%, 65%);;
+}
+
+.rn-09 .rn0906btn2 {
+    color: #fff;
+    background: hsl(355, 57%, 65%);;
+}
+
+.rn-09 .rn-0906 .rn-0906-close {
+    display: block;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}
+
 
 
 /* 탭박스 */
@@ -2732,6 +2888,8 @@ table {
     border: none;
     color: #666;
     font-size: 13px;
+    font-family: 'Gothic A1', sans-serif;
+    
 }
 .yesTxtArea textarea {
     margin: 0;
@@ -2746,6 +2904,8 @@ table {
     border-radius: 0;
     resize: none;
     vertical-align: top;
+    font-family: 'Gothic A1', sans-serif;
+    
 }
 
 .yesFileInpAra .yesFileIpt {
