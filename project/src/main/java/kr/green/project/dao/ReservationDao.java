@@ -27,6 +27,8 @@ public interface ReservationDao {
 
 	void updateReservation(@Param("reservation")ReservationVo reservation);
 
+	ArrayList<ReservationVo> selectReservationByCode(@Param("code")int code, @Param("user")String id);
+
 	
 
 

@@ -25,6 +25,8 @@ public interface ReservationService {
 
 	void cancelreservation(String string, HttpServletRequest request);
 
+	ArrayList<ReservationVo> getReservation(int code, String id);
+
 
 
 }

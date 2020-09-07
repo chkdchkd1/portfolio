@@ -50,7 +50,7 @@ select *
        
        
 <select id ="getSameTimeReservation" resultType="kr.green.project.vo.ReservedSameVo">
-	SELECT rvNum, ppNum,rvId,rvDate,totalPrice,revocable,gsCode,type,price,cancelDate
+	SELECT rvNum, ppNum,rvId,rvDate,totalPrice,revocable,gsCode,type,price,cancelDate,useStatus
 	FROM ticket.reservation
 	join (select * from goodsprice) as p
 	on ppNum = num
@@ -76,6 +76,12 @@ where rvNum = #{rvNum};
     		rvNum = #{reservation.rvNum};
   </update>
   
+          
+  <select id ="selectReservationByCode" resultType="kr.green.project.vo.ReservationVo">
+SELECT * FROM ticket.reservation
+	where gsCode = #{code} and rvId = #{user} and usestatus = 'used';
+	</select>
+	
 	
         
   </mapper>

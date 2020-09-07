@@ -1,6 +1,8 @@
 package kr.green.project.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,12 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.project.service.ProductService2;
+import kr.green.project.service.ReservationService;
 import kr.green.project.utils.UploadFileUtils;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductImageVo;
@@ -24,6 +26,8 @@ import kr.green.project.vo.ProductListVo;
 import kr.green.project.vo.ProductPriceVo;
 import kr.green.project.vo.ProductQuantityVo;
 import kr.green.project.vo.ProductRegisterVo;
+import kr.green.project.vo.ReservationVo;
+import kr.green.project.vo.UserVo;
 
 /**
  * Handles requests for the application home page.
@@ -36,6 +40,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService2 productService2;
+	
+	@Autowired
+	private ReservationService reservationService;
 
 //	@Resource
 	private String uploadPath = "C:\\Users\\Administrator\\Desktop\\upload";
@@ -164,12 +171,21 @@ public class ProductController {
 
 	@RequestMapping(value ="/openReview")
 	@ResponseBody
-	public ArrayList<ProductQuantityVo> openReview(@RequestBody int code){
-		System.out.println(code);
-		//이거 이어서 하기 
-	
+	public  ArrayList<ReservationVo> openReview(@RequestBody int code , HttpServletRequest request){ 		
 		
-	    return null;
+	    UserVo user = (UserVo)request.getSession().getAttribute("user");
+	    ArrayList<ReservationVo> reservation = reservationService.getReservation(code,user.getId());
+		    return reservation;
+	
+	}
+	
+	@RequestMapping(value ="/checkReview")
+	@ResponseBody
+	public  ArrayList<ReservationVo> checkReview(@RequestBody String rvNum){ 		
+		// 리뷰 vo만들어서 예약번호로 읽어오는거 해야함 이어서~ 리뷰 중복막는거 
+	    ArrayList<ReservationVo> reservation = reservationService.getReservation();
+		    return reservation;
+	
 	}
 	
 	

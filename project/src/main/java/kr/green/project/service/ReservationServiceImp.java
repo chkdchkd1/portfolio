@@ -101,6 +101,11 @@ public class ReservationServiceImp implements ReservationService {
 			
 	}
 
+	@Override
+	public ArrayList<ReservationVo> getReservation(int code, String id) {
+		return reservationDao.selectReservationByCode(code,id);
+	}
+
 	
 
 	

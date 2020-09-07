@@ -14,6 +14,8 @@ public class ReservedSameVo {
 	private String type;
 	private int price;
 	private Date cancelDate;
+	private String useStatus;
+
 	
 	public String getRvNum() {
 		return rvNum;
@@ -74,12 +76,20 @@ public class ReservedSameVo {
 		this.cancelDate = cancelDate;
 	}
 	
+	
+	public String getUseStatus() {
+		return useStatus;
+	}
+	public void setUseStatus(String useStatus) {
+		this.useStatus = useStatus;
+	}
 	@Override
 	public String toString() {
 		return "ReservedSameVo [rvNum=" + rvNum + ", rvId=" + rvId + ", rvDate=" + rvDate + ", totalPrice=" + totalPrice
 				+ ", revocable=" + revocable + ", gsCode=" + gsCode + ", type=" + type + ", price=" + price
-				+ ", cancelDate=" + cancelDate + "]";
+				+ ", cancelDate=" + cancelDate + ", useStatus=" + useStatus + "]";
 	}
+	
 	
 	
 	

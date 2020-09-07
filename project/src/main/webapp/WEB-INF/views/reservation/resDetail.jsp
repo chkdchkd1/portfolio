@@ -181,13 +181,14 @@
                                                     </c:if>
                                                 </td>
                                                 <td><c:if test = "${reservedSame.revocable eq 'able'}">취소가능</c:if>
-                                                <c:if test = "${reservedSame.revocable eq 'unable'}">취소됨</c:if></td>
+                                                <c:if test = "${reservedSame.revocable eq 'unable' && reservedSame.useStatus eq 'unused' }">취소됨</c:if>
+                                                <c:if test = "${reservedSame.revocable eq 'unable' && reservedSame.useStatus eq 'used' }">이용완료</c:if></td>
                                                 <c:if test = "${reservedSame.revocable eq 'able'}">
                                                 <td class="bdr">
                                                     취소하기<input type="checkbox" class="chk" name="chkPartCancel1" id="chkPartCancel1" value="${reservedSame.rvNum}"><input type="hidden" name="TicketNo1" id="TicketNo1" value="${reservedSame.rvNum}">
                                                 </td>
                                                 </c:if>
-                                                <c:if test = "${reservedSame.revocable eq 'unable'}">
+                                                <c:if test = "${reservedSame.revocable eq 'unable' && reservedSame.useStatus eq 'unused'}">
                                                   <td class="bdr">${reservedSame.cancelDate}</td>
                                                    </c:if>
                                             </tr>
@@ -222,7 +223,7 @@
 										<th>환불 금액</th>
 										<td colspan="3" class="backM">0원 
 										<c:forEach var="reserved" items="${sameTimeList}">
-	                             		<c:if test = "${reserved.revocable eq 'unable' && reservedDetail.paymethod == 2}">  
+	                             		<c:if test = "${reserved.revocable eq 'unable' && reservedSame.useStatus eq 'unused' && reservedDetail.paymethod == 2}">  
 	                             		<input type = "hidden" class ="backprice" value ="${reserved.totalPrice}">
 	                             		</c:if>
 	                             		</c:forEach>

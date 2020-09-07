@@ -161,7 +161,7 @@
                         </ul>
                     </div>
                 <div class="rn-0906-container">
-                <div class="rn-0906" style="display: block; height: 559px;">
+                <div class="rn-0906" style="display: none; height: 559px;">
                     <div class="mCustomScrollBox" tabindex="0" style="max-height: none;">
                         <div id="mCSB_5_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px; width: 100%;" dir="ltr">
                             <div class="rn-0906-in">
@@ -587,10 +587,8 @@
 
     //리뷰창 열기 
     function openReview(){
-        // 사용자 아이디와 상품코드를 주어서 예약 정보를 가져오고 그 예약 정보의 이용일이 오늘 날짜를 지났거나 사용되었으면 관람후기 쓸 수 있는 창 block
-          alert("??")
-         var code = ${productD.code}; 
-         console.log(code);
+        // 사용자 아이디와 상품코드를 주어서 예약 정보를 가져오고 그 예약 정보가 이용완료 되었으면 관람후기 쓸 수 있는 창 block
+         var code = $('.selectCode').val(); 
 
    	  $.ajax({
 	       async:true,
@@ -600,9 +598,18 @@
 	       dataType:"json",
 	       contentType:"application/json; charset=UTF-8",
 	       success : function(data){
-			
-				
+
+	    	   if(data == null || data.length == 0){
+		    	   alert("이용 내역이 없습니다 ")
+		    	} else {
+		    	   for(var i =0; i<data.length; i++){	
+		    		   checkReview(data[i].rvNum)		
+		    		// 그 리스트의 ㅇ ㅖ약번호가 리뷰 테이블에 없으면 쓰고 있으면 "이미 관람후기를 작성하셨습니다" 
+		    	   		$('.rn-0906').css("display","block")
+		    					}
+	    	   
 	    	   console.log(data)
+		    	}
 				
 	     } 
 
@@ -610,11 +617,31 @@
 		
          
 
-		// -다 쓴후에 폼 내용을 보내고 해당 상품코드의 관람후기 목록 다시불러오기 
+		// -다 쓰고 등록버튼 누르면 폼 내용을 보내고 관람후기창 none, 
+		// 해당 상품코드의 관람후기 목록 다시불러오기 
 
-		// 아니면 alert하고 ('이용내역이 없습니다 ')
+        }
+
+
+  // 리뷰 중복 등록 막기  
+    function checkReview(rvNum){
+        // 예약번호를 주면 예약번호로 조회해서 등록한적이 있는지 없는지 체크  
+
+   	  $.ajax({
+	       async:true,
+	       type:'POST',
+	       data:rvNum,
+	       url:"<%=request.getContextPath()%>/checkReview",
+	       dataType:"json",
+	       contentType:"application/json; charset=UTF-8",
+	       success : function(data){
+
+	    	   console.log(data)
+				
+	     } 
+
+		})
 		
-
         }
     
     
