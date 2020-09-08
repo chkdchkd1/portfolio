@@ -9,6 +9,7 @@ import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
 import kr.green.project.vo.ReservedSameVo;
+import kr.green.project.vo.ReviewVo;
 import kr.green.project.vo.TicketBookVo;
 
 public interface ReservationService {
@@ -26,6 +27,12 @@ public interface ReservationService {
 	void cancelreservation(String string, HttpServletRequest request);
 
 	ArrayList<ReservationVo> getReservation(int code, String id);
+
+	ArrayList<ReservationVo> getReview(String rvNum);
+
+	void registerReivew(HttpServletRequest request, String reviewRvNum, String content);
+
+	ArrayList<ReviewVo> getReviewBycode(Integer code);
 
 
 

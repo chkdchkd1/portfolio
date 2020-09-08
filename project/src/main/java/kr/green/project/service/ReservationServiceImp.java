@@ -14,6 +14,7 @@ import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
 import kr.green.project.vo.ReservedSameVo;
+import kr.green.project.vo.ReviewVo;
 import kr.green.project.vo.TicketBookVo;
 import kr.green.project.vo.UserVo;
 
@@ -104,6 +105,33 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	public ArrayList<ReservationVo> getReservation(int code, String id) {
 		return reservationDao.selectReservationByCode(code,id);
+	}
+
+	@Override
+	public ArrayList<ReservationVo> getReview(String rvNum) {
+		// TODO Auto-generated method stub
+		return reservationDao.selectReviewByRvNum(rvNum);
+	}
+
+	@Override
+	public void registerReivew(HttpServletRequest request, String reviewRvNum, String content) {
+		
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		ReviewVo review = new ReviewVo();
+		review.setWriter(user.getId());
+		review.setContent(content);
+		review.setReviewRvNum(reviewRvNum);
+		review.setRegisterDate(new Date());
+		
+		reservationDao.insertReview(review);
+		
+		
+	}
+
+	@Override
+	public ArrayList<ReviewVo> getReviewBycode(Integer code) {
+		// TODO Auto-generated method stub
+		return reservationDao.selectReviewBycode(code);
 	}
 
 	

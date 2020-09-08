@@ -9,6 +9,7 @@ import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
 import kr.green.project.vo.ReservedSameVo;
+import kr.green.project.vo.ReviewVo;
 
 
 public interface ReservationDao {
@@ -28,6 +29,12 @@ public interface ReservationDao {
 	void updateReservation(@Param("reservation")ReservationVo reservation);
 
 	ArrayList<ReservationVo> selectReservationByCode(@Param("code")int code, @Param("user")String id);
+
+	ArrayList<ReservationVo> selectReviewByRvNum(@Param("rvNum")String rvNum);
+
+	void insertReview(@Param("review")ReviewVo review);
+
+	ArrayList<ReviewVo> selectReviewBycode(@Param("code")Integer code);
 
 	
 

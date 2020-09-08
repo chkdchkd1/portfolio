@@ -147,30 +147,57 @@
                         </div><!--rn-0903-->
                     <div class="rn-0904-container">
                         <ul class="rn-0904">
+      		     <c:forEach var="review" items="${review}">
                             <li>
                                 <div class="rn-0904-ttbox">
-                                    <span class="rn-0904-tt2">chan07**</span>
-                                    <span class="rn-0904-tt3">2020.03.23</span>
-                                    <span class="rn-0904-tt4">(수정됨)</span>
-                                    <span class="rn-0904-tt5" ><i class="fas fa-heart selected"></i>&nbsp;&nbsp;1</span>
+                                    <span class="rn-0904-tt2">${review.writer}</span>
+                                    <span class="rn-0904-tt3">${review.registerDate}</span>
+                                    <span class="rn-0904-tt4">
+                                    	<c:if test ="${review.isModify eq 'Y'}">수정됨</c:if>
+                                    	</span>
+                                    <span class="rn-0904-tt5" ><i class="fas fa-heart selected"></i>&nbsp;&nbsp;${review.like}</span>
+                                    <c:if test ="${review.writer == user.id}">
+                                    <span class="rn-0904-tt4">
+                                    	<a href="#" class="rn-0904-tt7" articleid="${review.reviewNum}"></a>
+                                    	<a href="#" class="rn-0904-tt6" articleid="${review.reviewNum}"></a>
+                                    </span>
+                                    </c:if>
                                 </div>
                                 <div class="rn-0904-txt-wrap">
-                                    <div class="rn-0904-txt">미디어 전문 미술관에서 만나보는 새로운 예술..</div>
+                                    <div class="rn-0904-txt">${review.content}</div>
                                 </div>
                             </li>
+                            </c:forEach>
                         </ul>
                     </div>
                 <div class="rn-0906-container">
-                <div class="rn-0906" style="display: none; height: 559px;">
-                    <div class="mCustomScrollBox" tabindex="0" style="max-height: none;">
+                <div class="rn-0906" style="display: none; height: 640px;">
+                    <div class="mCustomScrollBox" style="max-height: none;">
                         <div id="mCSB_5_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px; width: 100%;" dir="ltr">
                             <div class="rn-0906-in">
-                                <p class="rn0906-big-tit">선릉 인문학산책</p>
+                                <p class="rn0906-big-tit">${productD.title}</p>
+                               
+                                <div class="rn0906-date">
+                                	<p class="rn0906-tit">예약번호</p>
+                                	<div class="rn0906-date-box">
+                                		<p>
+                                			<span> 
+                                				<select name="rvN" class="rvN" onchange="checkReview(this)">
+                                						<option value="" class="f">--</option>
+                                       			</select> 
+                                       		</span>
+                                		</p>
+                                	</div>
+                                </div>
                                 <div class="rn0906-write-area">
                                     <p class="rn0906-tit">관람후기</p>
+                                <form name ="reviewform">
+                                                                    	<input type = "text" name ="reviewRvNum" class="reviewRvNum">
+                                
                                     <div class="rn0906-write-box">
-                                        <textarea id="txtReview" placeholder="내용을 작성해주세요. (최소 10자 / 최대 500자)" onkeyup="reviewtextCount();"></textarea>
+                                        <textarea name= "content" id="txtReview" placeholder="내용을 작성해주세요. (최소 10자 / 최대 500자)" onkeyup="reviewtextCount();"></textarea>
                                     </div>
+                                 </form>
                                 </div>
                                 <div class="rn0906-caution">
                                     <p class="rn0906-caution-tit">관람후기 작성 시 유의사항</p>
@@ -178,10 +205,10 @@
                                     <p class="rn0906-caution-txt">작성된 게시물의 저작권은 작성자에게 있으며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.<br>작성 시 유의해주시기 바랍니다.</p>
                                 </div>
                                 <div class="rn0906-btns">
-                                    <a href="#" class="rn0906btn1">취소</a><a href="#" class="rn0906btn2">등록</a>
+                                    <a href="javascript:void(0)" onclick="closeReview();" class="rn0906btn1">취소</a><a href="#" class="rn0906btn2">등록</a>
                                 </div>
                             </div>
-                            <a href="#" class="rn-0906-close"><img src="http://tkfile.yes24.com/imgNew/common/rn-pop-close.png" alt="" class="mCS_img_loaded"></a>
+                            <a href="javascript:void(0)" onclick="closeReview();" class="rn-0906-close"><img src="http://tkfile.yes24.com/imgNew/common/rn-pop-close.png" class="mCS_img_loaded"></a>
                         </div></div>
                 </div><!--rn-0906-->
                </div>
@@ -311,6 +338,8 @@
 <input type = "text" class = "selectDate" name = "selectDate" value = "">
 <input type = "text" class = "selectRound"  name = "selectRound">
 <input type = "text" class = "selectWeek"  name = "selectWeek">
+<input type = "text" class = "selectbyUser"  name = "selectbyUser" value="${user.id}">
+
 
 </form>
 
@@ -318,6 +347,7 @@
 
 	isRightNow();
 	isDateOver();
+	maskingId();
 
 	// 상품이 상시인 경우  
 	function isRightNow(){
@@ -540,13 +570,16 @@
 			return false;
 			}
 
-		if ($('.selectDate').val() == null || $('.selectDate').val() == ''){
+		if ($('.selectbyUser').val() == null || $('.selectbyUser').val() == '' ){
+			alert('로그인이 필요합니다.')
+			return false;
+		}   else if ($('.selectDate').val() == null || $('.selectDate').val() == ''){
 				alert('원하시는 예매일을 선택해주세요.')
 				return false;
 		}	else if ($('.selectRound').val() == null || $('.selectRound').val() == '' ){
 				alert('원하시는 회차를 선택해주세요.')
 				return false;
-		}
+		} 
 		
 		var target = '예약페이지 ';
 	    window.open("<%=request.getContextPath()%>/reservation", target, "width=985,height=650");
@@ -568,7 +601,12 @@
         }
 
 
-
+	function closeReview(){
+		$('.rn-0906').css("display","none")
+		$('.rvN option:not(:first)').remove();
+		$('.reviewRvNum').val('');
+		
+		}
 	
     
     //리뷰창 글자수 카운팅 
@@ -589,6 +627,10 @@
     function openReview(){
         // 사용자 아이디와 상품코드를 주어서 예약 정보를 가져오고 그 예약 정보가 이용완료 되었으면 관람후기 쓸 수 있는 창 block
          var code = $('.selectCode').val(); 
+         if ( $('.selectbyUser').val() == null || $('.selectbyUser').val() ==''){
+             alert("로그인이 필요합니다.")
+             return false;
+         }
 
    	  $.ajax({
 	       async:true,
@@ -602,47 +644,125 @@
 	    	   if(data == null || data.length == 0){
 		    	   alert("이용 내역이 없습니다 ")
 		    	} else {
+		    	  	$('.rn-0906').css("display","block")
 		    	   for(var i =0; i<data.length; i++){	
-		    		   checkReview(data[i].rvNum)		
-		    		// 그 리스트의 ㅇ ㅖ약번호가 리뷰 테이블에 없으면 쓰고 있으면 "이미 관람후기를 작성하셨습니다" 
-		    	   		$('.rn-0906').css("display","block")
-		    					}
-	    	   
-	    	   console.log(data)
-		    	}
-				
+ 			    		  var str ='';
+			    		  str = '<option value="'+data[i].rvNum+'">'+data[i].rvNum+'</option>'
+			    		  $('.rvN').append(str);
+			    	}
+		    	}	
 	     } 
-
 		})
-		
-         
-
-		// -다 쓰고 등록버튼 누르면 폼 내용을 보내고 관람후기창 none, 
-		// 해당 상품코드의 관람후기 목록 다시불러오기 
-
-        }
-
+	}	
 
   // 리뷰 중복 등록 막기  
-    function checkReview(rvNum){
+    function checkReview(e){
         // 예약번호를 주면 예약번호로 조회해서 등록한적이 있는지 없는지 체크  
+     $('.reviewRvNum').val(e.value);
 
    	  $.ajax({
 	       async:true,
 	       type:'POST',
-	       data:rvNum,
+	       data:e.value,
 	       url:"<%=request.getContextPath()%>/checkReview",
 	       dataType:"json",
 	       contentType:"application/json; charset=UTF-8",
 	       success : function(data){
 
-	    	   console.log(data)
-				
-	     } 
+	       	   console.log(data);
+	    	   if(data.length == 1){
+		    	   alert("이미 관람후기를 작성한 예약번호입니다.")
+		    	   $('.rn0906btn2').off('click').on('click',function(e) {
+		    			e.preventDefault();
+		    		});
+	    	   }
+	       }
+			})
 
-		})
-		
         }
+
+
+  // 등록 버튼 클릭시 
+    $('.rn0906btn2').click(function(){
+        if ( $('.reviewRvNum').val() == null || $('.reviewRvNum').val() ==''){
+            alert("예약번호를 선택해주세요")
+            return false;
+        }
+
+    	var reviewData = $('form[name=reviewform]').serialize();
+    	submitReivewForm(reviewData)
+        })
+        
+        
+	// 댓글 등록 
+    function submitReivewForm(reviewData){
+
+    	 $.ajax({
+    			async:true,
+    	        url : "<%=request.getContextPath()%>/registerReview",
+    	        type : 'post',
+    	        data : reviewData,
+    	        success : function(data){
+    	            if(data == 1) {
+    	                // commentList(); 
+    	                //댓글 작성 후 관람후기 목록 reload
+    	                
+    	                // 리뷰창 닫기 
+    	                closeReview();
+    	            }
+    	        }
+    	    });
+
+        }
+
+    // 아이디 마스킹 
+    
+    function maskingId(){
+
+    	$('.rn-0904-tt2').each(function(i) {
+
+    	    var originStr = $(this).text(); 
+            var maskingStr; 
+            var strLength; 
+
+             strLength = originStr.length; 
+
+            if(strLength < 3){ 
+                maskingStr = originStr.replace(/(?<=.{1})./gi, "*"); 
+               } else { 
+                maskingStr = originStr.replace(/(?<=.{2})./gi, "*"); 
+             } 
+
+           $(this).text(maskingStr);  
+           
+        	})
+     
+         }
+
+    // 관람후기 다시 불러 오기    
+    function reviewList(){
+
+    	$.ajax({
+			async:true,
+	        url : "<%=request.getContextPath()%>/getReviewList",
+	        type : 'post',
+	        data : reviewData,
+	        success : function(data){
+	            if(data == 1) {
+	                // commentList(); 
+	                //댓글 작성 후 관람후기 목록 reload
+	                
+	                // 리뷰창 닫기 
+	                closeReview();
+	            }
+	        }
+	    });
+	    
+
+
+        }
+
+
     
     
     

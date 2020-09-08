@@ -1,8 +1,6 @@
 package kr.green.project.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,6 +26,7 @@ import kr.green.project.vo.ProductPriceVo;
 import kr.green.project.vo.ProductQuantityVo;
 import kr.green.project.vo.ProductRegisterVo;
 import kr.green.project.vo.ReservationVo;
+import kr.green.project.vo.ReviewVo;
 import kr.green.project.vo.UserVo;
 
 /**
@@ -69,11 +69,14 @@ public class ProductController {
 		image2 = productService2.getImage2(code,2);
 		image3 = productService2.getImage2(code,3);
 		
+		ArrayList<ReviewVo> review = reservationService.getReviewBycode(code);
 	
 		mv.addObject("productD", productD);
 		mv.addObject("pList", price);
 		mv.addObject("image2", image2);
 		mv.addObject("image3", image3);
+		mv.addObject("review", review);
+
 
 	    mv.setViewName("/product/detail");
 	    
@@ -183,10 +186,23 @@ public class ProductController {
 	@ResponseBody
 	public  ArrayList<ReservationVo> checkReview(@RequestBody String rvNum){ 		
 		// 리뷰 vo만들어서 예약번호로 읽어오는거 해야함 이어서~ 리뷰 중복막는거 
-	    ArrayList<ReservationVo> reservation = reservationService.getReservation();
+	    ArrayList<ReservationVo> reservation = reservationService.getReview(rvNum);
+	    System.out.println(reservation);
+	 
 		    return reservation;
 	
 	}
+	
+	@RequestMapping(value ="/registerReview")
+	@ResponseBody
+	public int registerReview(@RequestBody @RequestParam String reviewRvNum, @RequestParam String content, HttpServletRequest request){ 		
+
+		reservationService.registerReivew(request,reviewRvNum,content);
+	 
+		return 1;
+	
+	}
+	
 	
 	
 	
