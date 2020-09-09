@@ -155,11 +155,14 @@
                                     <span class="rn-0904-tt4">
                                     	<c:if test ="${review.isModify eq 'Y'}">수정됨</c:if>
                                     	</span>
-                                    <span class="rn-0904-tt5" ><i class="fas fa-heart selected"></i>&nbsp;&nbsp;${review.like}</span>
+                                    <span class="rn-0904-tt5" data-num="${review.reviewNum}">
+                                    	<i class="fas fa-heart selected"></i>
+                                    	&nbsp;&nbsp;${review.like}
+                                    </span>
                                     <c:if test ="${review.writer == user.id}">
                                     <span class="rn-0904-tt4">
-                                    	<a href="#" class="rn-0904-tt7" articleid="${review.reviewNum}"></a>
-                                    	<a href="#" class="rn-0904-tt6" articleid="${review.reviewNum}"></a>
+                                    	<a href="#" class="rn-0904-tt7" onclick="modifyReview(${review.reviewNum});"></a>
+                                    	<a href="#" class="rn-0904-tt6" ></a>
                                     </span>
                                     </c:if>
                                 </div>
@@ -205,10 +208,10 @@
                                     <p class="rn0906-caution-txt">작성된 게시물의 저작권은 작성자에게 있으며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.<br>작성 시 유의해주시기 바랍니다.</p>
                                 </div>
                                 <div class="rn0906-btns">
-                                    <a href="javascript:void(0)" onclick="closeReview();" class="rn0906btn1">취소</a><a href="#" class="rn0906btn2">등록</a>
+                                    <a href="javascript:void(0)" onclick="closeReview();" class="rn0906btn1">취소</a><a href="#" class="rn0906btn2"  onclick="return false;">등록</a>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" onclick="closeReview();" class="rn-0906-close"><img src="http://tkfile.yes24.com/imgNew/common/rn-pop-close.png" class="mCS_img_loaded"></a>
+                            <a href="javascript:void(0)" onclick="closeReview(); return false;" class="rn-0906-close"><img src="http://tkfile.yes24.com/imgNew/common/rn-pop-close.png" class="mCS_img_loaded"></a>
                         </div></div>
                 </div><!--rn-0906-->
                </div>
@@ -605,6 +608,8 @@
 		$('.rn-0906').css("display","none")
 		$('.rvN option:not(:first)').remove();
 		$('.reviewRvNum').val('');
+		$('#txtReview').val('');
+		
 		
 		}
 	
@@ -659,6 +664,10 @@
     function checkReview(e){
         // 예약번호를 주면 예약번호로 조회해서 등록한적이 있는지 없는지 체크  
      $('.reviewRvNum').val(e.value);
+     if ( $('.reviewRvNum').val() == null || $('.reviewRvNum').val() ==''){
+         alert("예약번호를 선택해주세요")
+         return false;
+     }
 
    	  $.ajax({
 	       async:true,
@@ -669,32 +678,44 @@
 	       contentType:"application/json; charset=UTF-8",
 	       success : function(data){
 
-	       	   console.log(data);
-	    	   if(data.length == 1){
-		    	   alert("이미 관람후기를 작성한 예약번호입니다.")
-		    	   $('.rn0906btn2').off('click').on('click',function(e) {
-		    			e.preventDefault();
-		    		});
-	    	   }
-	       }
-			})
+		       	if(data != null) {
+					 alert("이미 관람후기를 작성한 예약번호입니다.")
+			    	   $('.rn0906btn2').off('click').on('click',function(e) {
+			    			e.preventDefault();
+			    		})
+			    }
+	       },
+	       error:function(request,status,error){
+   
+	    	   $('.rn0906btn2').off('click').on('click', function(e){
 
-        }
+	    		     var content = $('#txtReview').val();
+	    		        console.log(content)
+	    		     if (content.length < 10){
+	    		        alert("최소 10자 이상 입력해주세요.");
+	    		        return false;
+	    		    }
+	    		    
+	    		   var reviewData = $('form[name=reviewform]').serialize();
+	    	    	submitReivewForm(reviewData)
+			    })	    	   
+			    }
 
 
-  // 등록 버튼 클릭시 
-    $('.rn0906btn2').click(function(){
+		})
+       }
+
+
+  // select 값을 변경 안하고 바로 등록 버튼 눌렀을 때 
+       $('.rn0906btn2').click(function(){
         if ( $('.reviewRvNum').val() == null || $('.reviewRvNum').val() ==''){
             alert("예약번호를 선택해주세요")
-            return false;
         }
 
-    	var reviewData = $('form[name=reviewform]').serialize();
-    	submitReivewForm(reviewData)
-        })
+        })   
         
         
-	// 댓글 등록 
+	// 리뷰 등록 
     function submitReivewForm(reviewData){
 
     	 $.ajax({
@@ -704,7 +725,7 @@
     	        data : reviewData,
     	        success : function(data){
     	            if(data == 1) {
-    	                // commentList(); 
+    	                reviewList(); 
     	                //댓글 작성 후 관람후기 목록 reload
     	                
     	                // 리뷰창 닫기 
@@ -716,10 +737,9 @@
         }
 
     // 아이디 마스킹 
-    
     function maskingId(){
 
-    	$('.rn-0904-tt2').each(function(i) {
+    	$('.rn-0904-tt2').each(function() {
 
     	    var originStr = $(this).text(); 
             var maskingStr; 
@@ -742,25 +762,113 @@
     // 관람후기 다시 불러 오기    
     function reviewList(){
 
+        var productCode = $('.selectCode').val();
+
     	$.ajax({
 			async:true,
 	        url : "<%=request.getContextPath()%>/getReviewList",
 	        type : 'post',
-	        data : reviewData,
+	        data : productCode,
+	        dataType:"json",
+		    contentType:"application/json; charset=UTF-8",
 	        success : function(data){
-	            if(data == 1) {
-	                // commentList(); 
-	                //댓글 작성 후 관람후기 목록 reload
-	                
-	                // 리뷰창 닫기 
-	                closeReview();
-	            }
+
+	        	$('.rn-0904').empty();
+
+			
+	        	for(var i =0; i<data.length; i++){
+	        	var str = '';
+				var str = 
+					'<li><div class="rn-0904-ttbox"><span class="rn-0904-tt2">'+data[i].writer+'</span>'+
+                 	'<span class="rn-0904-tt3">'+data[i].registerDate+'</span>'+
+                    '<span class="rn-0904-tt4">';
+
+                   if(data[i].isModify == 'Y'){
+                        	str += '수정됨'
+                    	}
+
+                  	str +='</span><span class="rn-0904-tt5" data-num="'+data[i].reviewNum+'"><i class="fas fa-heart selected"></i>&nbsp;&nbsp;'+data[i].like+'</span>';
+               	
+                   if(data[i].writer == $('.selectbyUser').val()){
+                    str += '<span class="rn-0904-tt4">'+
+                    	'<a href="#" class="rn-0904-tt7"  onclick="modifyReview('+data[i].reviewNum+');"></a>'+
+                    	'<a href="#" class="rn-0904-tt6" data-num="'+data[i].reviewNum+'"></a></span>';
+                   }
+                    
+       
+                str += '</div>'+'<div class="rn-0904-txt-wrap">'+'<div class="rn-0904-txt">'+data[i].content+'</div>'+'</div></li>' ;
+
+                $('.rn-0904').append(str)
+                maskingId();
+				
+	        	}
+	        
 	        }
 	    });
 	    
-
-
         }
+
+
+    // 공감버튼 
+    $('.rn-0904-tt5').click(function(){
+			// 내가 버튼 클릭한 게시물의 번호 받아서 회원 여부 와 함께 건내주기 
+		//	var reviewNum = $(this).data("num");
+			var reviewNum = $(this).attr("data-num")
+			$(this).addClass('sle')
+			 
+
+			$.ajax({
+				async:true,
+		        url : "<%=request.getContextPath()%>/upLike ",
+		        type : 'post',
+		        data : reviewNum,
+		        dataType:"json",
+			    contentType:"application/json; charset=UTF-8",
+		        success : function(data){
+
+		             if(!data['usercheck'])
+						alert('공감은 로그인한 회원만 할 수 있습니다.')
+					else {
+						if(data['likeNum'] <0)
+							alert('이미 공감한 게시물입니다.')
+							else {
+								$('.rn-0904-tt5.sle').html('<i class="fas fa-heart selected"></i>&nbsp;&nbsp;'+data['likeNum'])
+								$('.rn-0904-tt5').removeClass('sle')
+								}
+						} 
+
+		        }
+		    });
+
+			
+        })
+        
+       
+      // 수정 : 수정버튼을 클릭하면 게시글 번호로 조회해서 그 글의 예약번호와 내용을 읽어와서 보여주고 등록버튼을 클릭하면 textarea 값을 받아서 그걸 보내서 등록하고 isModify 변경
+       
+      function modifyReview(reviewNum){
+
+          reviewNum = ""+reviewNum; // 문자열로 바꿔주고 
+
+    	  $.ajax({
+				async:true,
+		        url : "<%=request.getContextPath()%>/getReview ",
+		        type : 'post',
+		        data : reviewNum,
+		        dataType:"json",
+			    contentType:"application/json; charset=UTF-8",
+		        success : function(data){
+
+		      	  	//$('.rn-0906').css("display","block")
+		      	  	console.log(data)
+
+
+		        }
+		    });
+		    
+  	  
+              }
+      
 
 
     

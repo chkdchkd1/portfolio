@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.green.project.dao.ReviewDao">
+
+ 	<select id ="selectReviewByRvNum" resultType="kr.green.project.vo.ReviewVo">
+		SELECT *  FROM ticket.review WHERE reviewRvNum = #{rvNum};
+	</select>
+
+
+	<insert id="insertReview">
+		insert into 
+		review(writer,content,reviewRvNum)
+    	values(#{review.writer},#{review.content},#{review.reviewRvNum});
+	</insert>
+	
+	<select id ="selectReviewBycode" resultType="kr.green.project.vo.ReviewVo">
+		SELECT * 
+		FROM ticket.review
+    	join(select rvNum,gsCode from reservation) as t 
+    	on reviewRvNum = rvNum
+		where gsCode = #{code}
+		ORDER BY reviewNum DESC
+		;
+	</select>
+	
+	<select id ="selectReviewLike" resultType="int">
+  	select count(*) from ticket.reviewlike where boReivewNum = #{reviewNum} and likeId = #{user};
+	</select>
+	
+	<insert id="insertReviewLike">
+		insert into 
+		ticket.reviewlike(boReivewNum,likeId)
+    	values(#{reviewNum},#{user});
+	</insert>
+	
+	  <update id="updateReviewBylike">
+  	update ticket.review
+  		set 
+  			review.like = (select count(*) from ticket.reviewlike where boReivewNum = #{reviewNum})
+  		where
+  			reviewNum = #{reviewNum};
+  </update>
+  
+   	<select id ="selectReviewByreviewNum" resultType="kr.green.project.vo.ReviewVo">
+		SELECT *  FROM ticket.review WHERE reviewNum = #{reviewNum};
+	</select>
+  
+	
+        
+  </mapper>
+ 

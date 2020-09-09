@@ -30,11 +30,6 @@ public interface ReservationDao {
 
 	ArrayList<ReservationVo> selectReservationByCode(@Param("code")int code, @Param("user")String id);
 
-	ArrayList<ReservationVo> selectReviewByRvNum(@Param("rvNum")String rvNum);
-
-	void insertReview(@Param("review")ReviewVo review);
-
-	ArrayList<ReviewVo> selectReviewBycode(@Param("code")Integer code);
 
 	
 

@@ -28,12 +28,6 @@ public interface ReservationService {
 
 	ArrayList<ReservationVo> getReservation(int code, String id);
 
-	ArrayList<ReservationVo> getReview(String rvNum);
-
-	void registerReivew(HttpServletRequest request, String reviewRvNum, String content);
-
-	ArrayList<ReviewVo> getReviewBycode(Integer code);
-
 
 
 }

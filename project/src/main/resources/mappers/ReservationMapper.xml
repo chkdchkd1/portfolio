@@ -82,23 +82,7 @@ where rvNum = #{rvNum};
 	where gsCode = #{code} and rvId = #{user} and usestatus = 'used';
 	</select>
 	
-	  <select id ="selectReviewByRvNum" resultType="kr.green.project.vo.ReviewVo">
-	SELECT *  FROM ticket.review WHERE reviewRvNum = #{rvNum};
-	</select>
 	
-	<insert id="insertReview">
-	insert into 
-	review(writer,content,reviewRvNum)
-    values(#{review.writer},#{review.content},#{review.reviewRvNum});
-	</insert>
-	
-	 <select id ="selectReviewBycode" resultType="kr.green.project.vo.ReviewVo">
-	SELECT * 
-	FROM ticket.review
-    join(select rvNum,gsCode from reservation) as t 
-    on reviewRvNum = rvNum
-	where gsCode = #{code};
-	</select>
         
   </mapper>
  

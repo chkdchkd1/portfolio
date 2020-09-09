@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.project.service.ProductService2;
 import kr.green.project.service.ReservationService;
+import kr.green.project.service.ReviewService;
 import kr.green.project.utils.UploadFileUtils;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductImageVo;
@@ -43,6 +44,11 @@ public class ProductController {
 	
 	@Autowired
 	private ReservationService reservationService;
+	
+	@Autowired
+	private ReviewService reviewService;
+	
+	
 
 //	@Resource
 	private String uploadPath = "C:\\Users\\Administrator\\Desktop\\upload";
@@ -69,7 +75,7 @@ public class ProductController {
 		image2 = productService2.getImage2(code,2);
 		image3 = productService2.getImage2(code,3);
 		
-		ArrayList<ReviewVo> review = reservationService.getReviewBycode(code);
+		ArrayList<ReviewVo> review = reviewService.getReviewBycode(code);
 	
 		mv.addObject("productD", productD);
 		mv.addObject("pList", price);
@@ -172,37 +178,6 @@ public class ProductController {
 	}
 	
 
-	@RequestMapping(value ="/openReview")
-	@ResponseBody
-	public  ArrayList<ReservationVo> openReview(@RequestBody int code , HttpServletRequest request){ 		
-		
-	    UserVo user = (UserVo)request.getSession().getAttribute("user");
-	    ArrayList<ReservationVo> reservation = reservationService.getReservation(code,user.getId());
-		    return reservation;
-	
-	}
-	
-	@RequestMapping(value ="/checkReview")
-	@ResponseBody
-	public  ArrayList<ReservationVo> checkReview(@RequestBody String rvNum){ 		
-		// 리뷰 vo만들어서 예약번호로 읽어오는거 해야함 이어서~ 리뷰 중복막는거 
-	    ArrayList<ReservationVo> reservation = reservationService.getReview(rvNum);
-	    System.out.println(reservation);
-	 
-		    return reservation;
-	
-	}
-	
-	@RequestMapping(value ="/registerReview")
-	@ResponseBody
-	public int registerReview(@RequestBody @RequestParam String reviewRvNum, @RequestParam String content, HttpServletRequest request){ 		
-
-		reservationService.registerReivew(request,reviewRvNum,content);
-	 
-		return 1;
-	
-	}
-	
 	
 	
 	

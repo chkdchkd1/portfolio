@@ -107,32 +107,7 @@ public class ReservationServiceImp implements ReservationService {
 		return reservationDao.selectReservationByCode(code,id);
 	}
 
-	@Override
-	public ArrayList<ReservationVo> getReview(String rvNum) {
-		// TODO Auto-generated method stub
-		return reservationDao.selectReviewByRvNum(rvNum);
-	}
 
-	@Override
-	public void registerReivew(HttpServletRequest request, String reviewRvNum, String content) {
-		
-		UserVo user = (UserVo)request.getSession().getAttribute("user");
-		ReviewVo review = new ReviewVo();
-		review.setWriter(user.getId());
-		review.setContent(content);
-		review.setReviewRvNum(reviewRvNum);
-		review.setRegisterDate(new Date());
-		
-		reservationDao.insertReview(review);
-		
-		
-	}
-
-	@Override
-	public ArrayList<ReviewVo> getReviewBycode(Integer code) {
-		// TODO Auto-generated method stub
-		return reservationDao.selectReviewBycode(code);
-	}
 
 	
 
