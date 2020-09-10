@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <div class="product-box">
  <!-- 상단 타이틀 -->
@@ -97,7 +98,7 @@
             </div>
             <div class="rn-07"><!--하단탭버튼-->
                 <a href="#" class=""><span>상세정보</span></a>
-                <a href="#" class=""><span class="rn-eve">관람후기<span class="rn-07-count">(1)</span></span></a>
+                <a href="#" class=""><span class="rn-eve">관람후기<span class="rn-07-count">(${reviewCount})</span></span></a>
                 <a href="#" class=""><span>예매/취소 안내</span></a>
             </div>
             <!-- 탭박스 -->
@@ -153,7 +154,7 @@
                                     <span class="rn-0904-tt2">${review.writer}</span>
                                     <span class="rn-0904-tt3">${review.registerDate}</span>
                                     <span class="rn-0904-tt4">
-                                    	<c:if test ="${review.isModify eq 'Y'}">수정됨</c:if>
+                                    	<c:if test ="${fn:contains(review.isModify,'Y')}"> (수정됨) </c:if>
                                     	</span>
                                     <span class="rn-0904-tt5" data-num="${review.reviewNum}">
                                     	<i class="fas fa-heart selected"></i>
@@ -161,8 +162,8 @@
                                     </span>
                                     <c:if test ="${review.writer == user.id}">
                                     <span class="rn-0904-tt4">
-                                    	<a href="#" class="rn-0904-tt7" onclick="modifyReview(${review.reviewNum});"></a>
-                                    	<a href="#" class="rn-0904-tt6" ></a>
+                                    	<a href="#" class="rn-0904-tt7" onclick="modifyReviewOpen(${review.reviewNum}); return false;"></a>
+                                    	<a href="#" class="rn-0904-tt6" onclick="removeConfirmReview(${review.reviewNum}); return false;"></a>
                                     </span>
                                     </c:if>
                                 </div>
@@ -185,7 +186,7 @@
                                 	<div class="rn0906-date-box">
                                 		<p>
                                 			<span> 
-                                				<select name="rvN" class="rvN" onchange="checkReview(this)">
+                                				<select name="rvN" class="rvN" >
                                 						<option value="" class="f">--</option>
                                        			</select> 
                                        		</span>
@@ -208,7 +209,9 @@
                                     <p class="rn0906-caution-txt">작성된 게시물의 저작권은 작성자에게 있으며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.<br>작성 시 유의해주시기 바랍니다.</p>
                                 </div>
                                 <div class="rn0906-btns">
-                                    <a href="javascript:void(0)" onclick="closeReview();" class="rn0906btn1">취소</a><a href="#" class="rn0906btn2"  onclick="return false;">등록</a>
+                                    <a href="javascript:void(0)" onclick="closeReview(); return false;" class="rn0906btn1">취소</a>
+                                    <a href="#" class="rn0906btn2"  onclick="return false;">등록</a>
+                                    <a href="#" class="rn0906btn3"  onclick="return false;" style="display: none;">수정</a>
                                 </div>
                             </div>
                             <a href="javascript:void(0)" onclick="closeReview(); return false;" class="rn-0906-close"><img src="http://tkfile.yes24.com/imgNew/common/rn-pop-close.png" class="mCS_img_loaded"></a>
@@ -351,6 +354,7 @@
 	isRightNow();
 	isDateOver();
 	maskingId();
+	clickHeart();
 
 	// 상품이 상시인 경우  
 	function isRightNow(){
@@ -609,8 +613,11 @@
 		$('.rvN option:not(:first)').remove();
 		$('.reviewRvNum').val('');
 		$('#txtReview').val('');
-		
-		
+  	  	$('.f').val('')
+  	  	$('.f').text('--');
+  	  	$('.rn0906btn3').css("display","none");
+  	  	$('.rn0906btn2').css("display","inline-block");
+
 		}
 	
     
@@ -659,6 +666,11 @@
 	     } 
 		})
 	}	
+
+
+    $('select[name=rvN]').on("change", function(event) { 
+    	checkReview(this);
+   } );	
 
   // 리뷰 중복 등록 막기  
     function checkReview(e){
@@ -784,15 +796,15 @@
                     '<span class="rn-0904-tt4">';
 
                    if(data[i].isModify == 'Y'){
-                        	str += '수정됨'
+                        	str += ' (수정됨) '
                     	}
 
                   	str +='</span><span class="rn-0904-tt5" data-num="'+data[i].reviewNum+'"><i class="fas fa-heart selected"></i>&nbsp;&nbsp;'+data[i].like+'</span>';
                	
                    if(data[i].writer == $('.selectbyUser').val()){
                     str += '<span class="rn-0904-tt4">'+
-                    	'<a href="#" class="rn-0904-tt7"  onclick="modifyReview('+data[i].reviewNum+');"></a>'+
-                    	'<a href="#" class="rn-0904-tt6" data-num="'+data[i].reviewNum+'"></a></span>';
+                    	'<a href="#" class="rn-0904-tt7"  onclick="modifyReviewOpen('+data[i].reviewNum+'); return false;"></a>'+
+                    	'<a href="#" class="rn-0904-tt6" onclick="removeConfirmReview('+data[i].reviewNum+'); return false;"></a></span>';
                    }
                     
        
@@ -802,51 +814,56 @@
                 maskingId();
 				
 	        	}
+	        	clickHeart();
+	        	$('.rn-07-count').text('('+data.length+')')
+	        	
+	        	
 	        
 	        }
 	    });
 	    
         }
 
-
+	function clickHeart(){
     // 공감버튼 
-    $('.rn-0904-tt5').click(function(){
-			// 내가 버튼 클릭한 게시물의 번호 받아서 회원 여부 와 함께 건내주기 
-		//	var reviewNum = $(this).data("num");
-			var reviewNum = $(this).attr("data-num")
-			$(this).addClass('sle')
-			 
-
-			$.ajax({
-				async:true,
-		        url : "<%=request.getContextPath()%>/upLike ",
-		        type : 'post',
-		        data : reviewNum,
-		        dataType:"json",
-			    contentType:"application/json; charset=UTF-8",
-		        success : function(data){
-
-		             if(!data['usercheck'])
-						alert('공감은 로그인한 회원만 할 수 있습니다.')
-					else {
-						if(data['likeNum'] <0)
-							alert('이미 공감한 게시물입니다.')
-							else {
-								$('.rn-0904-tt5.sle').html('<i class="fas fa-heart selected"></i>&nbsp;&nbsp;'+data['likeNum'])
-								$('.rn-0904-tt5').removeClass('sle')
-								}
-						} 
-
-		        }
-		    });
-
-			
-        })
+	    $('.rn-0904-tt5').click(function(){
+				// 내가 버튼 클릭한 게시물의 번호 받아서 회원 여부 와 함께 건내주기 
+			//	var reviewNum = $(this).data("num");
+				var reviewNum = $(this).attr("data-num")
+				$(this).addClass('sle')
+				 
+	
+				$.ajax({
+					async:true,
+			        url : "<%=request.getContextPath()%>/upLike ",
+			        type : 'post',
+			        data : reviewNum,
+			        dataType:"json",
+				    contentType:"application/json; charset=UTF-8",
+			        success : function(data){
+	
+			             if(!data['usercheck'])
+							alert('공감은 로그인한 회원만 할 수 있습니다.')
+						else {
+							if(data['likeNum'] <0)
+								alert('이미 공감한 게시물입니다.')
+								else {
+									$('.rn-0904-tt5.sle').html('<i class="fas fa-heart selected"></i>&nbsp;&nbsp;'+data['likeNum'])
+									$('.rn-0904-tt5').removeClass('sle')
+									}
+							} 
+	
+			        }
+			    });
+	
+				
+	        })
+	}
         
        
       // 수정 : 수정버튼을 클릭하면 게시글 번호로 조회해서 그 글의 예약번호와 내용을 읽어와서 보여주고 등록버튼을 클릭하면 textarea 값을 받아서 그걸 보내서 등록하고 isModify 변경
        
-      function modifyReview(reviewNum){
+      function modifyReviewOpen(reviewNum){
 
           reviewNum = ""+reviewNum; // 문자열로 바꿔주고 
 
@@ -859,20 +876,86 @@
 			    contentType:"application/json; charset=UTF-8",
 		        success : function(data){
 
-		      	  	//$('.rn-0906').css("display","block")
-		      	  	console.log(data)
-
+		      	  	$('.rn-0906').css("display","block");
+		      	  	$('.rn0906btn2').css("display","none");		      	  	
+		      	  	$('.rn0906btn3').css("display","inline-block");		      	  	
+		      	  	//$('.rvN').removeAttr("onchange");
+		      	  	$('.f').val(data.reviewRvNum);
+		      	  	$('.f').text(data.reviewRvNum);
+		      	  	$('.reviewRvNum').val(data.reviewRvNum);
+		      	  	$('#txtReview').val(data.content);
 
 		        }
 		    });
-		    
   	  
-              }
+       }
+
+
+   // 수정버튼을 클릭하면 
+   $('.rn0906btn3').click(function(){
+		submitModifyReviewForm()			
+     })
+       
+       
+     function submitModifyReviewForm(){
+			// 예약번호와 컨텐츠 내용을 보내서 업데이트 하기 
+		  var reviewRvNum = $('.reviewRvNum').val();
+		  var content = $('#txtReview').val();
+		  var rev = JSON.stringify({ "reviewRvNum": reviewRvNum, "content": content });
+		  		  
+		  	  $.ajax({
+				async:true,
+		        url : "<%=request.getContextPath()%>/updateReview ",
+		        type : 'post',
+		        data : rev,
+		        dataType:"json",
+			    contentType:"application/json; charset=UTF-8",
+		        success : function(data){
+		        	   if(data == 1) {
+	    	                reviewList(); 
+	    	                closeReview();
+	    	            }
+		        }
+		    });
+
+	     }		
+
+
+   // 리뷰 삭제 : 삭제 버튼 클릭하면 그글 번호를 주고 그글 번호로 조회해서 그글 isdel 바꾸고 delDate 변경 
+   
+   function removeConfirmReview(reviewNum){
+
+	   var result = confirm("정말 삭제하시겠습니까?");
+	   if(result){
+		   removeReview(reviewNum);
+	   }
+
+	}
+   
+   function removeReview(reviewNum){
+
+       reviewNum = ""+reviewNum; // 문자열로 바꿔주고 
+	   
+	   $.ajax({
+			async:true,
+	        url : "<%=request.getContextPath()%>/removeReview ",
+	        type : 'post',
+	        data : reviewNum,
+	        dataType:"json",
+		    contentType:"application/json; charset=UTF-8",
+	        success : function(data){
+
+                reviewList(); 
+	        	
+   	            }
+	       
+	    });	    
+
+	   }
+   
+     
+
       
-
-
-    
-    
-    
+          
     
 </script>

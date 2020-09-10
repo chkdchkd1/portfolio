@@ -13,7 +13,8 @@
 		    on infoNum = goodsInfoNum
 		   join (select * from goodsprice where goodsprice.type = '성인' or goodsprice.type = '일반' or goodsprice.type = '주중 일반' or goodsprice.type = '주중 성인') as p
 		    on goods.code = gooCode
-		  where DATE_FORMAT(STR_TO_DATE(endDate, '%Y.%m.%d'),'%Y.%m.%d') >= now();
+		  where DATE_FORMAT(STR_TO_DATE(endDate, '%Y.%m.%d'),'%Y.%m.%d') >= now()
+		  limit #{cri.pageStart},#{cri.perPageNum};
    </select>
    
      <select id="selectProductList2" resultType="kr.green.project.vo.ProductListVo">
@@ -25,7 +26,26 @@
 		    on infoNum = goodsInfoNum
 		   join (select * from goodsprice where goodsprice.type = '성인' or goodsprice.type = '일반' or goodsprice.type = '주중 일반' or goodsprice.type = '주중 성인') as p
 		    on goods.code = gooCode
+		  where DATE_FORMAT(STR_TO_DATE(endDate, '%Y.%m.%d'),'%Y.%m.%d') >= now()
+		  limit #{cri.pageStart},#{cri.perPageNum};
+   </select>
+   
+   <select id="selectCountProduct" resultType ="int">
+   select count(*)
+		from goods
+			join (select * from goodsdetail where genre = '전시') as t
+		    on goods.code = goodsMainCode
 		  where DATE_FORMAT(STR_TO_DATE(endDate, '%Y.%m.%d'),'%Y.%m.%d') >= now();
+   
+   </select>
+   
+      <select id="selectCountProduct2" resultType ="int">
+   select count(*)
+		from goods
+			join (select * from goodsdetail where genre = '행사') as t
+		    on goods.code = goodsMainCode
+		  where DATE_FORMAT(STR_TO_DATE(endDate, '%Y.%m.%d'),'%Y.%m.%d') >= now();
+  
    </select>
    
 

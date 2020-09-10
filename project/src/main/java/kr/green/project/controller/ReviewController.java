@@ -105,6 +105,28 @@ public class ReviewController {
 	
 	}
 	
+	@RequestMapping(value ="/updateReview" , method = RequestMethod.POST)
+	@ResponseBody
+	public int updateReview(@RequestBody ReviewVo review){
+		
+		reviewService.updateReview(review);
+		
+		return 1;
+	
+	}
+	
+	@RequestMapping(value ="/removeReview" , method = RequestMethod.POST)
+	@ResponseBody
+	public int removeReview(@RequestBody int reviewNum){
+		
+		reviewService.removeReview(reviewNum);
+		
+		return 1;
+	
+	}
+	
+	
+	
 	
 	
 	

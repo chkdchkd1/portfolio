@@ -109,6 +109,7 @@ ol,ul {
     background-color: #333;
     color: white;
 }
+
 /* 게시판 */
 
 /* .board-box{
@@ -253,6 +254,53 @@ ol,ul {
     line-height: 28px;
     color: #000;
 }
+
+/* 상품 게시판 페이지 네이션*/
+.list-pagenation {
+    text-align: center;
+    padding-top: 35px;
+    display: flex;
+    justify-content: center;
+}
+
+.list-pagenation a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    font-size: 15px;
+    color: #666;
+    margin: 0 3px;
+    border: 1px solid #ddd;
+}
+
+.list-pagenation a img {
+    vertical-align: middle;
+    padding-top: 10px;
+}
+
+.list-pagenation div {
+    display: inline-block;
+    margin: 0 14px;
+}
+
+.list-pagenation a.on {
+    border: 1px solid #333;
+    color: #333;
+}
+
+.list-pagenation a.list-page-next img, .list-pagenation a.list-page-last img {
+    transform: rotate(180deg);
+    padding-bottom: 10px;
+}
+
+.list-pagenation a.disabled{
+	pointer-events: none;
+  cursor: default;
+}
+
+
 
 
 /* 상품 상세보기 */
@@ -763,7 +811,7 @@ p.rn-04-xtit {
     color: hsl(355, 57%, 65%);;
 }
 
-.rn-09 .rn0906btn2 {
+.rn-09 .rn0906btn2,.rn-09 .rn0906btn3 {
     color: #fff;
     background: hsl(355, 57%, 65%);;
 }

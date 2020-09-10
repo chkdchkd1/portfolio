@@ -2,6 +2,8 @@ package kr.green.project.service;
 
 import java.util.ArrayList;
 
+import kr.green.project.pagination.Criteria;
+import kr.green.project.pagination.PageMaker;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductListVo;
@@ -11,7 +13,7 @@ import kr.green.project.vo.ProductRegisterVo;
 
 public interface ProductService2 {
 
-	ArrayList<ProductListVo> getProductList();
+	ArrayList<ProductListVo> getProductList(Criteria cri);
 	
 	ProductDetailVo getProductDetail(Integer code);
 	
@@ -34,6 +36,8 @@ public interface ProductService2 {
 	void registerImage(ProductImageVo image, int i);
 
 	ArrayList<ProductListVo> getProductList2();
+
+	PageMaker getPageMaker(Criteria cri);
 
 
 

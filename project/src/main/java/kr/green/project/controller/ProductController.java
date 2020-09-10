@@ -2,8 +2,6 @@ package kr.green.project.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.project.pagination.Criteria;
+import kr.green.project.pagination.PageMaker;
 import kr.green.project.service.ProductService2;
 import kr.green.project.service.ReservationService;
 import kr.green.project.service.ReviewService;
@@ -26,9 +25,7 @@ import kr.green.project.vo.ProductListVo;
 import kr.green.project.vo.ProductPriceVo;
 import kr.green.project.vo.ProductQuantityVo;
 import kr.green.project.vo.ProductRegisterVo;
-import kr.green.project.vo.ReservationVo;
 import kr.green.project.vo.ReviewVo;
-import kr.green.project.vo.UserVo;
 
 /**
  * Handles requests for the application home page.
@@ -54,11 +51,14 @@ public class ProductController {
 	private String uploadPath = "C:\\Users\\Administrator\\Desktop\\upload";
 //	
 	@RequestMapping(value = "/exhibition/list", method = RequestMethod.GET)
-	public ModelAndView exList(ModelAndView mv) throws Exception{
+	public ModelAndView exList(ModelAndView mv, Criteria cri) throws Exception{
 	    mv.setViewName("/product/list");
 	    ArrayList<ProductListVo> list;
-	    list = productService2.getProductList();
+	    list = productService2.getProductList(cri);
+	    PageMaker pm = productService2.getPageMaker(cri);
+	    
 	    mv.addObject("list", list);
+		mv.addObject("pm", pm);
 	    
 	    return mv;
 	}
@@ -70,18 +70,19 @@ public class ProductController {
 		ArrayList<ProductPriceVo> price;
 		price = productService2.getPriceList(code);
 		
-		
 		ProductImageVo image2 , image3;
 		image2 = productService2.getImage2(code,2);
 		image3 = productService2.getImage2(code,3);
 		
 		ArrayList<ReviewVo> review = reviewService.getReviewBycode(code);
+		int reviewCount = reviewService.getReviewCount(code);
 	
 		mv.addObject("productD", productD);
 		mv.addObject("pList", price);
 		mv.addObject("image2", image2);
 		mv.addObject("image3", image3);
 		mv.addObject("review", review);
+		mv.addObject("reviewCount", reviewCount);
 
 
 	    mv.setViewName("/product/detail");

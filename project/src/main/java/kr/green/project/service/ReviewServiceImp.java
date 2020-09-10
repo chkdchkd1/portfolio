@@ -69,6 +69,37 @@ public class ReviewServiceImp implements ReviewService {
 		return reviewDao.selectReviewByreviewNum(reviewNum);
 	}
 
+
+
+	@Override
+	public void updateReview(ReviewVo review) {
+		
+		ReviewVo review1 = reviewDao.selectReviewByRvNum(review.getReviewRvNum());
+		review1.setIsModify('Y');
+		review1.setContent(review.getContent());
+		reviewDao.updateReview(review1);
+		
+		
+	}
+
+
+	@Override
+	public void removeReview(int reviewNum) {
+		ReviewVo removeReview = reviewDao.selectReviewByreviewNum(reviewNum);
+		removeReview.setIsDel('Y');
+		removeReview.setDelDate(new Date());
+		reviewDao.updateReview(removeReview);
+		
+	}
+
+
+	@Override
+	public int getReviewCount(Integer code) {
+		return reviewDao.selectReviewCount(code);
+	}
+
+
+	
 	
 
 

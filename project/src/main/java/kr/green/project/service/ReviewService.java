@@ -24,6 +24,12 @@ public interface ReviewService {
 
 	ReviewVo getReviewByReviewNum(int reviewNum);
 
+	void updateReview(ReviewVo review);
+
+	void removeReview(int reviewNum);
+
+	int getReviewCount(Integer code);
+
 
 
 	

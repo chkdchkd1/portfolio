@@ -23,6 +23,10 @@ public interface ReviewDao {
 
 	ReviewVo selectReviewByreviewNum(@Param("reviewNum")int reviewNum);
 
+	void updateReview(@Param("review")ReviewVo review1);
+
+	int selectReviewCount(@Param("code")Integer code);
+
 
 
 

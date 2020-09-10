@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.green.project.pagination.Criteria;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductListVo;
 import kr.green.project.vo.ProductPriceVo;
@@ -13,7 +14,7 @@ import kr.green.project.vo.ProductImageVo;
 
 public interface ProductDao {
 
-	ArrayList<ProductListVo> selectProductList();
+	ArrayList<ProductListVo> selectProductList(@Param("cri")Criteria cri);
 
 	ProductDetailVo selectProductDetail(@Param("code")Integer code);
 
@@ -40,6 +41,8 @@ public interface ProductDao {
 	void insertImage(@Param("image")ProductImageVo image);
 
 	ArrayList<ProductListVo> selectProductList2();
+
+	int selectCountProduct();
 
 
 

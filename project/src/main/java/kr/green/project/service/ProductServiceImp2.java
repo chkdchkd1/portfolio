@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.project.dao.ProductDao;
+import kr.green.project.pagination.Criteria;
+import kr.green.project.pagination.PageMaker;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductListVo;
@@ -21,8 +23,8 @@ public class ProductServiceImp2 implements ProductService2 {
 
 	
 	@Override
-	public ArrayList<ProductListVo> getProductList() {
-		return productDao.selectProductList();
+	public ArrayList<ProductListVo> getProductList(Criteria cri) {
+		return productDao.selectProductList(cri);
 	}
 	
 	@Override
@@ -89,6 +91,15 @@ public class ProductServiceImp2 implements ProductService2 {
 	public ArrayList<ProductListVo> getProductList2() {
 		// TODO Auto-generated method stub
 		return  productDao.selectProductList2();
+	}
+
+	@Override
+	public PageMaker getPageMaker(Criteria cri) {
+		PageMaker pm = new PageMaker();
+		int totalCount = productDao.selectCountProduct();
+		pm.setCriteria(cri);
+		pm.setTotalCount(totalCount);
+		return pm;
 	}
 
 

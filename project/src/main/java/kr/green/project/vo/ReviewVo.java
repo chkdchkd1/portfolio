@@ -10,9 +10,9 @@ public class ReviewVo {
 	private String content;
 	private Date registerDate;
 	private int like;
-	private String isDel;
+	private char isDel;
 	private String reviewRvNum;
-	private String isModify;
+	private char isModify;
 	private Date delDate;
 	
 	public int getReviewNum() {
@@ -47,10 +47,10 @@ public class ReviewVo {
 	public void setLike(int like) {
 		this.like = like;
 	}
-	public String getIsDel() {
+	public char getIsDel() {
 		return isDel;
 	}
-	public void setIsDel(String isDel) {
+	public void setIsDel(char isDel) {
 		this.isDel = isDel;
 	}
 	public String getReviewRvNum() {
@@ -59,11 +59,11 @@ public class ReviewVo {
 	public void setReviewRvNum(String reviewRvNum) {
 		this.reviewRvNum = reviewRvNum;
 	}
-	public String getIsModify() {
+	public char getIsModify() {
 		return isModify;
 	}
-	public void setIsModify(String isModify) {
-		this.isModify = isModify;
+	public void setIsModify(char c) {
+		this.isModify = c;
 	}
 	public Date getDelDate() {
 		return delDate;

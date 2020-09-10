@@ -5,7 +5,7 @@
 <mapper namespace="kr.green.project.dao.ReviewDao">
 
  	<select id ="selectReviewByRvNum" resultType="kr.green.project.vo.ReviewVo">
-		SELECT *  FROM ticket.review WHERE reviewRvNum = #{rvNum};
+		SELECT *  FROM ticket.review WHERE reviewRvNum = #{rvNum} and isDel = 'N' ;
 	</select>
 
 
@@ -20,7 +20,7 @@
 		FROM ticket.review
     	join(select rvNum,gsCode from reservation) as t 
     	on reviewRvNum = rvNum
-		where gsCode = #{code}
+		where gsCode = #{code} and isDel = 'N'
 		ORDER BY reviewNum DESC
 		;
 	</select>
@@ -44,10 +44,28 @@
   </update>
   
    	<select id ="selectReviewByreviewNum" resultType="kr.green.project.vo.ReviewVo">
-		SELECT *  FROM ticket.review WHERE reviewNum = #{reviewNum};
+		SELECT *  FROM ticket.review WHERE reviewNum = #{reviewNum} and isDel = 'N' ;
 	</select>
   
-	
+	<update id="updateReview">
+  	update ticket.review
+  		set 
+  			review.content = #{review.content},
+  			review.isModify = #{review.isModify},
+  			review.isDel = #{review.isDel},
+  			review.delDate = #{review.delDate}
+  		where
+  			reviewRvNum = #{review.reviewRvNum};
+  </update>
+  
+  
+  <select id ="selectReviewCount" resultType="int">
+	SELECT count(*) 
+			FROM ticket.review
+	    	join(select rvNum,gsCode from reservation) as t 
+	    	on reviewRvNum = rvNum
+			where gsCode = #{code} and isDel = 'N';
+	</select>
         
   </mapper>
  

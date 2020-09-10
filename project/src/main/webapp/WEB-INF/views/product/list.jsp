@@ -55,3 +55,31 @@
                   		 </c:forEach>
                     </ul>
                 </div>
+                
+                <!-- 페이지네이션-->
+<div class="list-paging" style="display: block;">
+	<div class="list-pagenation">
+		<a class="list-page-first <c:if test = "${!pm.prev}">disabled</c:if>" href="<%=request.getContextPath()%>/exhibition/list?page=${pm.startPage-1}">
+ 			<img src="<%=request.getContextPath() %>/resources/image/ico-page2.png" alt="처음 페이지">
+		</a>
+	
+		<a class="list-page-prev <c:if test = "${pm.criteria.page == 1}">disabled</c:if>" href="<%=request.getContextPath()%>/exhibition/list?page=${pm.criteria.page-1}">
+			<img src="<%=request.getContextPath() %>/resources/image/ico-page1.png" alt="이전페이지">
+		</a>
+	
+		<div>
+	 	  <c:forEach var="index" begin="${pm.startPage}" end="${pm.endPage}">
+				<a class="<c:if test = "${index == pm.criteria.page}">on</c:if>" href="<%=request.getContextPath()%>/exhibition/list?page=${index}">${index}</a>
+		  </c:forEach>
+		</div>
+		<a class="list-page-next <c:if test = "${pm.criteria.page == pm.lastEndPage}">disabled</c:if>" href="<%=request.getContextPath()%>/exhibition/list?page=${pm.criteria.page+1}">
+			<img src="<%=request.getContextPath() %>/resources/image/ico-page1.png" alt="다음페이지">
+		</a>
+	
+		<a class="list-page-last <c:if test = "${!pm.next}">disabled</c:if>" href="<%=request.getContextPath()%>/exhibition/list?page=${pm.endPage+1}">
+			<img src="<%=request.getContextPath() %>/resources/image/ico-page2.png" alt="마지막 페이지">
+		</a>
+	
+	</div>
+</div>
+                
