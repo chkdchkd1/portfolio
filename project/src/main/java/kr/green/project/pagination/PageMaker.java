@@ -42,6 +42,10 @@ public class PageMaker {
 		/* 현재 페이지메이커에 마지막 페이지에 컨텐츠의 마지막이 포함되어 있으면 next가 없어야 함 */
 		next = endPage * criteria.getPerPageNum() >= totalCount ? false:true;
 		
+		if(criteria.getPage() > endPage) {
+			criteria.setPage(endPage);
+		}
+		
 			
 	}
 

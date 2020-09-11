@@ -2300,6 +2300,12 @@ table {
     font-family: Verdana;
 }
 
+.paging a.disabled{
+  pointer-events: none;
+  cursor: default;
+	
+}
+
 .mycont h2 {
     margin-bottom: 7px;
 }
@@ -2683,6 +2689,11 @@ table {
     left:0;
 
 }
+
+/*오른쪽  상단 메뉴 */
+
+	
+
 
 /* 검색창 */
 .search-box {
@@ -3147,7 +3158,31 @@ table {
     word-wrap: break-word;
 }
 
-  
+
+/* 검색리스트 */
+
+.srch-top {
+    margin: 70px auto 0 auto;
+    background: #f6f6f6;
+    text-align: center;
+    padding: 48px 0 26px 0;
+}
+
+
+.srch-top > p {
+    width: 800px;
+    margin: 0 auto;
+    font-size: 28px;
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 28px;
+    line-height: 32px;
+}
+
+.srch-top > p span {
+    color: #e8787a;
+}
+
   
    
 

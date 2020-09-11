@@ -10,21 +10,37 @@
 <body>
      <div class="codrops-container">
        <nav class="loging-box">
-         <ul>
+         <ul>	
+         	<c:if test="${user == null}">
 	           <li>
 	           		<a href="<%=request.getContextPath()%>/login">로그인</a>
 	           	</li>
 	           <li>
 	           		회원가입
 	           	</li>
-           <li>로그아웃 </li>
+	         </c:if>
+	         
+           <c:if test="${user != null}">
+           	<li>
+           	<a href="<%=request.getContextPath()%>/logout">로그아웃</a>
+           	</li>
+           	</c:if>
+          
            <li>
          	  <a href="<%=request.getContextPath()%>/admin">관리자페이지</a>
          	  </li>
+           <c:if test ="${user != null}">
            <li>회원정보</li>
-           <li><a href="<%=request.getContextPath()%>/myOrder/list">예매확인/취소</a></li>
+           <li><a class ="myOrder" href="<%=request.getContextPath()%>/myOrder/list">예매확인/취소</a></li>
+           </c:if>
          </ul>
        </nav>
      </div>
+
+<script>
+
+
+	
+</script>
 </body>
 </html>

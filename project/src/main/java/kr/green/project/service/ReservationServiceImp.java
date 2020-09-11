@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.project.dao.ReservationDao;
+import kr.green.project.pagination.Criteria;
+import kr.green.project.pagination.PageMaker;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
@@ -71,10 +73,10 @@ public class ReservationServiceImp implements ReservationService {
 	}
 
 	@Override
-	public ArrayList<ReservationListVo> getReservationList(HttpServletRequest request) {
+	public ArrayList<ReservationListVo> getReservationList(HttpServletRequest request,Criteria cri) {
 		UserVo user = (UserVo)request.getSession().getAttribute("user");
 		
-		return reservationDao.selectReservationList(user.getId());
+		return reservationDao.selectReservationList(user.getId(),cri);
 	}
 
 	@Override
@@ -105,6 +107,16 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	public ArrayList<ReservationVo> getReservation(int code, String id) {
 		return reservationDao.selectReservationByCode(code,id);
+	}
+
+	@Override
+	public PageMaker getPageMaker(Criteria cri, HttpServletRequest request) {
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		PageMaker pm = new PageMaker();
+		int totalCount = reservationDao.selectCountReservation(user.getId());
+		pm.setCriteria(cri);
+		pm.setTotalCount(totalCount);
+		return pm;
 	}
 
 

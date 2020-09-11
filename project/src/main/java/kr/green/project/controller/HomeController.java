@@ -1,5 +1,7 @@
 package kr.green.project.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +57,23 @@ public class HomeController {
 	}
 	
 	
+	@RequestMapping(value = "/logout",method = RequestMethod.GET)
+	public ModelAndView logoutGEt(ModelAndView mv, HttpServletRequest request) {
+		logger.info("URI:/logout");
+		mv.setViewName("redirect:/");
+		
+		request.getSession().removeAttribute("user");
+		
+		return mv;
+	}
+	
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public ModelAndView adminGet(ModelAndView mv) throws Exception{
 	    mv.setViewName("/admin/adminMain");
 	    return mv;
 	}
+	
+	
 	
 	
 	

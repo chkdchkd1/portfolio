@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.green.project.pagination.Criteria;
 import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
@@ -18,7 +19,7 @@ public interface ReservationDao {
 
 	int selectReserved(@Param("code")int i, @Param("date")String parameter2, @Param("round")int j);
 
-	ArrayList<ReservationListVo> selectReservationList(@Param("user")String id);
+	ArrayList<ReservationListVo> selectReservationList(@Param("user")String id, @Param("cri")Criteria cri);
 
 	Reservation2Vo selectReservationDetail(@Param("num")String num);
 
@@ -29,6 +30,8 @@ public interface ReservationDao {
 	void updateReservation(@Param("reservation")ReservationVo reservation);
 
 	ArrayList<ReservationVo> selectReservationByCode(@Param("code")int code, @Param("user")String id);
+
+	int selectCountReservation(@Param("user")String string);
 
 
 	

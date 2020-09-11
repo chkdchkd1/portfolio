@@ -126,11 +126,33 @@
     where goodsMainCode = #{code};
       </select>
       
-           <insert id="insertImage">
+     <insert id="insertImage">
     insert into 
 	goodsimage(goodsInfoNum,file,pLocation)
     values(#{image.goodsInfoNum},#{image.file},#{image.pLocation});
     </insert>
+    
+    <select id="selectSearchResultFromProduct" resultType="kr.green.project.vo.ProductListVo">
+    	select genre, goods.code, title, startDate, endDate, place, type, price, file, isOver
+		from goods
+			join (select * from goodsdetail ) as t
+		    on goods.code = goodsMainCode
+		    join (select * from goodsimage where pLocation = 1 ) as i
+		    on infoNum = goodsInfoNum
+		   join (select * from goodsprice where goodsprice.type = '성인' or goodsprice.type = '일반' or goodsprice.type = '주중 일반' or goodsprice.type = '주중 성인') as p
+		    on goods.code = gooCode
+		where title like concat('%',#{cri.search},'%')
+			limit #{cri.pageStart},#{cri.perPageNum};
+    
+    	</select>
+    	
+    <select id = "selectCountResultProduct" resultType ="int">
+    select count(*)
+		from goods
+        	join (select * from goodsdetail ) as t
+		    on goods.code = goodsMainCode
+		where title like concat('%',#{cri.search},'%');
+   </select>
         
   </mapper>
  

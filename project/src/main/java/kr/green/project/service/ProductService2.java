@@ -35,9 +35,15 @@ public interface ProductService2 {
 
 	void registerImage(ProductImageVo image, int i);
 
-	ArrayList<ProductListVo> getProductList2();
+	ArrayList<ProductListVo> getProductList2(Criteria cri);
 
 	PageMaker getPageMaker(Criteria cri);
+
+	PageMaker getPageMaker2(Criteria cri);
+
+	ArrayList<ProductListVo> getSearchResultfromProduct(Criteria cri);
+
+	PageMaker getPageMaker3(Criteria cri);
 
 
 

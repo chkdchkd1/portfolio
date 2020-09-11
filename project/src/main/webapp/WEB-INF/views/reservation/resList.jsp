@@ -102,9 +102,19 @@
                                 	</c:forEach>
                             </tbody>
                         </table>
-                        <input id="hiddenTicketTotal" type="hidden" value="3"></div>
                         <div class="paging">
-                            <img src="<%=request.getContextPath()%>/resources/image/btn_pre.gif" alt="이전목록"><a class="on"><span>1</span></a><span class="bunch">(<strong>1</strong>/1)</span><img src="<%=request.getContextPath()%>/resources/image/btn_next.gif" alt="다음목록">
+                            <a class="<c:if test = "${pm.criteria.page == 1}">disabled</c:if>" href="<%=request.getContextPath()%>/myOrder/list?page=${pm.criteria.page-1}" >
+                            <img src="<%=request.getContextPath()%>/resources/image/btn_pre.gif" alt="이전목록" >
+                            </a>
+                           	<a class="on">
+                        			<span>${pm.criteria.page}</span>
+                           	</a>
+                           	<span class="bunch">
+                           		(<strong>${pm.criteria.page}</strong>/${pm.lastEndPage})
+                           	</span>
+                           	<a class="<c:if test = "${pm.criteria.page == pm.lastEndPage}">disabled</c:if>" href="<%=request.getContextPath()%>/myOrder/list?page=${pm.criteria.page+1}">
+                            	<img src="<%=request.getContextPath()%>/resources/image/btn_next.gif" alt="다음목록">
+                            </a>
                         </div>
                     </div>
                     <div class="mycont">
@@ -120,3 +130,4 @@
                         </div>
                     </div>
                 </div>
+               </div>

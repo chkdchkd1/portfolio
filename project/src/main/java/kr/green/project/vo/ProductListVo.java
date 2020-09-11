@@ -9,6 +9,7 @@ public class ProductListVo {
 	private String place;
 	private int price;
 	private String file;
+	private char isOver;
 	
 	
 	public int getCode() {
@@ -59,11 +60,22 @@ public class ProductListVo {
 	public void setFile(String file) {
 		this.file = file;
 	}
+	
+	
+	public char getIsOver() {
+		return isOver;
+	}
+	public void setIsOver(char isOver) {
+		this.isOver = isOver;
+	}
 	@Override
 	public String toString() {
 		return "ProductListVo [code=" + code + ", title=" + title + ", genre=" + genre + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", place=" + place + ", price=" + price + ", file=" + file + "]";
+				+ ", endDate=" + endDate + ", place=" + place + ", price=" + price + ", file=" + file + ", isOver="
+				+ isOver + "]";
 	}
+	
+	
 	
 	
 	

@@ -5,11 +5,13 @@ public class Criteria {
 	private int page;
 	//현재페이지
 	private int perPageNum;
+	private String search;
+	
 	
 	
 	public Criteria() {
 		page = 1;
-		perPageNum = 4;
+		perPageNum = 8;
 	}
 	public int getPage() {
 		return page;
@@ -33,9 +35,17 @@ public class Criteria {
 	public int getPageStart () {
 		return (page - 1)*perPageNum;
 	}
+	
+	
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + "]";
+		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", search=" + search + "]";
 	}
 	
 	

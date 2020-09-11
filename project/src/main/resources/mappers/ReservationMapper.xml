@@ -30,8 +30,24 @@ where useStart = #{date} and roundNum = #{round}  and gsCode = #{code};
     WHERE rvDate BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() 
     and rvId = #{user}
     group by rvDate
-    HAVING COUNT(*)>=1;
+    HAVING COUNT(*)>=1
+    limit #{cri.pageStart},#{cri.perPageNum};
 
+ </select>
+ 
+ <select id = "selectCountReservation" resultType="int">
+ select count(*) as cnt
+from (
+	SELECT rvDate
+		from reservation
+		WHERE 
+		rvDate BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() 
+		and
+		rvId = #{user}
+		group by rvDate
+		HAVING COUNT(*)>=1
+) as c ;
+ 
  </select>
   
   <select id ="selectReservationDetail" resultType="kr.green.project.vo.Reservation2Vo">

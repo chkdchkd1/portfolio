@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.project.pagination.Criteria;
+import kr.green.project.pagination.PageMaker;
 import kr.green.project.service.ProductService2;
 import kr.green.project.service.ReservationService;
 import kr.green.project.vo.ProductDetailVo;
@@ -65,11 +67,13 @@ public class ReservationController {
 	
 	
 	@RequestMapping(value = "/myOrder/list", method = RequestMethod.GET)
-	public ModelAndView MyreservationList(ModelAndView mv , HttpServletRequest request ) throws Exception{
+	public ModelAndView MyreservationList(ModelAndView mv , HttpServletRequest request,Criteria cri ) throws Exception{
 	    mv.setViewName("/reservation/resList");
 	    ArrayList<ReservationListVo> list;
-	    list = reservationService.getReservationList(request);
+	    list = reservationService.getReservationList(request,cri);
+	    PageMaker pm = reservationService.getPageMaker(cri,request);
 	    mv.addObject("list", list);
+	    mv.addObject("pm", pm);
 	    return mv;
 	}
 	

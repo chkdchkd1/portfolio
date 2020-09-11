@@ -87,16 +87,41 @@ public class ProductServiceImp2 implements ProductService2 {
 		
 	}
 
-	@Override
-	public ArrayList<ProductListVo> getProductList2() {
-		// TODO Auto-generated method stub
-		return  productDao.selectProductList2();
-	}
+	
 
 	@Override
 	public PageMaker getPageMaker(Criteria cri) {
 		PageMaker pm = new PageMaker();
 		int totalCount = productDao.selectCountProduct();
+		pm.setCriteria(cri);
+		pm.setTotalCount(totalCount);
+		return pm;
+	}
+
+	@Override
+	public ArrayList<ProductListVo> getProductList2(Criteria cri) {
+		// TODO Auto-generated method stub
+		return productDao.selectProductList2(cri);
+	}
+	
+	@Override
+	public PageMaker getPageMaker2(Criteria cri) {
+		PageMaker pm = new PageMaker();
+		int totalCount = productDao.selectCountProduct2();
+		pm.setCriteria(cri);
+		pm.setTotalCount(totalCount);
+		return pm;
+	}
+
+	@Override
+	public ArrayList<ProductListVo> getSearchResultfromProduct(Criteria cri) {
+		return productDao.selectSearchResultFromProduct(cri);
+	}
+
+	@Override
+	public PageMaker getPageMaker3(Criteria cri) {
+		PageMaker pm = new PageMaker();
+		int totalCount = productDao.selectCountResultProduct(cri);
 		pm.setCriteria(cri);
 		pm.setTotalCount(totalCount);
 		return pm;

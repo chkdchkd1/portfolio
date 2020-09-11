@@ -40,9 +40,15 @@ public interface ProductDao {
 
 	void insertImage(@Param("image")ProductImageVo image);
 
-	ArrayList<ProductListVo> selectProductList2();
+	ArrayList<ProductListVo> selectProductList2(@Param("cri")Criteria cri);
 
 	int selectCountProduct();
+
+	int selectCountProduct2();
+
+	ArrayList<ProductListVo> selectSearchResultFromProduct(@Param("cri") Criteria cri);
+
+	int selectCountResultProduct(@Param("cri")Criteria cri);
 
 
 

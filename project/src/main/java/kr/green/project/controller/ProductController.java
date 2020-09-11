@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,7 +47,6 @@ public class ProductController {
 	private ReviewService reviewService;
 	
 	
-
 //	@Resource
 	private String uploadPath = "C:\\Users\\Administrator\\Desktop\\upload";
 //	
@@ -56,14 +56,13 @@ public class ProductController {
 	    ArrayList<ProductListVo> list;
 	    list = productService2.getProductList(cri);
 	    PageMaker pm = productService2.getPageMaker(cri);
-	    
 	    mv.addObject("list", list);
 		mv.addObject("pm", pm);
 	    
 	    return mv;
 	}
 	
-	@RequestMapping(value = "/exhibition/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
 	public ModelAndView exDetail(ModelAndView mv, Integer code) throws Exception{
 		ProductDetailVo productD = productService2.getProductDetail(code);
 		
@@ -91,11 +90,14 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/event/list", method = RequestMethod.GET)
-	public ModelAndView eventList(ModelAndView mv) throws Exception{
+	public ModelAndView eventList(ModelAndView mv, Criteria cri) throws Exception{
 	    mv.setViewName("/product/list");
 	    ArrayList<ProductListVo> list;
-	    list = productService2.getProductList2();
+	    list = productService2.getProductList2(cri);
+	    PageMaker pm = productService2.getPageMaker2(cri);
+	    
 	    mv.addObject("list", list);
+	    mv.addObject("pm", pm);
 	    
 	    return mv;
 	}
@@ -177,6 +179,27 @@ public class ProductController {
 	 	System.out.println(quantity);
 	    return quantity;
 	}
+	
+	
+	// 검색 결과 
+	
+	
+	@RequestMapping(value ="/goods")
+	public ModelAndView searchResult(ModelAndView mv, Criteria cri){
+	
+		ArrayList<ProductListVo> resultList = productService2.getSearchResultfromProduct(cri);
+	
+		PageMaker pm = productService2.getPageMaker3(cri);
+
+		mv.addObject("resultList", resultList);
+		mv.addObject("pm", pm);
+
+		mv.setViewName("/product/searchresult");
+		System.out.println(resultList);
+	    return mv;
+	}
+	
+	
 	
 
 	
