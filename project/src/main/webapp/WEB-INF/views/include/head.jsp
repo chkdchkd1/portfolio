@@ -17,4 +17,10 @@
  
 <!-- 전체 js -->
 <script src="<%=request.getContextPath() %>/resources/js/side.js"></script>
+
+<!-- summernote -->
+<script src="<%=request.getContextPath() %>/resources/summernote/summernote-lite.js"></script>
+<script src="<%=request.getContextPath() %>/resources/summernote-ko-KR.js"></script>
+
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/summernote/summernote-lite.css">
  

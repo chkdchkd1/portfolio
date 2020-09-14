@@ -18,7 +18,7 @@
                 <li class="nav-item"><a href="<%= request.getContextPath()%>/" class="nav-link"><span>메인페이지</span></a></li>
                 <li class="nav-item"><a href="<%= request.getContextPath()%>/exhibition/list" class="nav-link"><span>전시</span></a></li>
                 <li class="nav-item"><a href="<%= request.getContextPath()%>/event/list" class="nav-link"><span>행사 / 축제</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><span>티켓오픈공지</span></a></li>
+                <li class="nav-item"><a href="<%= request.getContextPath()%>/notice/list" class="nav-link"><span>공지사항</span></a></li>
                 <li>
                 	<span class="nav-text">예매 정보</span>
                     <ul>

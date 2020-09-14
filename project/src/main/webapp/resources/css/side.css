@@ -3183,8 +3183,392 @@ table {
     color: #e8787a;
 }
 
-  
-   
+
+
+/* 티켓오픈 게시판 등록폼*/ 
+
+
+#fName{
+	color: #999;
+    font-size: 12px;
+    width: 330px;
+    height: 17px;
+    border:none;
+	padding:3px 0 2px 20px;
+	line-height:12px;
+	margin-top:10px;
+	
+} 
+
+#cateType{
+	width: 90;
+    height: 38px;
+    text-indent: 5px;
+    border: solid 1px #ebebeb;
+    border-top-color: #d8d8d8;
+    border-left-color: #d8d8d8;
+}
+
+.xb_size.cate-on tr:nth-child(3),.xb_size.cate-on tr:nth-child(4),
+.xb_size.cate-on tr:nth-child(5),.xb_size.cate-on tr:nth-child(6),
+.xb_size.cate-on tr:nth-child(7),.xb_size.cate-on tr:nth-child(8){
+	display:none;
+}
+
+.xb_size tr:nth-child(9){
+	display:none;
+}
+
+
+.xb_size.cate-on tr:nth-child(9){
+	display:table-row;
+}
+ 
+
+
+/* 티켓오픈 게시판 리스트  */
+
+.content-min-wrap {
+    overflow: hidden;
+    padding-bottom: 100px;
+    padding-top: 50px;
+}
+
+.category {
+    width: 1100px;
+    margin: 0 auto;
+    font-size: 0;
+    position: relative;
+}
+
+.category > a {
+    display: inline-block;
+    font-size: 14px;
+    color: #888;
+    margin-right: 30px;
+    height: 50px;
+    line-height: 50px;
+    border-top: 3px solid #fff;
+    position: relative;
+}
+
+.notice-srch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 290px;
+    height: 41px;
+    border: 1px solid #333;
+    font-size: 0;
+}
+
+.notice-srch input {
+    display: inline-block;
+    border: 0 none;
+    padding: 0;
+    margin-left: 15px;
+    width: 235px;
+    height: 41px;
+    line-height: 41px;
+    font-size: 14px;
+    color: #999;
+    vertical-align: top;
+    outline:none;
+}
+
+.notice-srch a {
+    display: inline-block;
+    width: 40px;
+    height: 41px;
+    background: url(http://tkfile.yes24.com/imgNew/common/pf-srch-w.png)no-repeat center center;
+    vertical-align: top;
+    font-size: 0;
+    text-decoration: none;
+    outline: none;
+    color: inherit;
+}
+
+.noti-tbl {
+    width: 1100px;
+    margin: 0 auto 37px auto;
+    border-bottom: 1px solid #999;
+}
+
+.noti-tbl table {
+    width: 100%;
+    border-spacing:0;
+}
+
+.noti-tbl th {
+    height: 49px;
+    line-height: 49px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    background: #f6f6f6;
+    border-top: 2px solid #333;
+}
+
+.noti-tbl th:nth-child(3) {
+    text-align: left;
+    text-indent: 73px;
+}
+
+.noti-tbl td:nth-child(1) {
+    text-align: center;
+}
+.noti-tbl td {
+    font-size: 14px;
+    color: #333;
+    border-top: 1px solid #ddd;
+    min-height: 22px;
+    padding: 19px 0 17px 0;
+    vertical-align: middle;
+}
+
+.noti-tbl td:nth-child(2) a {
+    display: table;
+    font-size: 14px;
+    color: #333;
+    line-height: 22px;
+    padding-right: 10px;
+}
+
+.noti-tbl td:nth-child(2) a em {
+    display: table-cell;
+    min-width: 71px;
+    vertical-align: middle;
+}
+
+.noti-tbl td:nth-child(3) {
+    text-indent: 45px;
+}
+
+.noti-tbl td:nth-child(4) {
+    text-align: center;
+}
+
+
+
+
+
+/* 티켓오픈 게시판 디테일 */
+
+.noti-view-tit {
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+    min-height: 22px;
+    padding: 24px 0 21px 0;
+    position: relative;
+    width: 1100px;
+    margin: 0 auto;
+}
+
+.noti-view-tit .noti-tit-tag01 {
+    color: #e8787a;
+    border: 1px solid #e8787a;
+}
+.noti-view-tit > span {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 9px;
+    font-size: 12px;
+    vertical-align: top;
+    margin-right: 20px;
+}
+
+.noti-view-tit > p {
+    display: inline-block;
+    font-size: 17px;
+    color: #333;
+    width: 850px;
+    line-height: 22px;
+}
+
+.noti-view-date {
+    height: 60px;
+    line-height: 60px;
+    text-align: right;
+    width: 1100px;
+    margin: 0 auto;
+}
+
+.noti-view-date span {
+    font-size: 13px;
+    color: #999;
+    margin-left: 24px;
+    margin-right: 24px;
+    position: relative;
+}
+
+
+.noti-view-ticket {
+    width: 1100px;
+    margin: 0 auto 60px auto;
+    background: #f6f6f6;
+    position: relative;
+}
+
+.noti-vt-layout {
+    overflow: hidden;
+    padding: 62px 0 62px 60px;
+}
+
+.noti-vt-left {
+    float: left;
+    width: 180px;
+    height: 252px;
+    margin-right: 60px;
+}
+
+.noti-vt-left img {
+    width: 100%;
+}
+
+.noti-vt-right {
+    float: left;
+    width: 770px;
+}
+
+.noti-vt-tit {
+    font-size: 17px;
+    color: #333;
+    padding-top: 50px;
+    height: 28px;
+    margin-bottom: 22px;
+}
+
+.noti-vt-box {
+    display: table;
+    width: 100%;
+    padding-top: 1px;
+    height: 119px;
+    margin-bottom: 28px;
+}
+
+.noti-vt-box > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.noti-vt-box > div div {
+    border: 1px solid #999;
+    margin-top: -1px;
+    height: 58px;
+    font-size: 17px;
+    font-weight: 700;
+}
+.noti-vt-open {
+    background: #fbe5d5;
+}
+
+.noti-vt-box > div div span:nth-child(1) {
+    display: inline-block;
+    width: 175px;
+    height: 58px;
+    line-height: 58px;
+    text-align: center;
+    position: relative;
+    font-size: 15px;
+    margin-right: 44px;
+    font-weight: normal;
+}
+
+.noti-vt-box > div div span:nth-child(1) em {
+    display: inline-block;
+    height: 22px;
+    /*line-height: 22px;*/
+    padding-left: 32px;
+    color: #333;
+   /*background: url(http://tkfile.yes24.com/imgNew/sub/ico-rp-tko1.png)no-repeat;*/
+    background-size: auto 100%;
+    font-size:17px;
+}
+
+.noti-view-con {
+    border-bottom: 1px solid #999;
+    width: 1100px;
+    margin: 0 auto;
+}
+
+.noti-view-coment {
+    border-top: 1px solid #ddd;
+    padding: 60px 0;
+}
+
+.noti-view-comen-tit {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 35px;
+}
+
+.noti-view-comen-txt {
+    font-size: 13px;
+    color: #666;
+    line-height: 26px;
+}
+
+.noti-view-control {
+    width: 1100px;
+    margin: 60px auto 0 auto;
+    text-align: center;
+    overflow: hidden;
+}
+
+.noti-view-control a.noti-list {
+    width: 150px;
+    height: 48px;
+    line-height: 48px;
+    border: 1px solid #ddd;
+}
+.noti-view-control a {
+    display: inline-block;
+    font-size: 15px;
+    color: #000;
+}
+
+
+.noti-vt-box > div div span:nth-child(1):after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 14px;
+    background: #ccc;
+    position: absolute;
+    right: -1px;
+    top: 23px;
+}
+
+
+
+/* 상품관리 수정 버튼 */
+
+.btn-product-m{
+    width: 50px;
+    height: 28px;
+    line-height: 28px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    font-size: 13px;
+    color: #000;
+}
+
+.btn-product-m2{
+display: inline-block;
+    width: 60px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 15px;
+    margin-right: 10px;
+    border: 2px solid #333;
+    color: #333;
+    background: #fff;
+    float: right;
+    font-weight: bold;
+}
 
 /* 메인화면 슬라이더 */
 

@@ -12,7 +12,9 @@ public class Criteria {
 	public Criteria() {
 		page = 1;
 		perPageNum = 8;
+		search ="";
 	}
+	
 	public int getPage() {
 		return page;
 	}

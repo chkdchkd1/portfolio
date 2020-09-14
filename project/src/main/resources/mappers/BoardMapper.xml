@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.green.project.dao.BoardDao">
+
+    <insert id="insertNotice">
+    insert 
+    	into goodsopen(cateType, openTitle,openDate,openProduct,productInfo,enterInfo,priceInfo,noticeInfo,openImage)
+    	values (#{notice.cateType},#{notice.openTitle},#{notice.openDate},
+    			#{notice.openProduct},#{notice.productInfo},#{notice.enterInfo},#{notice.priceInfo},#{notice.noticeInfo},#{notice.openImage});
+   </insert>
+   
+    <select id="selectNoticeList" resultType="kr.green.project.vo.NoticeVo">
+ 	
+	 	select * from goodsopen
+	 		where ( openTitle like concat('%',#{cri.search},'%')
+				or openDate like  concat('%',#{cri.search},'%')
+                or openProduct like  concat('%',#{cri.search},'%')
+                or productInfo like  concat('%',#{cri.search},'%')
+                or enterInfo like  concat('%',#{cri.search},'%')
+                or noticeInfo like  concat('%',#{cri.search},'%')
+                )
+		  	order by boOpenNum desc 
+  	  limit #{cri.pageStart},#{cri.perPageNum}
+  </select>
+  
+  
+    <select id="selectNoticeByNum" resultType="kr.green.project.vo.NoticeVo">
+ 	
+	SELECT * FROM ticket.goodsopen
+  	  where 
+  	  	boOpenNum = #{num};
+  </select>
+  
+    <update id="updateNotice">
+  	update goodsopen
+  		set 
+  			openViews = #{notice.openViews}
+  		where
+  			boOpenNum = #{notice.boOpenNum}
+ </update>
+ 
+ <select id ="selectTotalCount" resultType="int">
+ 		select count(*) from goodsopen
+		where ( openTitle like concat('%',#{cri.search},'%')
+				or openDate like  concat('%',#{cri.search},'%')
+                or openProduct like  concat('%',#{cri.search},'%')
+                or productInfo like  concat('%',#{cri.search},'%')
+                or enterInfo like  concat('%',#{cri.search},'%')
+                or noticeInfo like  concat('%',#{cri.search},'%')
+                );
+ 
+ </select>
+  
+  </mapper>
+ 

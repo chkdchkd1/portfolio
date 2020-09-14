@@ -1,6 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+   
+  <style>
+  	.adminMenu-box a{
+  	color : #7f807d;
+  	font-size: 35px;
+  	}
+  </style>
  
  <div class="adminMenu-box">
                     <ul>
@@ -26,8 +33,10 @@
                     		</li>
                     		  <li>
                    		  <div style="margin-top: 20px">
-                   		  		<i class="fas fa-bullhorn"></i><br>
-                            	<span style="margin-top: 5px;">공지등록</span>
+                   			<a href="<%=request.getContextPath()%>/admin/notice">                   		  
+                   		  			<i class="fas fa-bullhorn"></i><br>
+                            		<span style="margin-top: 5px;">공지등록</span>
+                            	</a>
                            	 </div>
                     		</li>
 
