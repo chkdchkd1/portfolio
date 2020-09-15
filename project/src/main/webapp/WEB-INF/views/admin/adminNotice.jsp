@@ -44,7 +44,7 @@
                                                 <td>
                                                     ${notice.openDate}</td>
                                                 <td>
-                                                    <a href="#" class="btn-product-m">수정</a>
+                                                    <a href="<%=request.getContextPath()%>/admin/noticeModify?num=${notice.boOpenNum}" class="btn-product-m">수정</a>
                                                 </td>
                                             </tr>
                                             </c:forEach>
@@ -52,7 +52,7 @@
                                     </tbody>
                                 </table>                            
                             </div>
-                            <a href="<%=request.getContextPath()%>/notice/Register" class="btn-product-m2">등록</a>
+                            <a href="<%=request.getContextPath()%>/notice/noticeRegister" class="btn-product-m2">등록</a>
                         </div>
                         <!-- 페이지네이션 -->
                         <div class="list-paging" style="display: block;">

@@ -3197,6 +3197,8 @@ table {
 	padding:3px 0 2px 20px;
 	line-height:12px;
 	margin-top:10px;
+	outline:none;
+	text-overflow: ellipsis;
 	
 } 
 
@@ -3569,6 +3571,156 @@ display: inline-block;
     float: right;
     font-weight: bold;
 }
+
+.del_file {
+    padding: 4px 4px 3px;
+    width: 9px;
+    height: 9px;
+    text-indent: 0 !important;
+}
+
+.del_file .ico_del {
+    width: 9px;
+    height: 9px;
+    background-position: -240px -240px;
+}
+
+.bgYUI {
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    overflow: hidden;
+    text-align: left;
+    text-indent: -999em;
+    background-image: url('../image/bgYUI.png');
+}
+
+
+/* qna게시판 */
+
+
+.noti-tbl tr .no-text-indent{
+    text-align: center;
+    text-indent: 0;
+}
+
+
+.mgz-view-cmarea {
+    width: 1100px;
+    margin: 0 auto 58px auto;
+    /* border: 1px solid #ddd; */
+    padding: 120px 20px;
+    padding-top:0px;
+}
+.mgz-view-textarea {
+    width: calc(90% - 10px);;
+    height: 108px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+}
+
+.mgz-view-textarea textarea {
+    font-size: 15px;
+    line-height: 20px;
+    border: 0 none;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    width: 831px;
+    height: 68px;
+    float: left;
+    resize: none;
+    font-family: 'NanumBarunGothic', '맑은 고딕', 'Malgun Gothic', sans-serif;
+    /* outline:none; */
+}
+
+.mgz-view-textarea a {
+    display: block;
+    height: 108px;
+    line-height: 108px;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    background: #ccc;
+    float: right;
+    width: 108px;
+}
+.mgz-view-textarea .mgz-view-textnum {
+    position: absolute;
+    font-size: 12px;
+    color: #ddd;
+    bottom: 13px;
+    right: 218px;
+}
+
+.mgz-view-textarea .mgz-view-textnum span {
+    color: #ddd;
+}
+
+.mgz-view-comens {
+    margin: 59px 0 34px 0;
+    border-top: 1px solid #ddd;
+    
+}
+
+.mgz-view-comens li {
+    border-bottom: 1px solid #ddd;
+    padding: 23px 0 14px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.mgz-view-comens li .mgz-view-cmperson {
+    font-size: 13px;
+    margin-bottom: 24px;
+}
+
+.mgz-view-comens li .mgz-view-cmperson em {
+    padding-right: 20px;
+    position: relative;
+}
+
+.mgz-view-comens li .mgz-view-cmchat {
+    line-height: 25px;
+}
+
+
+/* qna 등록 폼 */
+
+
+.pwCheck{
+display:none;
+}
+
+
+.pwCheck + label span {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: -2px 10px 0 0;
+  vertical-align: middle;
+  background: url('../image/checkbox.svg') left top no-repeat;
+  cursor: pointer;
+  background-size: cover;
+}
+
+
+
+
+
+.pwCheck:checked + label span {
+
+  background:url('../image/checkbox.svg')  -26px top no-repeat;
+  background-size: cover;
+
+}
+
+
+
+
 
 /* 메인화면 슬라이더 */
 

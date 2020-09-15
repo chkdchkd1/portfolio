@@ -26,7 +26,7 @@
                         <li class="nav-item2"><a href="#" class="nav-link">지역별 예매</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a href="#" class="nav-link"><span>고객센터</span></a>
+                <li class="nav-item"><a href="<%= request.getContextPath()%>/help/list" class="nav-link"><span>고객센터</span></a>
             </ul>
           </div>
 <script>

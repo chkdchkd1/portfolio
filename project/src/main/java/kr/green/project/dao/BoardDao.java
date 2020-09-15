@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.green.project.pagination.Criteria;
 import kr.green.project.vo.NoticeVo;
+import kr.green.project.vo.QnAVo;
 
 public interface BoardDao {
 
@@ -18,5 +19,9 @@ public interface BoardDao {
 	void updateNotice(@Param("notice")NoticeVo notice);
 
 	int selectTotalCount(@Param("cri")Criteria cri);
+
+	void insertQnA(@Param("qna")QnAVo qna);
+
+	ArrayList<QnAVo> selectQnA();
 
 }

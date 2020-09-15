@@ -10,6 +10,7 @@ import kr.green.project.dao.BoardDao;
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
 import kr.green.project.vo.NoticeVo;
+import kr.green.project.vo.QnAVo;
 
 @Service
 public class BoardServiceImp implements BoardService {
@@ -47,6 +48,26 @@ public class BoardServiceImp implements BoardService {
 		pm.setCriteria(cri);
 		pm.setTotalCount(totalCount);
 		return pm;
+	}
+
+	@Override
+	public void updateNotice(NoticeVo notice) {
+		boardDao.updateNotice(notice);
+		
+	}
+
+	@Override
+	public void registerQnA(QnAVo qna) {
+		qna.setBoardDate(new Date());
+		boardDao.insertQnA(qna);
+		
+	}
+
+	@Override
+	public ArrayList<QnAVo> getHelpList() {
+		
+		return boardDao.selectQnA();
+		
 	}
 	    
 

@@ -36,6 +36,15 @@
     <update id="updateNotice">
   	update goodsopen
   		set 
+  			cateType = #{notice.cateType},
+  			openTitle = #{notice.openTitle},
+  			openDate = #{notice.openDate},
+  			openProduct = #{notice.openProduct},
+  			productInfo = #{notice.productInfo},
+  			priceInfo = #{notice.priceInfo},
+  			enterInfo = #{notice.enterInfo},
+  			noticeInfo = #{notice.noticeInfo},
+  			openImage = #{notice.openImage},
   			openViews = #{notice.openViews}
   		where
   			boOpenNum = #{notice.boOpenNum}
@@ -52,6 +61,19 @@
                 );
  
  </select>
+ 
+ 
+   <insert id="insertQnA">
+    insert 
+    	into ticket.qna(boardTitle, boardDate,boardWriter,boardContent,boardPw,usePw)
+    	values (#{qna.boardTitle},#{qna.boardDate},
+    			#{qna.boardWriter},#{qna.boardContent},#{qna.boardPw},#{qna.usePw});
+   </insert>
+   
+ <select id = "selectQnA" resultType="kr.green.project.vo.QnAVo">
+ 	SELECT * FROM ticket.qna;
+ </select>
+ 
   
   </mapper>
  

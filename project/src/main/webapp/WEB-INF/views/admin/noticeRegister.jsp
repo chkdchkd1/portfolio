@@ -67,7 +67,7 @@
 	                                           </label>                                       
 	                                       </div>
 	                                       <input type="file" name="file1" id="fileElem1" style="display: none;">
-	                                       <input type="text" name="fName" id="fName">
+	                                       <input type="text" name="fName" id="fName" readonly>
                                    </div>
                                </div>
                            </td>
@@ -128,10 +128,9 @@
 
 
 function RegisterSubmit(){
-	
 
 	var form = document.RegisterForm;
-	form.action = '<%=request.getContextPath()%>/notice/Register';
+	form.action = '<%=request.getContextPath()%>/admin/noticeRegister';
 	form.submit();
 
 }
