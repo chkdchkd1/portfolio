@@ -35,7 +35,6 @@ public class ReviewServiceImp implements ReviewService {
 		review.setWriter(user.getId());
 		review.setContent(content);
 		review.setReviewRvNum(reviewRvNum);
-		review.setRegisterDate(new Date());
 		
 		reviewDao.insertReview(review);
 		

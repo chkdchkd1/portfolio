@@ -24,4 +24,8 @@ public interface BoardDao {
 
 	ArrayList<QnAVo> selectQnA();
 
+	QnAVo selectHelpByNum(@Param("num")Integer num);
+
+	void updateQnA(@Param("qna")QnAVo qna);
+
 }

@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -33,30 +32,38 @@
                                         <th scope="col">조회수</th>
                                     
                                     </tr>
-                                        
+                                        <c:forEach var="qna" items="${qna}">
                                             <tr>
                                                 <td>
-                                                    1
+                                                    ${qna.boardNum}
                                                 </td>
                                                 <td>
-                                                    <a href="<%=request.getContextPath()%>/help"><em>예매 관련 문의</em></a>
+                                                    <c:if test="${qna.usePw == 'Y'.charAt(0)}">
+                                                    	<i class="fas fa-lock" style="float: left;margin-right: 5px;margin-top: 2px;"></i>
+                                                    	<c:if test="${user.id == qna.boardWriter}">
+                                                    		<a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}</em></a></c:if>
+                                                    	<c:if test="${user.id !=  qna.boardWriter}">
+                                                    		<a href="<%=request.getContextPath()%>/help/checkBoardPw?num=${qna.boardNum}"><em>${qna.boardTitle}</em></a></c:if>
+                                                    </c:if>
+                                                    <c:if test="${qna.usePw == 'N'.charAt(0)}"><a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}</em></a></c:if>
                                                 </td>
                                                 <td class="no-text-indent">
-                                                    xxxxx
+                                                    ${qna.boardWriter}
                                                 </td>
                                                 <td>
-                                                    2020.09.15</td>
+                                                    ${qna.boardDate}</td>
                                                 <td class="no-text-indent">
-                                                    197
+                                                    ${qna.views}
                                                 </td>
                                             </tr>
+                                            </c:forEach>
                                         
                                             
                                     </tbody>
                                 </table>                                                            
                             </div>
                         </div>
-                                         	<a href="<%=request.getContextPath()%>/help/register" class="btn-product-m2">등록</a>
+                     	<c:if test="${user != null}"><a href="<%=request.getContextPath()%>/help/register" class="btn-product-m2">등록</a></c:if>
                         
                         <!-- 페이지네이션 -->
                     </div>

@@ -2,6 +2,7 @@ package kr.green.project.service;
 
 import java.util.ArrayList;
 
+
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
 import kr.green.project.vo.NoticeVo;
@@ -22,6 +23,10 @@ public interface BoardService {
 	void registerQnA(QnAVo qna);
 
 	ArrayList<QnAVo> getHelpList();
+
+	QnAVo getHelpDetail(Integer num);
+
+	void updateQnA(QnAVo qna);
 
 
 

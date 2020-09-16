@@ -4,15 +4,21 @@ package kr.green.project.controller;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.mysql.cj.Session;
 
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
@@ -47,8 +53,6 @@ public class BoardController {
 		PageMaker pm = boardService.getPageMaker(cri);
 
 		ArrayList<NoticeVo> noticelist = boardService.getNoticeList(cri);
-		System.out.println(noticelist);
-		System.out.println(cri.getSearch());
 		
 		mv.setViewName("/admin/adminNotice");
 	    mv.addObject("list", noticelist);
@@ -144,32 +148,109 @@ public class BoardController {
 	
 	
 	@RequestMapping(value = "/help/list", method = RequestMethod.GET)
-	public ModelAndView helpList(ModelAndView mv) throws Exception{
+	public ModelAndView helpList(ModelAndView mv,HttpServletRequest request) throws Exception{
 	    
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
 		ArrayList<QnAVo> qna = boardService.getHelpList();
-		System.out.println(qna);
-
+		mv.addObject("qna", qna);
+		mv.addObject("user", user);
 		mv.setViewName("/board/qnaList");
 	  	    
 	    return mv;
 	}
 	
-	
-	@RequestMapping(value = "/help", method = RequestMethod.GET)
-	public ModelAndView helpDetail(ModelAndView mv,Integer num) throws Exception{
+	@RequestMapping(value = "/help/checkBoardPw", method = RequestMethod.GET)
+	public ModelAndView checkBoardPw(ModelAndView mv, Integer num, HttpServletRequest request) throws Exception{
 	    
-		mv.setViewName("/board/qna");
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		if(user == null) {
+			mv.setViewName("redirect:/help/list");
+		} else {
+			mv.addObject("num", num);
+			mv.setViewName("/board/qnaPwForm");
+		}
 	  	    
 	    return mv;
 	}
 	
 	
+	@RequestMapping(value ="/checkBoardPw", method = RequestMethod.POST)
+	@ResponseBody
+	public int checkBoardPw(@RequestBody @RequestParam int num, @RequestParam String pw, HttpServletRequest request){ 		
+
+		HttpSession session = request.getSession();
+		String sucess = "sucess";
+		String fail ="fail";
+		QnAVo qna = boardService.getHelpDetail(num);
+		if(pw.equals(qna.getBoardPw())) {
+			session.setAttribute("check", sucess);
+			System.out.println(session.getAttribute("check"));
+			return qna.getBoardNum();			
+		} else {
+			session.setAttribute("check", fail);
+			System.out.println(session.getAttribute("check"));
+			return -1;
+		}
+		//세션에 정보를 저장  
+		
+	
+	}
+	
+	
+	@RequestMapping(value = "/help", method = RequestMethod.GET)
+	public ModelAndView helpDetail(ModelAndView mv,Integer num, HttpServletRequest request) throws Exception{
+		
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		if(user == null) {
+			mv.setViewName("redirect:/help/list");
+		} else {
+		
+		String check = null;
+		QnAVo qna = boardService.getHelpDetail(num);
+		HttpSession session = request.getSession();
+		check = (String)session.getAttribute("check");
+		
+		if(!qna.getBoardWriter().equals(user.getId()) && qna.getUsePw() == 'Y') {
+			if(check == null|| check.equals("fail")) {
+				//null을 걸 때 or을 걸려면 순서를 잘 걸어야 한다. 앞이 참이면 무조건 뒤에도 참으로 들어가기 때문에, 여기 같은 경우는 equals fail이 false이기 때문에 null을 걸러주지 못함! 
+				mv.setViewName("redirect:/help/list");
+				
+			} else {
+				qna.setViews(qna.getViews()+1);
+				boardService.updateQnA(qna);
+				mv.setViewName("/board/qna");
+			  	mv.addObject("qna", qna);
+			  	
+			  	
+			}
+	
+		}  else {
+		
+		qna.setViews(qna.getViews()+1);
+		boardService.updateQnA(qna);
+		mv.setViewName("/board/qna");
+	  	mv.addObject("qna", qna);
+		
+		}
+		
+	  	
+		}
+		
+	    return mv;
+	}
+	
+	
+	
+	
 	@RequestMapping(value = "/help/register", method = RequestMethod.GET)
-	public ModelAndView helpRegister(ModelAndView mv) throws Exception{
+	public ModelAndView helpRegister(ModelAndView mv, HttpServletRequest request) throws Exception{
 	    
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		if(user == null ) {
+			mv.setViewName("redirect:/help/list");
+		} else
 		mv.setViewName("/board/qnaRegister");
-	  
-	    
+
 	    return mv;
 	}
 	

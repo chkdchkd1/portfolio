@@ -2,27 +2,30 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    
     <div class="content-min-wrap">
                     <div id="NoticeRead" style="display: block;">
                         <div class="noti-view-tit">
                      
-                            <p>예매 문의</p>
+                            <p>${qna.boardTitle}</p>
                         </div>
                         <div class="noti-view-date">
-                       		<span>작성자 : ${notice.openRegisterDate}</span>
-                            <span>등록일 : ${notice.openRegisterDate}</span>
-                            <span>조회수 : ${notice.openViews}</span>
+                       		<span>작성자 : ${qna.boardWriter}</span>
+                            <span>등록일 : ${qna.boardDate}</span>
+                            <span>조회수 : ${qna.views}</span>
                         </div>
 	                        <div class="noti-view-con">
 	                            <div class="noti-view-coment">
 	                         		<p class="noti-view-comen-tit"></p>
 	                            		<div class="noti-view-comen-txt">
-	                            	 	 예매관련문의                       
+	                            	 	 ${qna.boardContent}                       
 	                            		</div>
 	                         	</div>
 	                         </div>
-	                         
+					<c:if test ="${qna.boardWriter == user.id}">
+					<a href="<%=request.getContextPath()%>/help/register" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">삭제</a>
+					<a href="<%=request.getContextPath()%>/help/register" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">수정</a>
+					</c:if>	                         
 	                      <div class="mgz-view-cmarea" style="display: block;">
                             <ul class="mgz-view-comens">
                                 <li>
@@ -43,7 +46,7 @@
                         </div>
 
                         <div class="noti-view-control">
-                            <a style="cursor:pointer" href="<%=request.getContextPath() %>/notice/list" class="noti-list">목록보기</a>
+                            <a style="cursor:pointer" href="<%=request.getContextPath() %>/help/list" class="noti-list">목록보기</a>
                         </div>	
                     </div>
                 </div>
