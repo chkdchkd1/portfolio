@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.green.project.dao.BoardDao;
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
+import kr.green.project.vo.CommentVo;
 import kr.green.project.vo.NoticeVo;
 import kr.green.project.vo.QnAVo;
 import kr.green.project.vo.UserVo;
@@ -78,6 +79,50 @@ public class BoardServiceImp implements BoardService {
 	@Override
 	public void updateQnA(QnAVo qna) {
 		boardDao.updateQnA(qna);
+	}
+
+	@Override
+	public ArrayList<CommentVo> getCommentList(Integer num) {
+		return boardDao.selectCommentList(num);
+	}
+
+	@Override
+	public void registerCommentFromQnA(CommentVo comment) {
+		
+		comment.setClassComment(0);
+		comment.setOrder(0);
+		boardDao.insertCommentFromQnA2(comment);
+		boardDao.updateGroupNum(comment.getIndexComments());
+
+		
+	}
+
+	@Override
+	public void registerReCommentFrom(CommentVo comment) {
+		
+		int orderCount = boardDao.selectCountOrderByGroupNum(comment.getGroupNum());
+		comment.setClassComment(1);
+		comment.setOrder(orderCount);
+		boardDao.insertReCommentFromQnA(comment);
+		
+		// 같은 그룹넘을 가지고있는 것들의 order 구하기 
+		
+	}
+
+	@Override
+	public void deleteComment(int indexComment, HttpServletRequest request) {
+		
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		CommentVo comment = boardDao.selectcommentByindex(indexComment);
+		if(user.getId().equals(comment.getMentWriter()) || user.getId().equals("admin")) {
+			comment.setIsDel('Y');
+			comment.setDelDateComment(new Date());
+			boardDao.updateComment(comment);
+			// updateComment MApper 마저 구현할 것  
+		}
+		
+		
+		
 	}
 	    
 

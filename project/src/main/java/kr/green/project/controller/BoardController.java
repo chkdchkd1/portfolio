@@ -18,12 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.cj.Session;
-
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
 import kr.green.project.service.BoardService;
 import kr.green.project.utils.UploadFileUtils;
+import kr.green.project.vo.CommentVo;
 import kr.green.project.vo.NoticeVo;
 import kr.green.project.vo.QnAVo;
 import kr.green.project.vo.UserVo;
@@ -201,37 +200,46 @@ public class BoardController {
 	public ModelAndView helpDetail(ModelAndView mv,Integer num, HttpServletRequest request) throws Exception{
 		
 		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		
 		if(user == null) {
 			mv.setViewName("redirect:/help/list");
-		} else {
-		
-		String check = null;
-		QnAVo qna = boardService.getHelpDetail(num);
-		HttpSession session = request.getSession();
-		check = (String)session.getAttribute("check");
-		
-		if(!qna.getBoardWriter().equals(user.getId()) && qna.getUsePw() == 'Y') {
-			if(check == null|| check.equals("fail")) {
-				//null을 걸 때 or을 걸려면 순서를 잘 걸어야 한다. 앞이 참이면 무조건 뒤에도 참으로 들어가기 때문에, 여기 같은 경우는 equals fail이 false이기 때문에 null을 걸러주지 못함! 
-				mv.setViewName("redirect:/help/list");
-				
 			} else {
+			
+				String check = null;
+				QnAVo qna = boardService.getHelpDetail(num);
+				// 댓글불러오기 
+				ArrayList<CommentVo> ment = boardService.getCommentList(num);
+				
+				HttpSession session = request.getSession();
+				check = (String)session.getAttribute("check");
+				
+				if(!qna.getBoardWriter().equals(user.getId()) && qna.getUsePw() == 'Y') {
+					if(check == null|| check.equals("fail")) {
+						//null을 걸 때 or을 걸려면 순서를 잘 걸어야 한다. 앞이 참이면 무조건 뒤에도 참으로 들어가기 때문에, 여기 같은 경우는 equals fail이 false이기 때문에 null을 걸러주지 못함! 
+						mv.setViewName("redirect:/help/list");
+						
+					} else {
+						qna.setViews(qna.getViews()+1);
+						boardService.updateQnA(qna);
+						mv.setViewName("/board/qna");
+					  	mv.addObject("qna", qna);
+					  	mv.addObject("comment", ment);
+					  	mv.addObject("user", user);
+
+					}
+			
+				}  else {
+				
 				qna.setViews(qna.getViews()+1);
 				boardService.updateQnA(qna);
 				mv.setViewName("/board/qna");
 			  	mv.addObject("qna", qna);
-			  	
-			  	
-			}
-	
-		}  else {
-		
-		qna.setViews(qna.getViews()+1);
-		boardService.updateQnA(qna);
-		mv.setViewName("/board/qna");
-	  	mv.addObject("qna", qna);
-		
-		}
+			  	mv.addObject("comment", ment);
+			  	mv.addObject("user", user);
+
+
+				
+				}
 		
 	  	
 		}
@@ -268,14 +276,61 @@ public class BoardController {
 	
 	
 	
+	
+	//댓글등록 
+	@RequestMapping(value ="/help/commentRegister")
+	@ResponseBody
+	public int commentRegister(@RequestBody CommentVo comment){
+		boardService.registerCommentFromQnA(comment);	
+		return 1;
+	}
+	
+	//댓글리스트 읽어오기 
+	@RequestMapping(value ="/help/commentList")
+	@ResponseBody
+	public ArrayList<CommentVo> commentList(@RequestBody int boNum){
+		ArrayList<CommentVo> list = boardService.getCommentList(boNum);
+		return list;
+	}
+	
+	//대댓글등록 
+	@RequestMapping(value ="/help/commentReplyRegister")
+	@ResponseBody
+	public int commentReplyRegister(@RequestBody CommentVo comment){
+		boardService.registerReCommentFrom(comment);	
+		return 1;
+	}
+	
+	
+	//댓글삭제 (삭제버튼 작성자만 보이도록) 
+	@RequestMapping(value ="/help/commentDelete")
+	@ResponseBody
+	public int commentDelete(@RequestBody int indexComment , HttpServletRequest request){
+		
+		boardService.deleteComment(indexComment,request);
+		
+		return 1;
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	 * ->
 		게시판 클릭(유저 정보 받고) 유저정보랑 글쓴 이가 다른사람이면 redirect로 비밀번호 입력을 받는다
-		비밀번호가 맞으면 해당 게시물로 이동 다르면 alert 띄우고 리스트로 돌아가기 
-		-> 제목에 비밀글 표시
+		비밀번호가 맞으면 해당 게시물로 이동 다르면 alert 띄우고 리스트로 돌아가기 o
+		-> 제목에 비밀글 표시 o 
 		-> 댓글 달리면 총 갯수 카운트해서 제목옆에 표시 
-		-> 댓글 계층형으로 구현할 것
+		-> 댓글 계층형으로 구현할 것 o
+		-> 아이디가 admin이거나 작성자만 댓글 달 수 있도록 설정할 것 
+		-> 작성 자만 삭제버튼 
 	 */
+	
+	/*onclick="jsf_mgz_logincheck(1,19007, this);"<- 컨트롤러 말고 jsp 에서 이러식*/
 	
 	
 	

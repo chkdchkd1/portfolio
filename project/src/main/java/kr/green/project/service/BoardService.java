@@ -2,9 +2,11 @@ package kr.green.project.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
+import kr.green.project.vo.CommentVo;
 import kr.green.project.vo.NoticeVo;
 import kr.green.project.vo.QnAVo;
 
@@ -27,6 +29,14 @@ public interface BoardService {
 	QnAVo getHelpDetail(Integer num);
 
 	void updateQnA(QnAVo qna);
+
+	ArrayList<CommentVo> getCommentList(Integer num);
+
+	void registerCommentFromQnA(CommentVo comment);
+
+	void registerReCommentFrom(CommentVo comment);
+
+	void deleteComment(int indexComment, HttpServletRequest request);
 
 
 

@@ -87,6 +87,46 @@
   			boardNum = #{qna.boardNum}
  </update>
  
+   <select id = "selectCommentList" resultType="kr.green.project.vo.CommentVo">
+ select * from ticket.comment
+	where boNum = #{num} and isDel = 'N' 
+    order by groupNum ASC , comment.order ASC;
+ </select>
+ 
+ 
+ <insert id="insertCommentFromQnA2" useGeneratedKeys="true" keyProperty="comment.indexComments" parameterType="kr.green.project.vo.CommentVo"> 
+ 
+     insert 
+    	into ticket.comment(boNum,mentWriter,comment,classComment,comment.order)
+    	values (#{comment.boNum},#{comment.mentWriter},#{comment.comment},#{comment.classComment},#{comment.order});
+            
+   </insert>
+   
+      <update id="updateGroupNum">
+  	update ticket.comment
+  		set 
+  			groupNum = #{indexComments}
+  		where
+  			indexComments = #{indexComments};
+ </update>
+ 
+ <select id = "selectCountOrderByGroupNum" resultType="int">
+ select count(comment.order) from ticket.comment
+	where 
+		groupNum = #{groupNum};
+ </select>
+
+ <insert id="insertReCommentFromQnA">
+  insert 
+    	into ticket.comment(boNum,mentWriter,comment,classComment,comment.order,groupNum)
+    	values (#{comment.boNum},#{comment.mentWriter},#{comment.comment},#{comment.classComment},#{comment.order},#{comment.groupNum});
+ 
+ </insert>
+ 
+ <select id ="selectcommentByindex" resultType="kr.green.project.vo.CommentVo">
+ SELECT * FROM ticket.comment
+	where indexComments = #{indexComment};
+	</select>
   
   </mapper>
  
