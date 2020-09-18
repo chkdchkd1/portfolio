@@ -23,6 +23,13 @@ public class UserServiceImp implements UserService {
 	}
 
 
+	@Override
+	public UserVo getUserById(String id) {
+		return userDao.getUser(id);
+	}
+
+
+
 
 
 }

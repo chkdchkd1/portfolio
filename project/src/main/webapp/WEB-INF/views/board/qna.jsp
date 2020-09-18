@@ -3,6 +3,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<input type="hidden" name ="isdelPage" value="${qna.boardDel}">
+<c:if test = "${qna.boardDel == 'Y'.charAt(0)}">
+  <div class="noti-view-control">
+    <a style="cursor:pointer" href="<%=request.getContextPath() %>/help/list" class="noti-list">목록보기</a>
+  </div>	
+</c:if>
+<c:if test = "${qna.boardDel == 'N'.charAt(0)}">
+    <input type="hidden" name ="loginid" value="${user.id}">
     <input type="hidden" name="boardNum" value="${qna.boardNum}">    
     <div class="content-min-wrap">
                     <div id="NoticeRead" style="display: block;">
@@ -24,34 +32,48 @@
 	                         	</div>
 	                         </div>
 					<c:if test ="${qna.boardWriter == user.id}">
-					<a href="<%=request.getContextPath()%>/help/register" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">삭제</a>
-					<a href="<%=request.getContextPath()%>/help/register" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">수정</a>
-					</c:if>	                         
+					<a href="<%=request.getContextPath()%>/help/delete?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">삭제</a>
+					<a href="<%=request.getContextPath()%>/help/modify?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">수정</a>
+					</c:if>
+						<c:if test ="${ user.id == 'admin' }">
+							<a href="<%=request.getContextPath()%>/help/delete?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">삭제</a>
+						</c:if>
+						                         
 	                      <div class="mgz-view-cmarea" style="display: block;">
                             <ul class="mgz-view-comens">
                              <c:forEach var="comment" items="${comment}">
                                 <li style=" <c:if test = "${comment.classComment == 1}"> background-color: #efeeee; padding-left: 30px;</c:if>">
                                     <div class="mgz-view-cmperson">
-                                        <em>${comment.mentWriter}</em>
+                                        <em>
+                                        <c:if test = "${comment.isDel != 'Y'.charAt(0)}">${comment.mentWriter}</c:if>
+                                        <c:if test = "${comment.isDel == 'Y'.charAt(0)}"></c:if>
+                                        </em>
                                         ${comment.dateComment}
                                     </div>
-                                    <div class="mgz-view-cmchat">							
-                                        ${comment.comment}&nbsp;&nbsp;&nbsp;<a onclick="deleteComment(this);" style="cursor:pointer"><img src="<%=request.getContextPath()%>/resources/image/btn_cls.gif" alt="삭제"></a>										
+                                    <div class="mgz-view-cmchat">
+                                     <c:if test = "${comment.isDel == 'Y'.charAt(0)}">삭제된 댓글입니다. ( ${comment.delDateComment })</c:if>						
+                                     <c:if test = "${comment.isDel != 'Y'.charAt(0)}">${comment.comment}</c:if>
+                                     &nbsp;&nbsp;&nbsp;
+                                        <c:if test = "${comment.mentWriter == user.id || user.id == 'admin'}">
+                                        	<a onclick="deleteComment(this);" style="cursor:pointer">
+                                        		<img src="<%=request.getContextPath()%>/resources/image/btn_cls.gif" alt="삭제">
+                                        	</a>
+                                        </c:if>										
                                     </div>
-                                    <span class="rn-label rlb-12" style="<c:if test = "${comment.classComment == 0}"> display: block;</c:if>">
+                                    <span class="rn-label rlb-12" style="<c:if test = "${comment.classComment == 0 && ( user.id == 'admin' || qna.boardWriter == user.id) }"> display: block;</c:if>">
                                     	<a class="rn-pop-btn" onclick="openReReply(this); return false;" style="cursor:pointer;" href="javascript:void(0)">답글</a>
                                     </span>
                                     <input type="hidden" name="index" value="${comment.indexComments}">                                    
                                 </li>
                                 </c:forEach>
                             </ul>
+                            <c:if test = "${qna. boardWriter == user.id || user.id  == 'admin' }">
                             <div class="mgz-view-textarea">
-                            	<input type="hidden" name="mentWriter" value="${user.id}">                                                                	
-                                <textarea placeholder="댓글을 작성해주세요." cols="" rows="" class="txt_rep" id="txtReplyCont" name="comment"></textarea>
-                                <a onclick="InsertReply(); return false;" style="cursor:pointer;" href="javascript:void(0)" >등록</a>
-                               <!--  <p class="mgz-view-textnum"><span>0</span>/250</p> -->
-                               <!--  onkeyup="javascript:jsf_mgz_LimitInputData(this, 250);"-->
+	                            	<input type="hidden" name="mentWriter" value="${user.id}">                                                                	
+	                                <textarea placeholder="댓글을 작성해주세요." cols="" rows="" class="txt_rep" id="txtReplyCont" name="comment"></textarea>
+	                                <a onclick="InsertReply(); return false;" style="cursor:pointer;" href="javascript:void(0)" >등록</a>
                             </div>
+                            </c:if>
                         </div>
 
                         <div class="noti-view-control">
@@ -59,12 +81,12 @@
                         </div>	
                     </div>
                 </div>
-
+</c:if>
                 
      <script>
 
 
-     
+     isDelPage();
 
      
 	function InsertReply(){
@@ -103,6 +125,8 @@
 			// 게시글 번호를 주고 그 게시글의 댓글들을 읽어와서 코멘트창에 뿌려주기 
 
 		var boNum = $('input[name=boardNum]').val();
+		var id = $('input[name=loginid]').val();
+		
 
 		   $.ajax({
 		       async:true,
@@ -117,7 +141,7 @@
 
 				 $('.mgz-view-comens').empty();
 
-		    	   var str = '';
+		    	    var str = '';
 		    	   
 		        	 for(var i =0; i<data.length; i++){
 			        					        	
@@ -126,11 +150,27 @@
 								if (data[i].classComment == 1){
 									str += 'background-color: #efeeee; padding-left: 30px;';
 								}
-		
-								str += '"><div class="mgz-view-cmperson"><em>'+ data[i].mentWriter + '</em>' + 
-                   						 data[i].dateComment+ '</div><div class="mgz-view-cmchat">'+							
-                   						 data[i].comment+'&nbsp;&nbsp;&nbsp;<a onclick="#delete" style="cursor:pointer"><img src="<%=request.getContextPath()%>/resources/image/btn_cls.gif"></a>'
-                   						 + '</div><span class="rn-label rlb-12" style="' ;
+     		
+								str += '"><div class="mgz-view-cmperson"><em>';
+
+								if(data[i].isDel != 'Y'){
+
+									str += data[i].mentWriter+'</em>' + 
+	          						  		data[i].dateComment+ '</div><div class="mgz-view-cmchat">'+							
+	           						 		data[i].comment+'&nbsp;&nbsp;&nbsp;'
+										} else {
+
+											str += ' </em>'+ data[i].dateComment+ '</div><div class="mgz-view-cmchat">'+
+												'삭제된 댓글입니다. ('+data[i].delDateComment+')&nbsp;&nbsp;&nbsp;' 	;
+
+											}
+
+										
+								if(data[i].mentWriter == id|| id == 'admin'){
+                   					str += '<a onclick="deleteComment(this)" style="cursor:pointer"><img src="<%=request.getContextPath()%>/resources/image/btn_cls.gif"></a>';
+								}
+         										
+                   				str  += '</div><span class="rn-label rlb-12" style="' ;
 
                    				if (data[i].classComment == 0){
                        					str += 'display: block;'
@@ -141,7 +181,7 @@
 
 		        	}
 
-		        	$('.mgz-view-comens').html(str);
+		        	$('.mgz-view-comens').html(str); 
 		       }
 	 
 			})
@@ -218,18 +258,24 @@
 		       dataType:"json",
 		       contentType:"application/json; charset=UTF-8",
 		       success : function(data){
-		    	  /*  //댓글 등록 성공시 
+		    	    //댓글 삭제 성공시 
 		    	   if(data == 1) {
 				  	   // 댓글 리스트를 부르는 함수 
 				  	    commentList();
-			    	   } */
+			    	   } 
 		    	   } 
 	 
 			}) 
 			
-		
-		
+		}
 
+
+	function isDelPage(){
+
+	var isdel = $('input[name=isdelPage]').val();
+
+	if(isdel == 'Y')
+		alert("삭제된 페이지 입니다.")
 		}
 		
   	</script>

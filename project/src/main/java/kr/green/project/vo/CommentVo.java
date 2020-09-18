@@ -61,8 +61,12 @@ public class CommentVo {
 	public void setIsModify(char isModify) {
 		this.isModify = isModify;
 	}
-	public Date getDelDateComment() {
-		return delDateComment;
+	public String getDelDateComment() {
+		if (delDateComment == null)
+			return ""; 
+		SimpleDateFormat transFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+		String date = transFormat.format(delDateComment);
+		return date;
 	}
 	public void setDelDateComment(Date delDateComment) {
 		this.delDateComment = delDateComment;

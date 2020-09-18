@@ -38,6 +38,10 @@ public interface BoardService {
 
 	void deleteComment(int indexComment, HttpServletRequest request);
 
+	void ModifyQnA(QnAVo qna);
+
+	int deleteQnA(Integer num, HttpServletRequest request);
+
 
 
 }

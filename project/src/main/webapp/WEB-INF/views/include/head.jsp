@@ -23,4 +23,11 @@
 <script src="<%=request.getContextPath() %>/resources/summernote-ko-KR.js"></script>
 
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/summernote/summernote-lite.css">
+
+<!-- 유효성 -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/additional-methods.min.js"></script>
+ 
+ 
  

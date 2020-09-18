@@ -3351,8 +3351,158 @@ table {
 }
 
 
+.replyCount{
+	
+    margin-left: 10px;
+    font-size: 12px;
+    color: #e8787a;
+    font-weight: 600;
+	
+}
 
 
+/*회원가입 */
+
+.text-id,.text-pw,.text-name,.text-birth,.text-gender,.text-bold{
+     font-family: Gothic A1,'돋움';
+     font-weight: bold;
+     font-size: 14px;
+ }
+ .text-small{
+     font-weight: 100;
+     font-size: 10pt;
+     color:#8e8e8e
+ }
+ .box-id,.box-pw,.box-name,
+ .box-year,.box-month,.box-day,.box-gender,
+ .box-email,.box-country,.box-certification,.box-number-in{
+     border: 1px solid #dadada;
+     height: 50px;
+     background-color: white;
+     margin-top: 10px;
+     padding: 10px 10px 10px 10px;
+     box-sizing: border-box;
+     margin-bottom: 20px;
+ }
+
+
+ .box-certification{
+     background-color: #f5f6f7;
+ }
+ 
+
+ .box-month,.box-day,.box-year{
+     float: left;
+     width: calc((100% - 20px) / 3);
+     box-sizing: border-box;
+ }
+
+ .box-year,.box-month{
+     margin-right: 10px;
+ }
+
+ .box-number-in{
+     width: 100%;
+     float: left;
+ }
+ .box-number::after{
+     clear: both;
+     content:'';
+     display: block;
+ }
+
+ .box-id>input, .box-name>input{
+     height: 28px;
+     width: calc(100% - 100px);
+     border: none;
+ }
+ .box-id>label{
+     line-height: 28px;
+     color: #8e8e8e;
+ }
+ .box-pw>input{
+     height: 28px;
+     width: calc(100% - 45px);
+     border: none;
+ }
+ .box-pw>a{
+     display: block;
+     float: right;
+     width: 28px;
+     height: 28px;
+     border: 1px solid #03c75a;
+     background-color:#03c75a;
+     cursor: pointer;
+ }
+ .box-name>input{
+     width: 100%;
+ }
+
+ .box-year>input,.box-day>input, .box-month>select,.box-gender>select,.box-email>input,.box-country>select, .box-certification>input,
+ .box-number-in>input{
+     font-family: Gothic A1,'돋움';
+     width: 100%;
+     height: 28px;
+     border:none;
+ }
+ .btn-certification{
+     color: white;
+     width: 150px;
+     height: 50px;
+     background-color: #03c75a;
+     border: none;
+     display: block;
+     margin-top: 10px;
+     float: left;
+     margin-left: 5px;
+ }
+
+ .btn-submit{
+     width: 100%;
+     height: 50px;
+     display: block;
+     background-color: #e8787a;
+     color: white;
+     line-height: 50px;
+     font-size: 16pt;
+     border: none;
+ }
+ 
+ .fail-msg, .succ-msg{
+ 
+ 	font-size: 12px;
+ 	line-height:12px;
+ 	color : red;
+ 	margin-bottom:10px;
+ }
+ 
+ .succ-msg{
+ 	color : green;
+ }
+ 
+ 
+ .display-none{
+ 	display:none;
+ }
+ 
+ .max-small {
+    width: auto; height: auto;
+    max-width: 300px;
+    max-height: 300px;
+}
+
+label.error{
+	color:#fb4a4af2;	
+	font-weight: 600;
+	font-size: 12px;
+}
+
+
+.form-line{
+	margin : 0 auto;
+	width : 500px;	
+}
+ 
 
 /* 티켓오픈 게시판 디테일 */
 

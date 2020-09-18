@@ -70,7 +70,10 @@
    </insert>
    
  <select id = "selectQnA" resultType="kr.green.project.vo.QnAVo">
- 	SELECT * FROM ticket.qna order by boardNum desc;
+ 	SELECT * FROM ticket.qna
+ 		where 
+ 			boardDel = 'N'
+ 	 order by boardNum desc;
  </select>
  
   <select id = "selectHelpByNum" resultType="kr.green.project.vo.QnAVo">
@@ -82,14 +85,20 @@
     <update id="updateQnA">
   	update ticket.qna
   		set 
+  			boardTitle = #{qna.boardTitle},
+  			boardContent = #{qna.boardContent},
+  			boardPw = #{qna.boardPw},
+  			usePw = #{qna.usePw},
+  			boardDel = #{qna.boardDel},
+  			boardDelDate = #{qna.boardDelDate},
   			views = #{qna.views}
   		where
-  			boardNum = #{qna.boardNum}
+  			boardNum = #{qna.boardNum};
  </update>
  
    <select id = "selectCommentList" resultType="kr.green.project.vo.CommentVo">
  select * from ticket.comment
-	where boNum = #{num} and isDel = 'N' 
+	where boNum = #{num} 
     order by groupNum ASC , comment.order ASC;
  </select>
  
@@ -126,7 +135,29 @@
  <select id ="selectcommentByindex" resultType="kr.green.project.vo.CommentVo">
  SELECT * FROM ticket.comment
 	where indexComments = #{indexComment};
-	</select>
+</select>
+
+ <update id="updateComment">
+  	update ticket.comment
+  		set 
+  			isDel = #{comment.isDel},
+            delDateComment = #{comment.delDateComment}
+  		where
+  			indexComments = #{comment.indexComments};
+  			
+ </update>
+ 
+ <update id="updateQnaReplyCount">
+  	update ticket.qna
+  		set 
+  			replyCount = (select count(*) from ticket.comment where boNum = #{boNum})
+  		where
+  			boardNum = #{boNum};
+ </update>
+ 
+
+ 
+ 
   
   </mapper>
  

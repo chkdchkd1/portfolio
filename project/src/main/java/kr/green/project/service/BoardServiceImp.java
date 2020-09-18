@@ -93,6 +93,8 @@ public class BoardServiceImp implements BoardService {
 		comment.setOrder(0);
 		boardDao.insertCommentFromQnA2(comment);
 		boardDao.updateGroupNum(comment.getIndexComments());
+		boardDao.updateQnaReplyCount(comment.getBoNum());
+		
 
 		
 	}
@@ -104,6 +106,8 @@ public class BoardServiceImp implements BoardService {
 		comment.setClassComment(1);
 		comment.setOrder(orderCount);
 		boardDao.insertReCommentFromQnA(comment);
+		boardDao.updateQnaReplyCount(comment.getBoNum());
+
 		
 		// 같은 그룹넘을 가지고있는 것들의 order 구하기 
 		
@@ -123,6 +127,29 @@ public class BoardServiceImp implements BoardService {
 		
 		
 		
+	}
+
+	@Override
+	public void ModifyQnA(QnAVo qna) {
+		qna.setBoardDel('N');
+		boardDao.updateQnA(qna);
+		
+	}
+
+	@Override
+	public int deleteQnA(Integer num, HttpServletRequest request) {
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		QnAVo qna = boardDao.selectHelpByNum(num);
+		if(user.getId().equals(qna.getBoardWriter()) || user.getId().equals("admin")){
+			qna.setBoardDel('Y');
+			qna.setBoardDelDate(new Date());
+			boardDao.updateQnA(qna);
+			return 1;
+		}else { 
+			return 0;
+		}
+		
+	
 	}
 	    
 

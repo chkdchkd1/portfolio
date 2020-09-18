@@ -14,6 +14,8 @@ public class QnAVo {
 	private String boardPw;
 	private int views;
 	private Date boardDelDate;
+	private int replyCount;
+	
 	
 	public int getBoardNum() {
 		return boardNum;
@@ -78,13 +80,23 @@ public class QnAVo {
 		this.boardDelDate = boardDelDate;
 	}
 	
+	
+	public int getReplyCount() {
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
 	@Override
 	public String toString() {
 		return "QnAVo [boardNum=" + boardNum + ", boardTitle=" + boardTitle + ", boardDate=" + boardDate
 				+ ", boardWriter=" + boardWriter + ", boardContent=" + boardContent + ", boardDel=" + boardDel
 				+ ", usePw=" + usePw + ", boardPw=" + boardPw + ", views=" + views + ", boardDelDate=" + boardDelDate
-				+ "]";
+				+ ", replyCount=" + replyCount + "]";
 	}
+	
+
+
 	
 	
 	

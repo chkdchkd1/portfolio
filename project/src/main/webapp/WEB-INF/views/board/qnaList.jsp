@@ -41,11 +41,11 @@
                                                     <c:if test="${qna.usePw == 'Y'.charAt(0)}">
                                                     	<i class="fas fa-lock" style="float: left;margin-right: 5px;margin-top: 2px;"></i>
                                                     	<c:if test="${user.id == qna.boardWriter}">
-                                                    		<a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}</em></a></c:if>
+                                                    		<a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em> </a></c:if>
                                                     	<c:if test="${user.id !=  qna.boardWriter}">
-                                                    		<a href="<%=request.getContextPath()%>/help/checkBoardPw?num=${qna.boardNum}"><em>${qna.boardTitle}</em></a></c:if>
+                                                    		<a href="<%=request.getContextPath()%>/help/checkBoardPw?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em> </a></c:if>
                                                     </c:if>
-                                                    <c:if test="${qna.usePw == 'N'.charAt(0)}"><a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}</em></a></c:if>
+                                                    <c:if test="${qna.usePw == 'N'.charAt(0)}"><a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em></a></c:if>
                                                 </td>
                                                 <td class="no-text-indent">
                                                     ${qna.boardWriter}

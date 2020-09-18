@@ -97,9 +97,9 @@
                 <a href="javascript:void(0)" class="rn-bb03" onclick="openRservation();">예매하기</a>
             </div>
             <div class="rn-07"><!--하단탭버튼-->
-                <a href="#" class=""><span>상세정보</span></a>
-                <a href="#" class=""><span class="rn-eve">관람후기<span class="rn-07-count">(${reviewCount})</span></span></a>
-                <a href="#" class=""><span>예매/취소 안내</span></a>
+                <a href="#" class="" onclick="fnMove('01');"><span>상세정보</span></a>
+                <a href="#" class="" onclick="fnMove('02');"><span class="rn-eve">관람후기<span class="rn-07-count">(${reviewCount})</span></span></a>
+                <a href="#" class="" onclick="fnMove('05');"><span>예매/취소 안내</span></a>
             </div>
             <!-- 탭박스 -->
             <div class="rn-tab-boxes">
@@ -952,6 +952,16 @@
 	    });	    
 
 	   }
+
+   //탭 박스 누르면 화면 이동하기 
+   
+   function fnMove(seq){
+        var offset = $("#rn-tab" + seq).offset();
+        $('html, body').animate({scrollTop : offset.top}, 600);
+    }
+
+
+
    
      
 

@@ -15,7 +15,7 @@
                    		  <div style="margin-top: 20px">
                    		  <a href="<%=request.getContextPath()%>/admin/registerProduct">
                    		  		<i class="fas fa-pen"></i><br>
-                            	<span style="margin-top: 5px;">상품등록</span>
+                            	<span style="margin-top: 9px;">상품등록</span>
                             	</a>
                            	 </div>
                     		</li>
@@ -35,7 +35,7 @@
                    		  <div style="margin-top: 20px">
                    			<a href="<%=request.getContextPath()%>/admin/notice">                   		  
                    		  			<i class="fas fa-bullhorn"></i><br>
-                            		<span style="margin-top: 5px;">공지등록</span>
+                            		<span style="margin-top: 5px;">공지관리</span>
                             	</a>
                            	 </div>
                     		</li>

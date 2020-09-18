@@ -6,5 +6,7 @@ public interface UserService {
 
 	public UserVo getUser(UserVo user);
 
+	public UserVo getUserById(String id);
+
 
 }

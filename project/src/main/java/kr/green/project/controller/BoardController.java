@@ -2,6 +2,8 @@ package kr.green.project.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
@@ -145,7 +149,7 @@ public class BoardController {
 	
 	
 	
-	
+	// 고객센터 게시판 
 	@RequestMapping(value = "/help/list", method = RequestMethod.GET)
 	public ModelAndView helpList(ModelAndView mv,HttpServletRequest request) throws Exception{
 	    
@@ -263,6 +267,7 @@ public class BoardController {
 	}
 	
 
+	//글 등록
 	@RequestMapping(value = "/help/register", method = RequestMethod.POST)
 	public ModelAndView helpRegisterPost(ModelAndView mv, QnAVo qna, HttpServletRequest request) throws Exception{
 	    
@@ -273,6 +278,50 @@ public class BoardController {
 	
 	    return mv;
 	}
+	
+	//글 수정
+	
+	@RequestMapping(value = "/help/modify", method = RequestMethod.GET)
+	public ModelAndView helpModifyGet(ModelAndView mv, Integer num, HttpServletRequest request) throws Exception{
+	    
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		QnAVo qna = boardService.getHelpDetail(num);		
+		if(!user.getId().equals(qna.getBoardWriter())) {
+			mv.setViewName("redirect:/help/list");
+		} else {
+		mv.addObject("qna", qna);
+		mv.setViewName("/board/qnaModify");
+		}
+	
+	    return mv;
+	}
+	
+	
+	@RequestMapping(value = "/help/modify", method = RequestMethod.POST	)
+	public ModelAndView helpModifyPost(ModelAndView mv, QnAVo qna) throws Exception{	    
+		boardService.ModifyQnA(qna);
+		mv.setViewName("redirect:/help/list");
+	
+	    return mv;
+	}
+	
+	
+	//글삭제 
+	
+	@RequestMapping(value = "/help/delete", method = RequestMethod.GET)
+	public ModelAndView helpDeleteGet(ModelAndView mv, Integer num, HttpServletRequest request) throws Exception{	    
+		
+		int delete = boardService.deleteQnA(num, request);
+	
+		if(delete == 0) {
+			mv.setViewName("redirect:/help/list");
+		} else {
+		mv.setViewName("redirect:/help/list");
+		}
+	
+	    return mv;
+	}
+	
 	
 	
 	
@@ -289,6 +338,7 @@ public class BoardController {
 	@RequestMapping(value ="/help/commentList")
 	@ResponseBody
 	public ArrayList<CommentVo> commentList(@RequestBody int boNum){
+		
 		ArrayList<CommentVo> list = boardService.getCommentList(boNum);
 		return list;
 	}
@@ -296,6 +346,7 @@ public class BoardController {
 	//대댓글등록 
 	@RequestMapping(value ="/help/commentReplyRegister")
 	@ResponseBody
+	
 	public int commentReplyRegister(@RequestBody CommentVo comment){
 		boardService.registerReCommentFrom(comment);	
 		return 1;
@@ -319,18 +370,6 @@ public class BoardController {
 	
 	
 	
-	/*
-	 * ->
-		게시판 클릭(유저 정보 받고) 유저정보랑 글쓴 이가 다른사람이면 redirect로 비밀번호 입력을 받는다
-		비밀번호가 맞으면 해당 게시물로 이동 다르면 alert 띄우고 리스트로 돌아가기 o
-		-> 제목에 비밀글 표시 o 
-		-> 댓글 달리면 총 갯수 카운트해서 제목옆에 표시 
-		-> 댓글 계층형으로 구현할 것 o
-		-> 아이디가 admin이거나 작성자만 댓글 달 수 있도록 설정할 것 
-		-> 작성 자만 삭제버튼 
-	 */
-	
-	/*onclick="jsf_mgz_logincheck(1,19007, this);"<- 컨트롤러 말고 jsp 에서 이러식*/
 	
 	
 	

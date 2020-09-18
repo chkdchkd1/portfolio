@@ -43,4 +43,6 @@ public interface BoardDao {
 
 	void updateComment(@Param("comment") CommentVo comment);
 
+	void updateQnaReplyCount(@Param("boNum")int boNum);
+
 }
