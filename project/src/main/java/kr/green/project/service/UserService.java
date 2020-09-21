@@ -8,5 +8,11 @@ public interface UserService {
 
 	public UserVo getUserById(String id);
 
+	public void signUpUser(UserVo user);
+
+	public UserVo isSignin(UserVo user);
+
+	public void modifyUserInfo(UserVo user1);
+
 
 }

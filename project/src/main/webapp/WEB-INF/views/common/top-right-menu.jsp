@@ -40,7 +40,9 @@
          </c:if>
          	  
            <c:if test ="${user != null && user.id != 'admin'}">
-           <li>회원정보</li>
+           <li>
+           	<a href="<%=request.getContextPath()%>/modifyMyInfo">회원정보</a>
+           	</li>
            <li><a class ="myOrder" href="<%=request.getContextPath()%>/myOrder/list">예매확인/취소</a></li>
            </c:if>
          </ul>

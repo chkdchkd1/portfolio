@@ -3,7 +3,7 @@
 
  <div class="csCenter_subRgt" style="width: 800px;">
 <div class ="form-line">
- <form id = "ch" name="ch" method="post" action="">
+ <form id = "ch" name="ch" method="post">
 	<div class="container-body">
         <div class="container-id">
             <div class="text-id">아이디</div>
@@ -87,7 +87,7 @@
             </div>
         </div>
         <label id="email-error" class="error" for="email"></label>
-           <button class="btn-submit" onclick="signUpSubmit();">가입하기</button>
+           <button type="button" class="btn-submit">가입하기</button>
       </div>
       </form>
       </div>
@@ -98,27 +98,49 @@
  <script>
 
 
+ $('.btn-submit').click(function(){
+
+	 	var year = $('#year').val();
+	 	var month = $('#month').val();
+	 	var day = $('#day').val();
+	 	var birth = ''+year+month+day;
+
+	 	$('#birth').val(birth);
+
+		if($('#id').val() == "" || $('#pw').val() == "" || $('#name').val() == "" || $('#phone').val() == "" || $('#birth').val() == "" || $('#email').val() == ""){
+	 		alert("필수정보를 입력하세요 ")
+	 		return false; 
+	 		} 
+
+		 
+		var id = $('#id').val();
+				$.ajax({
+					async:true,
+					type:'POST',
+					data:id,
+					url:"<%=request.getContextPath()%>/idCheck",
+					dataType:"json",
+					contentType:"application/json; charset=UTF-8",
+					success : function(data){
+						var str;
+						if(data['isId'] ){
+							//아이디 사용가능 
+							signUpSubmit();
+							alert('회원가입이 완료되었습니다.') 
+							
+						}else{
+							//아이디 사용 불가능 
+							alert('회원가입에 실패하였습니다.') 
+						}
+									}
+				});
+				
+
+})
+
+
  	function signUpSubmit(){
-
-
- 		if($('#id').val() == "" || $('#pw').val() == "" || $('#name').val() == "" || $('#phone').val() == "" || $('#birth').val() == "" || $('#email').val() == ""){
- 	 		alert("필수정보를 입력하세요 ")
- 	 		return false; 
- 	 		}
  	 	
-
- 		//아이디가 중복된 아이디를 입력하고 제출 눌렀을 때도 return 처리 해주기 
- 		
- 		
- 	 	var year = $('#year').val();
- 	 	var month = $('#month').val();
- 	 	var day = $('#day').val();
- 	 	var birth = ''+year+month+day;
-
- 	 	$('#birth').val(birth);
- 	 	
-
-
  		 var form = document.ch;
  		form.action = '<%=request.getContextPath()%>/signUp';
  		form.submit();
@@ -239,14 +261,14 @@
 						        },
 
 					    	year:{
-					        	required : "필수로 입력하세요",
+					        	required : "생년을 입력하세요",
 					        	digits : "숫자만 입력하세요",
 					        	rangelength : " 생년을 2자리로 입력해주세요 "
 						        },
 
 						        
 					      	day:{
-					        	required : "필수로 입력하세요",
+					        	required : "생일을 입력하세요",
 					        	digits : "숫자만 입력하세요",
 					        	rangelength : "생일 일수를 2자리로 입력해주세요 "
 						        }

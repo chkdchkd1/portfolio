@@ -8,6 +8,22 @@
     select * from user where id = #{id}
   </select>
 
+  <insert id="insertUser">
+    insert into
+    	user(id,name,phone,birth,pw,email,gender)
+    	values(#{user.id},#{user.name},#{user.phone},#{user.birth},#{user.pw},#{user.email},#{user.gender})
+</insert>
+
+  <update id="updateUser">
+  	update ticket.user
+  		set 
+  			phone = #{user.phone},
+  			birth = #{user.birth},
+  			email = #{user.email},
+  			gender = #{user.gender}
+  		where
+  			id = #{user.id};
+  </update>
   
   </mapper>
  

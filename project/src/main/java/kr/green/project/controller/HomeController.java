@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,10 @@ public class HomeController {
 	// -> 객체를 생성하는 역할 
 	private UserService userService;
 	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView mv) throws Exception{
 	    mv.setViewName("/main/home");
@@ -49,7 +54,7 @@ public class HomeController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView loginPost(ModelAndView mv, UserVo user) throws Exception{
 		
-		UserVo dbUser = userService.getUser(user);
+		UserVo dbUser = userService.isSignin(user);
 		
 		if(dbUser != null ) {
 			mv.addObject("user", dbUser);
@@ -96,31 +101,61 @@ public class HomeController {
 	        map.put("isId", false);
 	    else
 	    	map.put("isId", true);
-	    System.out.println(id);
 	    return map;
 	}
 	
-	
+	//회원가입
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public ModelAndView signUpPost(ModelAndView mv, UserVo user) throws Exception{
 		System.out.println(user);
-	    mv.setViewName("/user/signUp");
+		userService.signUpUser(user);
+	    mv.setViewName("redierct:/login");
 	    return mv;
 	}
 	
-	/*
-	 * ->
 	
-		-> 회원가입/ 회원정보 수정 / 비밀번호 암호화
-		-> 관리자나 로그인 한 회원이 아니경우 alert 하고 redirect 하는거 하기 
-		-> 탭 메뉴에 따라 화면 이동 (o) 
-		-> 예매페이지 더 꾸미기
-		-> 상품 관리 상품 상세정보 수정할 수 있도록 
-		-> 상품등록 유의사항 정보 썸머노트로 넣기 (마지막) 
-		-> 카테고리별 상품 정렬 
-		-> 비밀번호 암호화
-		 
-	 */
+	@RequestMapping(value = "/modifyMyInfo", method = RequestMethod.GET)
+	public ModelAndView modifyUserinfo(ModelAndView mv, HttpServletRequest request) throws Exception{
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		if (user != null ) {
+		    mv.setViewName("/user/modifyUser");
+		    mv.addObject("user", user);
+		} else
+			mv.setViewName("redirect:/");
+	    return mv;
+	}
+	
+	
+	//아이디 중복검사 
+		@RequestMapping(value ="/pwCheck")
+		@ResponseBody
+		public Map<Object, Object> pwcheck(@RequestBody UserVo user){
+			System.out.println(user);
+			
+			  Map<Object, Object> map = new HashMap<Object, Object>();
+			  if(userService.isSignin(user) == null) 
+				  map.put("isCheck", false); 
+			  else
+				  map.put("isCheck", true); 
+			  
+			  return map;
+			 
+		}
+	
+		@RequestMapping(value = "/modifyMyInfo", method = RequestMethod.POST)
+		public ModelAndView modifyUserinfoPost(ModelAndView mv, UserVo user1, HttpServletRequest request) throws Exception{
+			UserVo user = (UserVo)request.getSession().getAttribute("user");
+			if(user.getId().equals(user1.getId())) {
+				userService.modifyUserInfo(user1);
+				mv.setViewName("redirect:/modifyMyInfo");
+			} else
+				mv.setViewName("redirect:/");
+			
+		    return mv;
+		}
+	
+	
+	
 	
 	/*onclick="jsf_mgz_logincheck(1,19007, this);"<- 컨트롤러 말고 jsp 에서 이러식*/
 	
