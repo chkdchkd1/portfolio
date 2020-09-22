@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +27,9 @@ import kr.green.project.vo.Reservation2Vo;
 import kr.green.project.vo.ReservationListVo;
 import kr.green.project.vo.ReservationVo;
 import kr.green.project.vo.ReservedSameVo;
+import kr.green.project.vo.ReviewVo;
 import kr.green.project.vo.TicketBookVo;
+import kr.green.project.vo.UserVo;
 import kr.green.project.vo.WantResVo;
 
 
@@ -124,6 +127,8 @@ public class ReservationController {
 	@RequestMapping(value = "/ticketBook", method = RequestMethod.POST)
 	public ModelAndView ticketBookPost(ModelAndView mv, TicketBookVo book, int[] ppNum, int[] totalPrice , int[] rvamount  ) throws Exception{
 
+
+		
 		for (int i=0 ; i<ppNum.length ; i++) {	
 			ReservationVo bookMain  = new ReservationVo();
 			// 객체를 먼저 생성 하고 그 객체에 복사 해온 값을 넣어준다 . 
@@ -137,7 +142,24 @@ public class ReservationController {
 			
 		}
 		
+		ArrayList<ReservationVo> resList = reservationService.getRecetReservation(ppNum.length,book.getRvId());
+		System.out.println(resList);
+		mv.addObject("resultBook", resList);
+	
 	    return mv;
+	}
+	
+	
+
+	@RequestMapping(value ="/RecentRes")
+	@ResponseBody
+	public ArrayList<ReservationVo>  RecentRes(@RequestBody int ticketcount , HttpServletRequest request){
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		ArrayList<ReservationVo> resList = reservationService.getRecetReservation(ticketcount,user.getId());
+		System.out.println(resList);
+	
+		   return resList;
+
 	}
 	
 	

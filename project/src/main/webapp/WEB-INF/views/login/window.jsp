@@ -340,18 +340,18 @@
             <div class="success">
                 <div class="suc_tit">
                     <h2>결제가 정상적으로 완료되었습니다.</h2> 
-                   <p>예매 상세내역은 메인화면 상단 예매확인/취소에서 확인하실 수 있습니다.</p> 
+                   <p>예매 상세내역은 메인화면 상단 예매확인/취소에서 확인하실 수 있습니다.</p>
                 </div>
                 <div id="BannerCtrl" class="">
                     <div id="SuccBook" class="succ">
                         <h4><i class="fas fa-check"></i> 예매정보</h4>
                         <ul>
-                            <li><em>예약번호</em><span class="red"><strong id="bk_bookno" class="big">197624810</strong><strong id="bk_tkcount">[총1장]</strong></span> </li>
-                            <li><em>공연명</em><span><strong id="bk_perfname">K-핸드메이드페어 2020</strong></span></li>
-                            <li id="SuccTheater"><em>공연장</em><span><strong id="bk_theatername">코엑스 D홀</strong></span></li>
-                            <li id="SuccTime"><em>관람일시</em><span id="bk_viewtime">2020.11.19 (목) [1회] 11시 00분</span></li>
+                            <li><em>예약번호</em><span class="red"><strong id="bk_bookno" class="big"></strong><strong id="bk_tkcount"></strong></span> </li>
+                            <li><em>공연명</em><span><strong id="bk_perfname">${productR.title}</strong></span></li>
+                            <li id="SuccTheater"><em>공연장</em><span><strong id="bk_theatername">${productR.place}</strong></span></li>
+                            <li id="SuccTime"><em>관람일시</em><span id="bk_viewtime">${productR.startDate} ~ ${productR.endDate}</span></li>
                             <li id="SuccSeat">
-                                <em>좌석<p><a id="bk_seatBtn" style="display:none" href="javascript:;void(0);"><img src="http://tkfile.yes24.com/img/mypage/btn_chkseat.gif" alt="좌석위치보기" style="margin-left:-7px"></a></p> </em>
+                                <em>좌석</em>
                                 <div id="bk_tkseat"><span>비지정석</span></div>
                             </li>
                             <li>
@@ -363,20 +363,20 @@
                         <ul id="SuccCancelTime">
                             <li>
                                 <em>취소가능일시 :</em>
-                                <span class="blu"><strong id="bk_canceltimeinfo">2020년 11월 18일 17:00 까지</strong></span>
+                                <span class="blu"><strong id="bk_canceltimeinfo"></strong></span>
                             </li>
                         </ul>    
                     </div>
                     <div id="SuccPay" class="succ">
                         <h4><i class="fas fa-check"></i> 결제정보</h4>
                         <ul class="pay">
-                            <li><em>티켓금액</em><span id="sp_tkprice">5000</span></li>
-                            <li><em>예매수수료</em><span id="sp_charge">300</span></li>
-                            <li class="gry"><em><strong>(+)금액</strong></em><span><strong id="sp_sumplus">5,300</strong></span></li>
-                            <li class="total"><em>총 결제금액</em><span><strong id="sp_result">5,300</strong> 원</span></li>
-                            <li><em>결제수단</em><span id="sp_payinfo">무통장입금</span></li>
-                            <li id="bank_accbank" style="display: block;"><em>입금계좌/은행</em><span id="sp_bank_accbank">45329012766706 / 국민은행</span></li>
-                            <li id="bank_amttime" style="display: block;"><em>입금금액/마감</em><span id="sp_bank_amttime">5,300 원 / 2020-08-18 23:29:59</span></li>
+                            <li><em>티켓금액</em><span id="sp_tkprice"></span></li>
+                            <li><em>예매수수료</em><span id="sp_charge"></span></li>
+                            <li class="gry"><em><strong>(+)금액</strong></em><span><strong id="sp_sumplus"></strong></span></li>
+                            <li class="total"><em>총 결제금액</em><span><strong id="sp_result"></strong> 원</span></li>
+                            <li><em>결제수단</em><span id="sp_payinfo"></span></li>
+                            <li id="bank_accbank" style="display: none;"><em>입금계좌/은행</em><span id="sp_bank_accbank">45329012766706 / 국민은행</span></li>
+                            <li id="bank_amttime" style="display: none;"><em>입금금액/마감</em><span id="sp_bank_amttime"></span></li>
                         </ul>
                     </div>
                 </div>
@@ -722,6 +722,7 @@
 		    $('.paymethod').val(pmethod)
 			var pbank = $('#selBank option:checked').val();
 		    $('.methodBank').val(pbank)
+		  
 		    
 		    
     	 if( $('.paymethod').val() == '' ){
@@ -743,6 +744,25 @@
          $('#SuccessBoard').css('display','block');
 
          
+		    if($('.paymethod').val() == '22'){
+
+		    	$('#sp_payinfo').text('무통장입금')
+		    	$('#bank_accbank').css('display','block');
+		    	$('#bank_amttime').css('display','block');
+		    	$('#sp_result').text()
+		    	
+			var text = $('#sp_result').text() + '/' + $('#lblCancelTimeInfo').text();
+				$('#sp_bank_amttime').text(text);
+             
+			    } else {
+
+			    	$('#sp_payinfo').text('카드결제')
+			    	$('#bank_accbank').css('display','none');
+			    	$('#bank_amttime').css('display','none');
+
+				    }
+
+         
 
 
      }
@@ -750,7 +770,7 @@
      
      $('#imgGomyticketD img').click(function(){
          window.close();  
-         opener.parent.location.replace("<%=request.getContextPath()%>/myOrder/detail");
+         opener.parent.location.replace("<%=request.getContextPath()%>/myOrder/list");
 
         })
         
@@ -836,17 +856,22 @@
   				    // 구한 가격 전광판에 띄우기
 					console.log(totalCount)
 					$('#tk_count').text(totalCount+'매')
-					$('.tk_price span').text(totalPrice
-							)
+					$('.tk_price span').text(totalPrice)
+					
+					$('#sp_tkprice').text(totalPrice)
+					
 					// 최종 수수료 
 					$('.tk_charge span').text(totalCount*fees)
 					var fFees = $('.tk_charge span').text()
+					$('#sp_charge').text(totalCount*fees)
+				
 					
 					//최종 금액 
 					totalFprice = totalPrice+Number(fFees)
 					$('.tk_sumplus span').text(totalFprice)
 					$('.t_result span').text(totalFprice)
-					
+					$('#sp_sumplus').text(totalFprice)
+					$('#sp_result').text(totalFprice)
 					
   	 
        }
@@ -855,8 +880,10 @@
      function iframeSubmit(){
 
     	 var form = document.bk;
- 	    form.action = '<%=request.getContextPath()%>/ticketBook';
- 	    form.submit();
+<%--  	    form.action = '<%=request.getContextPath()%>/ticketBook';
+ --%> 	    //form.submit();
+
+ 	   resultBook()
  	    
          }
      
@@ -917,7 +944,8 @@
 
 	var str = year+'년 '+month+'월 '+day+'일  09:00까지' 
 	$('#lblCancelTimeInfo').text(str);
-
+	$('#bk_canceltimeinfo').text(str);
+	
 	}
 
 
@@ -960,6 +988,41 @@
 		}) 
 	}
 
+
+	function resultBook(){
+
+		var ticketcount = $("form[name=bk] input[name=ppNum]").length;
+		ticketcount = ''+ticketcount;
+
+		$.ajax({
+		       async:true,
+		       type:'POST',
+		       data:ticketcount,
+		       url:"<%=request.getContextPath()%>/RecentRes",
+		       dataType:"json",
+		       contentType:"application/json; charset=UTF-8",
+		       success : function(data){
+
+			       var count = data.length;
+			       var last = data.length-1;
+			       if(count == 1){
+			    	   var text1 = data[0].rvNum
+			    	   $('#bk_bookno').text(text1)
+				       } else {
+				    	   var text1 = data[0].rvNum + ' ~ ' + data[last].rvNum
+					       $('#bk_bookno').text(text1)
+					       }
+					       
+			       var textcount = '[총 '+count + '장]'
+			       $('#bk_tkcount').text(textcount);
+
+                
+		       }
+
+			})  
+			
+	
+	} 
 
 
 	//http://noveloper.github.io/blog/javascript/2015/03/08/submit-form-except-specific-tag.html (form시 특정 태그 제외 하기)

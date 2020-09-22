@@ -39,13 +39,45 @@
 
 		 <beans:bean id="loginInterceptor" 
 		class="kr.green.project.interceptor.LoginInterceptor"></beans:bean>
+		<beans:bean id="AuthInterceptor" 
+		class="kr.green.project.interceptor.AuthInterceptor"></beans:bean>
+		<beans:bean id="AuthloginInterceptor" 
+		class="kr.green.project.interceptor.AuthloginInterceptor"></beans:bean>
+		<beans:bean id="AuthAdminInterceptor" 
+		class="kr.green.project.interceptor.AuthAdminInterceptor"></beans:bean>
+		
+		
 		
 	<interceptors>
 		<interceptor>
 			<mapping path="/login"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
-	
+		<interceptor>
+       		<mapping path="/help/checkBoardPw"/>
+       		<mapping path="/help"/>
+       		<mapping path="/help/register"/>
+       		<mapping path="/help/modify"/>  
+       		<mapping path="/help/delete"/>
+       		<mapping path="/myOrder/list"/>
+       		<mapping path="/myOrder/detail"/>
+       		<mapping path="/modifyMyInfo"/>
+      <beans:ref bean="AuthInterceptor"/>
+		</interceptor>
+			<interceptor>
+       		<mapping path="/login"/>
+       		<mapping path="/signUp"/>
+      <beans:ref bean="AuthloginInterceptor"/>
+		</interceptor>
+			<interceptor>
+       		<mapping path="/admin"/>
+       		<mapping path="/admin/notice"/>
+       		<mapping path="/admin/noticeModify"/>
+       		<mapping path="/admin/registerProduct"/>      		
+      <beans:ref bean="AuthAdminInterceptor"/>
+		</interceptor>
+		
+		
 	</interceptors>
 
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -7,13 +7,18 @@
                     <h1>예매확인 / 취소</h1>
                     <div class="date_list bg">
                         <p class="tit"><strong>${user.name}</strong>님의 <span id="lblSearch" class="red">최근 1개월</span> 예매내역입니다. 지난 예매확인을 원하시면 조회조건을 선택해 주세요.</p>
-                        <ul>
+                        <form name ="searchFo "action="<%=request.getContextPath()%>/myOrder/list">
+                        	<input type = "hidden" name="searchTermType">
+                        	<input type = "hidden" name="searchTermYear">
+                       		<input type = "hidden" name="searchTermMonth">                      	
+                        </form>
+                        <ul>                       
                             <li id="liTerm">
                                 <img src="<%=request.getContextPath()%>/resources/image/th_05.gif" alt="기간별조회">
-                                <a href="#" term="m1"><img src="<%=request.getContextPath()%>/resources/image/btn_1m.gif" alt="최근 1개월"></a> 
-                                <a href="#" term="m3"><img src="<%=request.getContextPath()%>/resources/image/btn_3m.gif" alt="최근 3개월"></a> 
-                                <a href="#" term="m6"><img src="<%=request.getContextPath()%>/resources/image/btn_6m.gif" alt="최근 6개월"></a> 
-                            </li>
+                                <a href="#" class="term1"><img src="<%=request.getContextPath()%>/resources/image/btn_1m.gif" alt="최근 1개월"></a> 
+                                <a href="#" class="term3"><img src="<%=request.getContextPath()%>/resources/image/btn_3m.gif" alt="최근 3개월"></a> 
+                                <a href="#" class="term6"><img src="<%=request.getContextPath()%>/resources/image/btn_6m.gif" alt="최근 6개월"></a> 
+                            </li>                     
                             <li class="sec">
                                     <ul>
                                         <li><img src="<%=request.getContextPath()%>/resources/image/th_06.gif" alt="주문일자별 조회"></li>
@@ -131,3 +136,28 @@
                     </div>
                 </div>
                </div>
+               
+               
+               <script>
+
+
+
+   			$('.term1').click(function(){
+
+   				$('.searchTermType').val('-1')
+   				 var form = document.searchFo;
+   			    form.action = '<%=request.getContextPath()%>/myOrder/list';
+   			    form.submit();
+
+   				})
+
+   			//WHERE Month(rvDate) = 8 and year(rvDate) = 2021
+
+               function inputSearchDate(){
+
+
+
+
+
+			}
+               </script>

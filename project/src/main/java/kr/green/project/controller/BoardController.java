@@ -163,15 +163,11 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/help/checkBoardPw", method = RequestMethod.GET)
-	public ModelAndView checkBoardPw(ModelAndView mv, Integer num, HttpServletRequest request) throws Exception{
-	    
-		UserVo user = (UserVo)request.getSession().getAttribute("user");
-		if(user == null) {
-			mv.setViewName("redirect:/help/list");
-		} else {
+	public ModelAndView checkBoardPw(ModelAndView mv, Integer num ) throws Exception{
+		
 			mv.addObject("num", num);
 			mv.setViewName("/board/qnaPwForm");
-		}
+	
 	  	    
 	    return mv;
 	}
@@ -205,9 +201,10 @@ public class BoardController {
 		
 		UserVo user = (UserVo)request.getSession().getAttribute("user");
 		
-		if(user == null) {
-			mv.setViewName("redirect:/help/list");
-			} else {
+		/*
+		 if(user == null) { mv.setViewName("redirect:/help/list"); } else {
+		 */
+		 
 			
 				String check = null;
 				QnAVo qna = boardService.getHelpDetail(num);
@@ -246,7 +243,7 @@ public class BoardController {
 				}
 		
 	  	
-		}
+		
 		
 	    return mv;
 	}

@@ -14,7 +14,8 @@
          
          	<c:if test="${user != null}">
 	           <li>
-	           		<a style="font-weight: bold;text-decoration: underline;">${user.id}회원</a>
+	           		<c:if test ="${user.id ne 'admin'}"><a style="font-weight: bold;text-decoration: underline;">${user.name}회원</a></c:if>
+	           		<c:if test ="${user.id eq 'admin'}"><a style="font-weight: bold;text-decoration: underline;">관리자</a></c:if>
 	           	</li>
 	         </c:if>
          

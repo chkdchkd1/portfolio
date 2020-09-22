@@ -56,7 +56,7 @@
                </table>
            </div>
            <div class="csCenter_rowBtn">
-               <a href="<%=request.getContextPath()%>/help" class="btnC b_size w_180"><span class="bWrap"><em class="txt">취소</em></span></a>
+               <a href="<%=request.getContextPath()%>/help/list" class="btnC b_size w_180"><span class="bWrap"><em class="txt">취소</em></span></a>
                <a href="javascript:void(0);" id="btnAdviceSubmit" onclick="RegisterSubmit();" class="btnC b_size btn_blue w_180"><span class="bWrap"><em class="txt">등록</em></span></a>
            </div>
     </form>

@@ -33,6 +33,8 @@ public interface ReservationDao {
 
 	int selectCountReservation(@Param("user")String string);
 
+	ArrayList<ReservationVo> selectRecentRes(@Param("length")int length, @Param("id")String rvId);
+
 
 	
 

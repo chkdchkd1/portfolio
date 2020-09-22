@@ -32,9 +32,12 @@ ol,ul {
 /* 오른쪽 메인 */
 .right-container {
     float: right;
-    width: 1170px;
-    border: 1px solid violet;
-    /* height: 100vh;     */
+    width: 1267px;
+/*     width: 1170px;
+     border: 1px solid violet;
+     height: 100vh;     */
+         margin-bottom: 30px;
+     
 }
 
 .right-container .loging-box a {
@@ -42,8 +45,8 @@ ol,ul {
     color: #585858;
 }
 .content{
-    border: 1px solid red;
-    width: 95%;
+/*     border: 1px solid red;
+ */    width: 95%;
     margin: 0 auto;
     /* height: 1350px; */
 }
@@ -306,8 +309,8 @@ ol,ul {
 /* 상품 상세보기 */
 
 .main-content{
-    border: 1px solid green;
-}
+/*     border: 1px solid green;
+ */}
 
 .renew-wrap {
     width: 100%;
@@ -386,8 +389,8 @@ ol,ul {
     overflow: hidden;
     padding-bottom: 50px;
     position: relative;
-    border: 1px solid black;
-}
+/*     border: 1px solid black;
+ */}
 
 .rn-03-left .rn-product-imgbox {
     width: 430px;
@@ -404,8 +407,8 @@ ol,ul {
 .rn-03-right {
     float: right;
     width: 540px;
-    border: 1px solid hotpink;
-}
+/*     border: 1px solid hotpink;
+ */}
 
 .rn-03-right .rn-product-area1 {
     border-bottom: 1px solid #000;
@@ -2092,7 +2095,7 @@ input {
 /*예약 내역 리스트 */
 
 .mypage_contain {
-    width: 900px;
+    width: 1100px;
     position: relative;
     margin-bottom: 40px;
     margin-left: 20px;
@@ -2814,8 +2817,8 @@ table {
     padding: 40px 0;
     width: 660px;
     text-align: left;
-    border: 1px solid fuchsia;
-    margin: 0 auto;
+/*     border: 1px solid fuchsia;
+ */    margin: 0 auto;
 }
 
 .yesTb table {
@@ -3156,6 +3159,11 @@ table {
     text-align: left;
     word-break: break-all;
     word-wrap: break-word;
+}
+
+.xb_display{
+display: table-row !important;
+	
 }
 
 
@@ -3888,7 +3896,52 @@ display:none;
 }
 
 
+/* 셀렉터 디자인 */
 
+.selType{
+ width: 90;
+    height: 38px;
+    text-indent: 5px;
+    border: solid 1px #ebebeb;
+    border-top-color: #d8d8d8;
+    border-left-color: #d8d8d8;
+}
+
+.selType.small{
+ 	width: 90;
+    height: 28px;
+    text-indent: 5px;
+    border: solid 1px #ebebeb;
+    border-top-color: #d8d8d8;
+    border-left-color: #d8d8d8;
+    margin-bottom:5px;
+}
+
+.inputtextType{
+	height: 28px;
+    text-indent: 5px;
+    border: solid 1px #ebebeb !important;
+    border-top-color: #d8d8d8 !important;
+    border-left-color: #d8d8d8 !important;
+}     
+
+.f-bold{
+    font-weight: bold;
+}
+
+.rgistB{
+    padding: 0 7px;
+    height: 28px;
+    text-align: center;
+    text-indent: 0;
+    border: solid 1px #ebebeb;
+    border-bottom-color: #d8d8d8;
+    border-right-color: #d8d8d8;
+    background-color: #fff;
+    font-size: 12px;
+    color: #666;
+    font-weight: bold;
+}
 
 /* 메인화면 슬라이더 */
 
@@ -3903,7 +3956,7 @@ display:none;
 }
 
 .swiper-container {
-	width: 1100px;
+	width: 1200px;
     height:410px;
 }
 

@@ -33,5 +33,8 @@ public interface ReservationService {
 	PageMaker getPageMaker(Criteria cri, HttpServletRequest request);
 
 
+	ArrayList<ReservationVo> getRecetReservation(int length, String rvId);
+
+
 
 }

@@ -10,6 +10,7 @@
                        <col width="*">
                    </colgroup>
                    <tbody class="xb_size">
+                   
                        <tr>
                            <th class="txt" scope="row">상품 코드</th>
                            <td class="inpArea lastCol">
@@ -79,7 +80,7 @@
                            <th class="txt" scope="row">상품 종류</th>
                            <td class="inpArea lastCol">
                                <div class="inpRow">
-                                       <select name="godType" id="godType">
+                                       <select name="godType" id="godType" class="selType">
                                            <option value="회차">회차</option>
                                            <option value="상시">상시</option>
                                        </select> 
@@ -95,11 +96,11 @@
                                </div>
                            </td>
                        </tr>
-                       <tr>
+                        <tr class="xb_display">
                            <th class="txt" scope="row">제한매수</th>
                            <td class="inpArea lastCol">
                                <div class="inpRow">
-                                   <select name="limitAmount" id="limitAmount">
+                                   <select name="limitAmount" id="limitAmount" class="selType">
                                        <option value="1">1매</option>
                                        <option value="2">2매</option>
                                        <option value="3">3매</option>
@@ -109,45 +110,45 @@
                                </div>
                            </td>
                        </tr>
-                       <tr>
+                                    <tr>
                            <th class="txt" scope="row">상품 가격 <br>
-                               <button type="button" class="morePrice">추가</button>
-                               <button type="button" class="removePrice">삭제</button></th>
-                           <td class="inpArea lastCol lastP">
-                               <div class="inpRow Listprice">
+                               <button type="button" class="morePrice rgistB">추가</button>
+                               <button type="button" class="removePrice rgistB">삭제</button></th>
+                           <td class="inpArea lastCol lastP ">
+                               <div class="inpRow Listprice f-bold">
                                    상품 가격 종류 
-                                   <select name="kinds" id="kinds">
+                                   <select name="kinds" id="kinds" class="selType small">
                                        <option value="1">주중</option>
                                        <option value="2">주말</option>
                                        <option value="3">일반</option>
                                    </select><br>
                                    상품 가격 명
-                                   <input type="text" name="Type" id="Type">
+                                   <input type="text" name="Type" id="Type" class="inputtextType">
                                    상품 가격
-                                   <input type="text" name="price" id="price">
+                                   <input type="text" name="price" id="price" class="inputtextType">
                                </div>
                            </td>
                        </tr>
 
                        <tr>
                            <th class="txt" scope="row">상품 회차 <br>
-                               <button type="button" class="moreRound">추가</button>
-                               <button type="button" class="removeRound">삭제</button></th>
+                               <button type="button" class="moreRound rgistB">추가</button>
+                               <button type="button" class="removeRound rgistB">삭제</button></th>
                            <td class="inpArea lastCol lastR">
-                               <div class="inpRow ListRound">
+                               <div class="inpRow ListRound f-bold">
                                    회차 종류
-                                   <select name="qType" id="qType">
+                                   <select name="qType" id="qType" class="selType small">
                                        <option value="1">주중</option>
                                        <option value="2">주말</option>
                                        <option value="3">일반</option>
                                    </select>
                                    상품 종류
-                                   <select name="goodsType" id="goodsType">
+                                   <select name="goodsType" id="goodsType" class="selType small">
                                        <option value="회차">회차</option>
                                        <option value="상시">상시</option>
                                    </select><br>
                                    회차
-                                   <select name="round" id="round">
+                                   <select name="round" id="round" class="selType small">
                                        <option value="상시상품">상시상품</option>
                                        <option value="1회">1회</option>
                                        <option value="2회">2회</option>
@@ -157,9 +158,9 @@
                                        <option value="6회">6회</option>
                                    </select><br>
                                    회차 시간
-                                   <input type="text" name="roundTime" id="roundTime" placeholder="상시상품일 경우 입력X">
+                                   <input type="text" name="roundTime" id="roundTime" placeholder="상시상품일 경우 입력X" class="inputtextType">
                                    회차당 수량
-                                   <input type="text" name="quantity" id="quantity">
+                                   <input type="text" name="quantity" id="quantity" class="inputtextType">
                                </div>
                            </td>
                        </tr>
@@ -266,7 +267,7 @@ function RegisterSubmit(){
     $('.morePrice').click(function(){
         
         var str = '';
-        str = ' <div class="inpRow Listprice"> 상품 가격 종류 <select name="kinds" id="kinds"><option value="1">주중</option> <option value="2">주말</option><option value="3">일반</option></select><br>상품 가격 명<input type="text" name="Type" id="Type">상품 가격 <input type="text" name="price" id="price"></div>'
+        str = ' <div class="inpRow Listprice f-bold"> 상품 가격 종류 <select name="kinds" id="kinds" class="selType small"><option value="1">주중</option> <option value="2">주말</option><option value="3">일반</option></select><br>상품 가격 명<input type="text" name="Type" id="Type" class="inputtextType">상품 가격 <input type="text" name="price" id="price" class="inputtextType"></div>'
         $('.lastP').append(str);
     })
 
@@ -281,13 +282,13 @@ function RegisterSubmit(){
     $('.moreRound').click(function(){
         
         var str = '';
-        str = '<div class="inpRow ListRound">회차 종류 <select name="qType" id="qType"><option value="1">주중</option>'
+        str = '<div class="inpRow ListRound f-bold">회차 종류 <select name="qType" id="qType" class="selType small"><option value="1">주중</option>'
         +'<option value="2">주말</option><option value="3">일반</option></select>'
-        +'상품 종류<select name="goodsType"><option value="회차">회차</option><option value="상시">상시</option></select><br>'
-        +'회차<select name="round">'+
+        +'상품 종류<select name="goodsType" class="selType small"><option value="회차">회차</option><option value="상시">상시</option></select><br>'
+        +'회차<select name="round" class = "selType small">'+
         '<option value="상시상품">상시상품</option><option value="1회">1회</option><option value="2회">2회</option>'+
         '<option value="3회">3회</option><option value="4회">4회</option><option value="5회">5회</option><option value="6회">6회</option>'+
-        '</select><br>회차 시간<input type="text" name="roundTime" id="roundTime">회차당 수량<input type="text" name="quantity" id="quantity"></div> '
+        '</select><br>회차 시간<input type="text" name="roundTime" id="roundTime" class="inputtextType">회차당 수량<input type="text" name="quantity" id="quantity" class="inputtextType"></div> '
         $('.lastR').append(str);
     })
 

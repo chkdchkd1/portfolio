@@ -6,6 +6,10 @@ public class Criteria {
 	//현재페이지
 	private int perPageNum;
 	private String search;
+	private int searchTermType;
+	private int searchTermYear;
+	private int searchTermMonth;
+
 	
 	
 	
@@ -13,6 +17,10 @@ public class Criteria {
 		page = 1;
 		perPageNum = 8;
 		search ="";
+		searchTermType = 0;
+		searchTermYear = 0;
+		searchTermMonth = 0;
+		
 	}
 	
 	public int getPage() {
@@ -45,6 +53,32 @@ public class Criteria {
 	public void setSearch(String search) {
 		this.search = search;
 	}
+	
+	
+	public int getSearchTermType() {
+		return searchTermType;
+	}
+
+	public void setSearchTermType(int searchTermType) {
+		this.searchTermType = searchTermType;
+	}
+
+	public int getSearchTermYear() {
+		return searchTermYear;
+	}
+
+	public void setSearchTermYear(int searchTermYear) {
+		this.searchTermYear = searchTermYear;
+	}
+
+	public int getSearchTermMonth() {
+		return searchTermMonth;
+	}
+
+	public void setSearchTermMonth(int searchTermMonth) {
+		this.searchTermMonth = searchTermMonth;
+	}
+
 	@Override
 	public String toString() {
 		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", search=" + search + "]";

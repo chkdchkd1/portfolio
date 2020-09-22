@@ -58,11 +58,9 @@ public class ReservationServiceImp implements ReservationService {
 			bookMain.setUseEnd(book.getFinaldate());
 		}
 		
-			System.out.println(bookMain);
-		
-			
+					
 		reservationDao.insertReservation(bookMain);
-		
+	
 
 	}
 
@@ -117,6 +115,12 @@ public class ReservationServiceImp implements ReservationService {
 		pm.setCriteria(cri);
 		pm.setTotalCount(totalCount);
 		return pm;
+	}
+
+	@Override
+	public ArrayList<ReservationVo> getRecetReservation(int length, String rvId) {
+		// TODO Auto-generated method stub
+		return reservationDao.selectRecentRes(length,rvId);
 	}
 
 

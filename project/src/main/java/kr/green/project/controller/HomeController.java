@@ -58,7 +58,7 @@ public class HomeController {
 		
 		if(dbUser != null ) {
 			mv.addObject("user", dbUser);
-			mv.setViewName("/main/home");
+			mv.setViewName("redirect:/");
 			//redirect로 가면 (일단 logininterceptor 하기전 addobject가 안된다) setview로 설정한 그곳에서만 ${user}가 먹힘 
 		} else {
 			mv.setViewName("redirect:/login");
@@ -109,7 +109,7 @@ public class HomeController {
 	public ModelAndView signUpPost(ModelAndView mv, UserVo user) throws Exception{
 		System.out.println(user);
 		userService.signUpUser(user);
-	    mv.setViewName("redierct:/login");
+	    mv.setViewName("redirect:/login");
 	    return mv;
 	}
 	
@@ -153,11 +153,6 @@ public class HomeController {
 			
 		    return mv;
 		}
-	
-	
-	
-	
-	/*onclick="jsf_mgz_logincheck(1,19007, this);"<- 컨트롤러 말고 jsp 에서 이러식*/
 	
 	
 	
