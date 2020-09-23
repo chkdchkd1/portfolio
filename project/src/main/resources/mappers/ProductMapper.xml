@@ -153,6 +153,82 @@
 		    on goods.code = goodsMainCode
 		where title like concat('%',#{cri.search},'%');
    </select>
+   
+     <select id="selectAllProductForAdmin" resultType="kr.green.project.vo.ProductListVo">
+	  	select goods.code, title, startDate, endDate, isOver
+		from goods
+			join (select * from goodsdetail ) as t
+		    on goods.code = goodsMainCode
+             where ( goods.code like concat('%',#{cri.search},'%')
+				or title like  concat('%',#{cri.search},'%')
+                )    
+		     order By startDate DESC
+		  limit #{cri.pageStart},#{cri.perPageNum};
+   </select>
+   
+   
+    <update id="updateEndDate">
+  	update ticket.goods
+  		set 
+  			isOver = 'Y'
+  		where
+  			code = #{code}
+ </update>
+ 
+ <select id="selectChartData" resultType="kr.green.project.vo.ChartVo">
+select `date` , IFNULL(`amount2`,0) as `amount`
+		from ( 
+			select a.Date AS `date`
+				from (
+					select curdate() - INTERVAL (a.a + (10 * b.a) + (100 * c.a) + (1000 * d.a) ) DAY as Date
+					from (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as a
+					cross join (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as b
+					cross join (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as c
+					cross join (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as d
+				) a
+				where a.Date BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()
+		)
+		AS T1
+			left Join ( 
+            select
+				IFNULL(DATE(`rvDate`),0) as `date1`,
+				count(`gsCode`) as `amount2`
+				FROM ticket.reservation
+				group by `date1`
+		) as T2 on T1.`date` = T2.`date1`;
+        
+            
+   </select>
+   
+   <select id="selectAllCountPForAdmin" resultType ="int">
+	select count(*)
+		from goods;
+            
+   </select>
+   
+   
+      <select id="selectProductChartData" resultType ="kr.green.project.vo.ProductChartVo">
+	 select title , IFNULL(`amount2`,0) as `amount` 
+		from ( select title, goodsMainCode
+            from ticket.goodsdetail
+		)
+		AS T1
+		left Outer Join ( 
+            select
+				gsCode,
+				count(gsCode) as `amount2`
+				FROM ticket.reservation
+				group by gsCode
+		) AS T2 on T1.goodsMainCode = T2.gsCode;
+            
+   </select>
+   
+   
+   
+   
+ 
+   
+   
         
   </mapper>
  

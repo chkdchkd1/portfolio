@@ -397,12 +397,12 @@
  	
  	<form name = "bk" method="post" target="param">
  	<!-- 정보 보관  -->
- 	<input type ="text" class ="gsCode" name="gsCode" value="${productR.code}" alt="상품코드"> 	
- 	<input type ="text" class ="rvId" name="rvId" value="${user.id}" alt="상품코드"> 	 	
-    <input type ="text" class ="finaldate" name="finaldate" alt="날짜">
-    <input type ="text" class ="roundNum" name="roundNum" alt="회차">
-    <input type ="text" class ="paymethod" name="paymethod" alt="결제방법">
-    <input type ="text" class ="methodBank" name="methodBank" alt="입금은행">
+ 	<input type ="hidden" class ="gsCode" name="gsCode" value="${productR.code}" alt="상품코드"> 	
+ 	<input type ="hidden" class ="rvId" name="rvId" value="${user.id}" alt="상품코드"> 	 	
+    <input type ="hidden" class ="finaldate" name="finaldate" alt="날짜">
+    <input type ="hidden" class ="roundNum" name="roundNum" alt="회차">
+    <input type ="hidden" class ="paymethod" name="paymethod" alt="결제방법">
+    <input type ="hidden" class ="methodBank" name="methodBank" alt="입금은행">
     </form>
 
       <!-- iframe 설정 -->

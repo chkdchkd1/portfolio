@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import kr.green.project.dao.ProductDao;
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
+import kr.green.project.vo.ChartVo;
+import kr.green.project.vo.ProductChartVo;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductListVo;
@@ -125,6 +127,38 @@ public class ProductServiceImp2 implements ProductService2 {
 		pm.setCriteria(cri);
 		pm.setTotalCount(totalCount);
 		return pm;
+	}
+
+	@Override
+	public ArrayList<ProductListVo> getProductListforAdmin(Criteria cri) {
+		// TODO Auto-generated method stub
+		return productDao.selectAllProductForAdmin(cri);
+	}
+
+	@Override
+	public void SetBlockpurchase(Integer code) {
+		productDao.updateEndDate(code);
+		
+	}
+
+	@Override
+	public PageMaker getPageMakerForAdmin(Criteria cri) {
+		PageMaker pm = new PageMaker();
+		int totalcount = productDao.selectAllCountPForAdmin();
+		pm.setCriteria(cri);
+		pm.setTotalCount(totalcount);
+		return pm;
+	}
+
+	@Override
+	public ArrayList<ChartVo> getChartReservation() {
+		return productDao.selectChartData();
+	}
+
+	@Override
+	public ArrayList<ProductChartVo> getProductChart() {
+		// TODO Auto-generated method stub
+		return productDao.selectProductChartData();
 	}
 
 

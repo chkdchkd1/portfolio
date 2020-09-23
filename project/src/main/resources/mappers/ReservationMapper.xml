@@ -47,7 +47,21 @@ where useStart = #{date} and roundNum = #{round}  and gsCode = #{code};
     on reservation.gsCode = goodsMainCode
 	join (select * from goodsquantity ) as z
     on reservation.roundNum = qNum
-    WHERE rvDate BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() 
+	    <if test = "cri.searchTermType == 0">
+	   	 WHERE rvDate BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() 
+	    </if>
+	    <if test = "cri.searchTermType == -3">
+	   	 WHERE rvDate BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH ) AND NOW() 
+	    </if>
+	    <if test = "cri.searchTermType == -6">
+	   	 WHERE rvDate BETWEEN DATE_ADD(NOW(),INTERVAL -6 MONTH ) AND NOW() 
+	    </if>
+	    <if test = "cri.searchTermType == -1">
+	    WHERE Month(rvDate) = #{cri.searchTermMonth} and year(rvDate) = #{cri.searchTermYear}
+	    </if>
+	    <if test = "cri.searchTermType == -2">
+	    WHERE Month(useStart) = #{cri.searchTermMonth} and year(useStart) = #{cri.searchTermYear}
+	    </if>
     and rvId = #{user}
     group by rvDate
     HAVING COUNT(*)>=1

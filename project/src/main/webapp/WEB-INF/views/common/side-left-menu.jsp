@@ -19,13 +19,6 @@
                 <li class="nav-item"><a href="<%= request.getContextPath()%>/exhibition/list" class="nav-link"><span>전시</span></a></li>
                 <li class="nav-item"><a href="<%= request.getContextPath()%>/event/list" class="nav-link"><span>행사 / 축제</span></a></li>
                 <li class="nav-item"><a href="<%= request.getContextPath()%>/notice/list" class="nav-link"><span>공지사항</span></a></li>
-                <li>
-                	<span class="nav-text">예매 정보</span>
-                    <ul>
-                        <li class="nav-item2"><a href="#" class="nav-link">날짜별 예매</a></li>
-                        <li class="nav-item2"><a href="#" class="nav-link">지역별 예매</a></li>
-                    </ul>
-                </li>
                 <li class="nav-item"><a href="<%= request.getContextPath()%>/help/list" class="nav-link"><span>고객센터</span></a>
             </ul>
           </div>

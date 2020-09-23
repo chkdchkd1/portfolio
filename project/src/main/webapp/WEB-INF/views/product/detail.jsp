@@ -60,42 +60,46 @@
                     </div>
                 </div><!--rn-03-right-->
             </div>
-            <div id="divNoticeMsg" class="rnplus-tk-bar" style="display : none;">
-            	<span class="rnplus-tk-end">본 상품은 판매 진행 중이 아닙니다.</span>
-            </div>
-            <c:if test = "${productD.godType eq '회차'}">
-            <!-- 날짜, 예매좌석 선택 박스 -->
-            <div class="rn-04">
-                <div class="rn-04-left"><!--날짜시간선택-->
-                    <div class="rn-04-left-tit"><!--타이틀및 버튼-->
-                        <p class="rn-04-xtit">날짜/시간 선택</p>
-                    </div>
-                    <div class="rn-04-left-wrap">
-                        <div class="rn-04-left-cal"><!--캘린더-->
-                            <div class="datepicker-here" data-language='ko'></div>
-                        </div>
-                        <!--회차정보-->
-                        <div class="rn-04-left-calist" style="height: 233px;">
-	                            </div>
-                         </div>
-                 </div>
-                <!--예매가능좌석-->
-                <div class="rn-04-right">
-                    <p class="rn-04-right-tit">예매 가능 좌석</p>
-                    <div class="rn-04-right-list" style="height: 169px;">
-                        <dl id="SeatRemain">
-	                        <dd>
-	                        	<span>
-	                        	</span>
-	                        </dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
+            <c:if test = "${productD.isOver == 'Y'.charAt(0)}">
+	            <div id="divNoticeMsg" class="rnplus-tk-bar" style="display : block;">
+	            	<span class="rnplus-tk-end">본 상품은 판매 진행 중이 아닙니다.</span>
+	            </div>
             </c:if>
-            <div class="rn-05"><!--예매하기 버튼--> 
-                <a href="javascript:void(0)" class="rn-bb03" onclick="openRservation();">예매하기</a>
-            </div>
+            <c:if test = "${productD.isOver == 'N'.charAt(0)}">
+            <c:if test = "${productD.godType eq '회차'}">
+            <!-- 날짜, 예매좌석 선택 박스 --> 
+	            <div class="rn-04">
+	                <div class="rn-04-left"><!--날짜시간선택-->
+	                    <div class="rn-04-left-tit"><!--타이틀및 버튼-->
+	                        <p class="rn-04-xtit">날짜/시간 선택</p>
+	                    </div>
+	                    <div class="rn-04-left-wrap">
+	                        <div class="rn-04-left-cal"><!--캘린더-->
+	                            <div class="datepicker-here" data-language='ko'></div>
+	                        </div>
+	                        <!--회차정보-->
+	                        <div class="rn-04-left-calist" style="height: 233px;">
+		                            </div>
+	                         </div>
+	                 </div>
+	                <!--예매가능좌석-->
+	                <div class="rn-04-right">
+	                    <p class="rn-04-right-tit">예매 가능 좌석</p>
+	                    <div class="rn-04-right-list" style="height: 169px;">
+	                        <dl id="SeatRemain">
+		                        <dd>
+		                        	<span>
+		                        	</span>
+		                        </dd>
+	                        </dl>
+	                    </div>
+	                </div>
+	            </div>
+	            </c:if>
+	            <div class="rn-05"><!--예매하기 버튼--> 
+	                <a href="javascript:void(0)" class="rn-bb03" onclick="openRservation();">예매하기</a>
+	            </div>
+            </c:if>
             <div class="rn-07"><!--하단탭버튼-->
                 <a href="#" class="" onclick="fnMove('01');"><span>상세정보</span></a>
                 <a href="#" class="" onclick="fnMove('02');"><span class="rn-eve">관람후기<span class="rn-07-count">(${reviewCount})</span></span></a>
@@ -340,11 +344,11 @@
 <input type ="hidden" class ="oriQuan" >
 <input type = "hidden" class="no">    
 <form name = "f1" method="Post">
-<input type = "text" class = "selectCode" name = "selectCode" value = "${productD.code}">
-<input type = "text" class = "selectDate" name = "selectDate" value = "">
-<input type = "text" class = "selectRound"  name = "selectRound">
-<input type = "text" class = "selectWeek"  name = "selectWeek">
-<input type = "text" class = "selectbyUser"  name = "selectbyUser" value="${user.id}">
+<input type = "hidden" class = "selectCode" name = "selectCode" value = "${productD.code}">
+<input type = "hidden" class = "selectDate" name = "selectDate" value = "">
+<input type = "hidden" class = "selectRound"  name = "selectRound">
+<input type = "hidden" class = "selectWeek"  name = "selectWeek">
+<input type = "hidden" class = "selectbyUser"  name = "selectbyUser" value="${user.id}">
 
 
 </form>
@@ -352,7 +356,7 @@
 <script>
 
 	isRightNow();
-	isDateOver();
+	//isDateOver();
 	maskingId();
 	clickHeart();
 

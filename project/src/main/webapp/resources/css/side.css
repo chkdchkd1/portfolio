@@ -3943,6 +3943,15 @@ display:none;
     font-weight: bold;
 }
 
+
+/* 차트 페이지 */
+
+.chart-container{
+	
+	width:1125px;
+	margin:0 auto;
+}
+
 /* 메인화면 슬라이더 */
 
 

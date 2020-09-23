@@ -19,7 +19,7 @@ public class AuthAdminInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		Object user = session.getAttribute("user");
 		UserVo user2 = (UserVo)user;
-		if(!user2.getId().equals("admin")) {
+		if(user == null || !user2.getId().equals("admin") ) {
 			response.sendRedirect(request.getContextPath()+"/");
 			return false;
 		}

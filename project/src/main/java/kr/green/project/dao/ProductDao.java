@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.green.project.pagination.Criteria;
+import kr.green.project.vo.ChartVo;
+import kr.green.project.vo.ProductChartVo;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductListVo;
 import kr.green.project.vo.ProductPriceVo;
@@ -49,6 +51,16 @@ public interface ProductDao {
 	ArrayList<ProductListVo> selectSearchResultFromProduct(@Param("cri") Criteria cri);
 
 	int selectCountResultProduct(@Param("cri")Criteria cri);
+
+	ArrayList<ProductListVo> selectAllProductForAdmin(@Param("cri")Criteria cri);
+
+	void updateEndDate(@Param("code") Integer code);
+
+	int selectAllCountPForAdmin();
+
+	ArrayList<ChartVo> selectChartData();
+
+	ArrayList<ProductChartVo> selectProductChartData();
 
 
 

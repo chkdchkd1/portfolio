@@ -73,7 +73,10 @@
        		<mapping path="/admin"/>
        		<mapping path="/admin/notice"/>
        		<mapping path="/admin/noticeModify"/>
-       		<mapping path="/admin/registerProduct"/>      		
+       		<mapping path="/admin/registerProduct"/>
+       		<mapping path="/admin/ProductAdmin"/>
+       		<mapping path="/InvalidProduct"/>
+       		<mapping path="/admin/chart"/>           		
       <beans:ref bean="AuthAdminInterceptor"/>
 		</interceptor>
 		

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import kr.green.project.pagination.Criteria;
 import kr.green.project.pagination.PageMaker;
+import kr.green.project.vo.ChartVo;
+import kr.green.project.vo.ProductChartVo;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductListVo;
@@ -44,6 +46,16 @@ public interface ProductService2 {
 	ArrayList<ProductListVo> getSearchResultfromProduct(Criteria cri);
 
 	PageMaker getPageMaker3(Criteria cri);
+
+	ArrayList<ProductListVo> getProductListforAdmin(Criteria cri);
+
+	void SetBlockpurchase(Integer code);
+
+	PageMaker getPageMakerForAdmin(Criteria cri);
+
+	ArrayList<ChartVo> getChartReservation();
+
+	ArrayList<ProductChartVo> getProductChart();
 
 
 

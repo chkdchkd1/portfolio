@@ -7,10 +7,10 @@
                     <h1>예매확인 / 취소</h1>
                     <div class="date_list bg">
                         <p class="tit"><strong>${user.name}</strong>님의 <span id="lblSearch" class="red">최근 1개월</span> 예매내역입니다. 지난 예매확인을 원하시면 조회조건을 선택해 주세요.</p>
-                        <form name ="searchFo "action="<%=request.getContextPath()%>/myOrder/list">
-                        	<input type = "hidden" name="searchTermType">
-                        	<input type = "hidden" name="searchTermYear">
-                       		<input type = "hidden" name="searchTermMonth">                      	
+                        <form name ="searchFo">
+                        	<input type = "hidden" name="searchTermType" value="">
+                        	<input type = "hidden" name="searchTermYear" value="">
+                       		<input type = "hidden" name="searchTermMonth" value="">                      	
                         </form>
                         <ul>                       
                             <li id="liTerm">
@@ -24,13 +24,13 @@
                                         <li><img src="<%=request.getContextPath()%>/resources/image/th_06.gif" alt="주문일자별 조회"></li>
                                         <li>
                                             <select name="Option" id="Option" style="width:65px; height:19px;" class="select">
-                                                <option value="B" selected="">예매일</option>
+                                                <option value="B" selected>예매일</option>
                                                 <option value="P">공연일</option>
                                             </select>
                                         </li>
                                         <li>
                                             <select name="BYear" id="BYear" style="width:53px; height:19px;" class="select">
-                                                <option value="">-----</option>
+                                                <option value="0">-----</option>
                                                 <option value="2021">2021</option>
                                                 <option value="2020">2020</option>
                                                 <option value="2019">2019</option>
@@ -41,7 +41,7 @@
                                             년 </li>
                                         <li>
                                             <select name="BMonth" id="BMonth" style="width:38px; height:19px;" class="select">
-                                                <option value="">-----</option>
+                                                <option value="0">-----</option>
                                                 <option value="01">1</option>
                                                 <option value="02">2</option>
                                                 <option value="03">3</option>
@@ -69,11 +69,7 @@
                             <span>[상세보기] 버튼을 클릭하시면 '예매 상세내역 확인' 및 '예매취소'가 가능합니다.</span>
                         </h2>
                         <div class="point fr btn_mt30">
-                            <ul id="ulGubun">
-                                <li dispgubun="-1" class="bgn ov"><a href="#" dispgubun="-1" style="font-size: 12px;">전체</a><img class="gubunimg" src="<%=request.getContextPath()%>/resources/image/icon_dot04.gif" alt="전체보기"></li>
-                                <li class="" dispgubun="1"><a href="#" dispgubun="1" style="font-size: 12px;">예매/예약</a></li>
-                                <li dispgubun="2" class=""><a href="#" dispgubun="2" style="font-size: 12px;">취소</a></li>
-                            </ul>
+                            
 				        </div>
                         <div id="divOrderList" style=""><table class="tmypage" summary="최근 예매내역 리스트">
                             <colgroup>
@@ -108,7 +104,7 @@
                             </tbody>
                         </table>
                         <div class="paging">
-                            <a class="<c:if test = "${pm.criteria.page == 1}">disabled</c:if>" href="<%=request.getContextPath()%>/myOrder/list?page=${pm.criteria.page-1}" >
+                            <a class="<c:if test = "${pm.criteria.page == 1}">disabled</c:if>" href="<%=request.getContextPath()%>/myOrder/list?page=${pm.criteria.page-1}&searchTermType=${pm.criteria.searchTermType}&searchTermYear=${pm.criteria.searchTermYear}&searchTermMonth=${pm.criteria.searchTermMonth}" >
                             <img src="<%=request.getContextPath()%>/resources/image/btn_pre.gif" alt="이전목록" >
                             </a>
                            	<a class="on">
@@ -117,7 +113,7 @@
                            	<span class="bunch">
                            		(<strong>${pm.criteria.page}</strong>/${pm.lastEndPage})
                            	</span>
-                           	<a class="<c:if test = "${pm.criteria.page == pm.lastEndPage}">disabled</c:if>" href="<%=request.getContextPath()%>/myOrder/list?page=${pm.criteria.page+1}">
+                           	<a class="<c:if test = "${pm.criteria.page == pm.lastEndPage}">disabled</c:if>" href="<%=request.getContextPath()%>/myOrder/list?page=${pm.criteria.page+1}&searchTermType=${pm.criteria.searchTermType}&searchTermYear=${pm.criteria.searchTermYear}&searchTermMonth=${pm.criteria.searchTermMonth}">
                             	<img src="<%=request.getContextPath()%>/resources/image/btn_next.gif" alt="다음목록">
                             </a>
                         </div>
@@ -143,21 +139,54 @@
 
 
    			$('.term1').click(function(){
+   				$('input[name=searchTermType]').val('0')
+   				$('input[name=searchTermMonth]').val('0')
+   				$('input[name=searchTermYear]').val('0')
+   				submitSelectDate()
+   			})
+   			
+   			$('.term3').click(function(){
+   				$('input[name=searchTermType]').val('-3')
+   				$('input[name=searchTermMonth]').val('0')
+   				$('input[name=searchTermYear]').val('0')
+   				submitSelectDate()
+   			})
+   			
+   			$('.term6').click(function(){
+   				$('input[name=searchTermType]').val('-6')
+   				$('input[name=searchTermMonth]').val('0')
+   				$('input[name=searchTermYear]').val('0')
+   				submitSelectDate()
+   			})
+   			
+   			$('#imgSearch').click(function(){
 
-   				$('.searchTermType').val('-1')
-   				 var form = document.searchFo;
-   			    form.action = '<%=request.getContextPath()%>/myOrder/list';
-   			    form.submit();
+   	   		
 
-   				})
+   	   			 var op = $("#Option option:selected").val();
+   	   			if (op == 'B'){
+   	   				$('input[name=searchTermType]').val('-1')
+   	   	   			} else {
+   	    				$('input[name=searchTermType]').val('-2')
+   	   	   	   			} 
+   	   			var year = $("#BYear option:selected").val();
+   				$('input[name=searchTermYear]').val(year)
+   	   			var month = $("#BMonth option:selected").val();
+   				$('input[name=searchTermMonth]').val(month)
 
-   			//WHERE Month(rvDate) = 8 and year(rvDate) = 2021
-
-               function inputSearchDate(){
-
+   				submitSelectDate();
+    	   			
 
 
+   	   			})
+   	   			
+   			
+   			function submitSelectDate(){
 
+   			 var form = document.searchFo;
+			    form.action = '<%=request.getContextPath()%>/myOrder/list';
+			    form.submit();
 
-			}
+   	   			}
+
                </script>

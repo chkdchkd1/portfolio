@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +19,8 @@ import kr.green.project.service.ProductService2;
 import kr.green.project.service.ReservationService;
 import kr.green.project.service.ReviewService;
 import kr.green.project.utils.UploadFileUtils;
+import kr.green.project.vo.ChartVo;
+import kr.green.project.vo.ProductChartVo;
 import kr.green.project.vo.ProductDetailVo;
 import kr.green.project.vo.ProductImageVo;
 import kr.green.project.vo.ProductListVo;
@@ -183,7 +184,6 @@ public class ProductController {
 	
 	// 검색 결과 
 	
-	
 	@RequestMapping(value ="/goods")
 	public ModelAndView searchResult(ModelAndView mv, Criteria cri){
 	
@@ -198,6 +198,49 @@ public class ProductController {
 		System.out.println(resultList);
 	    return mv;
 	}
+	
+	
+	// 전체 상품 호출 
+	
+	@RequestMapping(value = "/admin/ProductAdmin", method = RequestMethod.GET)
+	public ModelAndView ProductAdmin(ModelAndView mv, Criteria cri) throws Exception{
+		cri.setPerPageNum(12);
+	    ArrayList<ProductListVo> list;
+	    list = productService2.getProductListforAdmin(cri);
+	    PageMaker pm = productService2.getPageMakerForAdmin(cri);
+	    mv.addObject("list", list);
+		mv.addObject("pm", pm);
+	    mv.setViewName("/admin/adminProduct");
+	    
+	    return mv;
+	}
+	
+	// 예매 막기 
+	
+	@RequestMapping(value = "/InvalidProduct", method = RequestMethod.GET)
+	public ModelAndView InvalidProduct(ModelAndView mv, Integer code) throws Exception{
+	    productService2.SetBlockpurchase(code);	    
+	    mv.setViewName("redirect:/admin/ProductAdmin");
+	    
+	    return mv;
+	}
+	
+	@RequestMapping(value = "/admin/chart", method = RequestMethod.GET)
+	public ModelAndView Adminchart(ModelAndView mv) throws Exception{
+		ArrayList<ChartVo> chart = productService2.getChartReservation();
+	    mv.addObject("chart", chart);
+	
+		
+		ArrayList<ProductChartVo> Pchart = productService2.getProductChart();
+	    mv.addObject("pchart", Pchart);
+
+		mv.setViewName("/admin/adminChart");
+		
+	    return mv;
+	}
+	
+	
+	
 	
 	
 	

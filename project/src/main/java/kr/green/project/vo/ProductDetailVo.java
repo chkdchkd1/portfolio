@@ -15,6 +15,7 @@ public class ProductDetailVo {
 	private int weekDif;
 	private String godType;
 	private String limitAmount;
+	private char isOver;
 	
 	
 	public int getCode() {
@@ -97,13 +98,23 @@ public class ProductDetailVo {
 	public void setLimitAmount(String limitAmount) {
 		this.limitAmount = limitAmount;
 	}
+	
+	
+	public char getIsOver() {
+		return isOver;
+	}
+	public void setIsOver(char isOver) {
+		this.isOver = isOver;
+	}
 	@Override
 	public String toString() {
 		return "ProductDetailVo [code=" + code + ", title=" + title + ", genre=" + genre + ", startDate=" + startDate
 				+ ", endDate=" + endDate + ", place=" + place + ", ratings=" + ratings + ", enterInfo=" + enterInfo
 				+ ", infoTime=" + infoTime + ", infoNotice=" + infoNotice + ", weekDif=" + weekDif + ", godType="
-				+ godType + ", limitAmount=" + limitAmount + "]";
+				+ godType + ", limitAmount=" + limitAmount + ", isOver=" + isOver + "]";
 	}
+	
+
 
 
 	
