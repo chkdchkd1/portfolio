@@ -200,7 +200,7 @@
                                 <div class="rn0906-write-area">
                                     <p class="rn0906-tit">관람후기</p>
                                 <form name ="reviewform">
-                                                                    	<input type = "text" name ="reviewRvNum" class="reviewRvNum">
+                             <input type = "hidden" name ="reviewRvNum" class="reviewRvNum">
                                 
                                     <div class="rn0906-write-box">
                                         <textarea name= "content" id="txtReview" placeholder="내용을 작성해주세요. (최소 10자 / 최대 500자)" onkeyup="reviewtextCount();"></textarea>
@@ -593,7 +593,7 @@
 		} 
 		
 		var target = '예약페이지 ';
-	    window.open("<%=request.getContextPath()%>/reservation", target, "width=985,height=650");
+	    window.open("<%=request.getContextPath()%>/reservation", target, "width=985,height=650,status=no,toolbar=no,scrollbars=no");
 	    var form = document.f1;
 	    form.action = '<%=request.getContextPath()%>/reservation';
 	    form.target = target

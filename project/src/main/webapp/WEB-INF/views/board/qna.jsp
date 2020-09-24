@@ -32,7 +32,7 @@
 	                         	</div>
 	                         </div>
 					<c:if test ="${qna.boardWriter == user.id}">
-					<a href="<%=request.getContextPath()%>/help/delete?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">삭제</a>
+					<a href="<%=request.getContextPath()%>/help/delete?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999; margin-right: 50;">삭제</a>
 					<a href="<%=request.getContextPath()%>/help/modify?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">수정</a>
 					</c:if>
 						<c:if test ="${ user.id == 'admin' }">

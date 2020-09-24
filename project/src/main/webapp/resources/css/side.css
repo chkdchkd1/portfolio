@@ -705,7 +705,7 @@ p.rn-04-xtit {
     border: 1px solid #000;
     background: #fff;
     position: fixed;
-    top: 100px;
+    top: 80px;
     left: 50%;
     margin-left: -384px;
     z-index: 2;
@@ -735,7 +735,7 @@ p.rn-04-xtit {
 }
 
 .rn-09 .rn0906-write-area {
-    height: 197px;
+    height: 170px;
     border-bottom: 1px solid #ddd;
 }
 
@@ -762,7 +762,7 @@ p.rn-04-xtit {
     position: absolute;
     top: 0;
     left: 0;
-    width: 546px;
+    width: 670px;
     height: 135px;
     border: 1px solid #000;
     padding: 10px;
@@ -859,7 +859,16 @@ p.rn-04-xtit {
     color: #999;
 }
 
-
+.rvN{
+	width: 120;
+    height: 38px;
+    text-indent: 5px;
+    border: solid 1px #ebebeb;
+    border-top-color: #d8d8d8;
+    border-left-color: #d8d8d8;
+    margin-top: 17px;
+    font-family: 'Gothic A1', sans-serif;
+}
 
 
 
@@ -1935,7 +1944,7 @@ input {
     margin-bottom: 4px;
     font-size: 11px;
     color: #fff;
-    height: 15px;
+    height: 20px;
     *margin-bottom: 0;
 }
 
@@ -1955,6 +1964,13 @@ input {
     padding: 5px 0 9px 0;
 }
 
+.t_result span{
+	
+	float: right;
+    margin-right: 20px;
+    
+	
+}
 .result div.btn {
     margin: 5px 0;
 }
@@ -1962,6 +1978,15 @@ input {
     text-align: center;
 }
 
+
+.pay_infor ul li:after{
+content:".";
+	display:block;
+	height:0px;
+	clear:both;
+	visibility:hidden;
+	}
+	
 /*예매 성공시 내역 */
 
 #warp .PayInfoSendForm {
@@ -3722,7 +3747,7 @@ display: inline-block;
     line-height: 36px;
     text-align: center;
     font-size: 15px;
-    margin-right: 10px;
+    margin-right: 53px;
     border: 2px solid #333;
     color: #333;
     background: #fff;

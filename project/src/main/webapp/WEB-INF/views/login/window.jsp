@@ -669,6 +669,9 @@
       
      function fdc_PromotionEnd(){
 
+    	   $('.m02').removeClass('on');
+           $('.m03').addClass('on');
+
    
      selectedAmount()
  	      
@@ -687,6 +690,8 @@
 
        
      function fdc_DeliveryEnd(){
+
+         
 	          
 		// 생년 월일 입력안했을 때 결제방법 페이지로 안넘어가게 하는거 
 	   	   var nullbirth = $("#ordererUserBirth").val();
@@ -699,7 +704,9 @@
 	   	          alert('매수를 선택해주세요')
 	   	          return false
 	   	          }
-			   			
+
+		   $('.m03').removeClass('on');
+	       $('.m04').addClass('on');
 			   	      
 					
 	        jcSTEP2.main.style.display = 'none';  
@@ -844,7 +851,7 @@
 		  					
 			  					for (var i = 0; i<count ; i++ ){
 				  						var name = new Array("ppNum","totalPrice","rvamount");  					
-				  				  		var str =  '<input type ="text" name="'+name[0]+'" value ="'+priceListNum+'"><input type ="text" name="'+name[1]+'" value ="'+fprice+'"><input type ="text" name="'+name[2]+'" value ="1">'
+				  				  		var str =  '<input type ="hidden" name="'+name[0]+'" value ="'+priceListNum+'"><input type ="hidden" name="'+name[1]+'" value ="'+fprice+'"><input type ="hidden" name="'+name[2]+'" value ="1">'
 				  							$('form').append(str)
 				  					
 			  					}
@@ -880,11 +887,11 @@
      function iframeSubmit(){
 
     	 var form = document.bk;
-<%--  	    form.action = '<%=request.getContextPath()%>/ticketBook';
- --%> 	    //form.submit();
-
- 	   resultBook()
- 	    
+  	    form.action = '<%=request.getContextPath()%>/ticketBook';
+ 	    form.submit();
+		setTimeout(function(){
+			resultBook()
+			},500)
          }
      
      
@@ -1004,6 +1011,7 @@
 		       success : function(data){
 
 			       var count = data.length;
+			       console.log(data);
 			       var last = data.length-1;
 			       if(count == 1){
 			    	   var text1 = data[0].rvNum

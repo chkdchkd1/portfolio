@@ -125,7 +125,7 @@ public class ReservationController {
 	
 	
 	@RequestMapping(value = "/ticketBook", method = RequestMethod.POST)
-	public ModelAndView ticketBookPost(ModelAndView mv, TicketBookVo book, int[] ppNum, int[] totalPrice , int[] rvamount  ) throws Exception{
+	public ModelAndView ticketBookPost(ModelAndView mv, TicketBookVo book, int[] ppNum, int[] totalPrice , int[] rvamount ,  HttpServletRequest request ) throws Exception{
 
 
 		
@@ -142,10 +142,13 @@ public class ReservationController {
 			
 		}
 		
-		ArrayList<ReservationVo> resList = reservationService.getRecetReservation(ppNum.length,book.getRvId());
-		System.out.println(resList);
-		mv.addObject("resultBook", resList);
-	
+		UserVo user = (UserVo)request.getSession().getAttribute("user");
+
+		
+		ArrayList<ReservationVo> resList = reservationService.getRecetReservation(ppNum.length,user.getId());
+		System.out.println("test:"+resList);
+		
+		
 	    return mv;
 	}
 	
@@ -157,6 +160,8 @@ public class ReservationController {
 		UserVo user = (UserVo)request.getSession().getAttribute("user");
 		ArrayList<ReservationVo> resList = reservationService.getRecetReservation(ticketcount,user.getId());
 		System.out.println(resList);
+		
+		System.out.println("RecentRes;"+ticketcount);
 	
 		   return resList;
 
