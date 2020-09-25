@@ -593,7 +593,7 @@
 		} 
 		
 		var target = '예약페이지 ';
-	    window.open("<%=request.getContextPath()%>/reservation", target, "width=985,height=650,status=no,toolbar=no,scrollbars=no");
+	    window.open("<%=request.getContextPath()%>/reservation", target, "width=985,height=650,location=no, menubar=no, resizable=no, scrollbars=no, status=no, toolbar=no");
 	    var form = document.f1;
 	    form.action = '<%=request.getContextPath()%>/reservation';
 	    form.target = target

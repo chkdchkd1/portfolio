@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.project.service.UserService;
+import kr.green.project.vo.QnAVo;
 import kr.green.project.vo.UserVo;
 
 /**
@@ -55,11 +57,13 @@ public class HomeController {
 	public ModelAndView loginPost(ModelAndView mv, UserVo user) throws Exception{
 		
 		UserVo dbUser = userService.isSignin(user);
+
 		
 		if(dbUser != null ) {
 			mv.addObject("user", dbUser);
 			mv.setViewName("redirect:/");
 			//redirect로 가면 (일단 logininterceptor 하기전 addobject가 안된다) setview로 설정한 그곳에서만 ${user}가 먹힘 
+			
 		} else {
 			mv.setViewName("redirect:/login");
 		}

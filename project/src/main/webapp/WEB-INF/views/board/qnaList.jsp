@@ -40,10 +40,18 @@
                                                 <td>
                                                     <c:if test="${qna.usePw == 'Y'.charAt(0)}">
                                                     	<i class="fas fa-lock" style="float: left;margin-right: 5px;margin-top: 2px;"></i>
-                                                    	<c:if test="${user.id == qna.boardWriter}">
-                                                    		<a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em> </a></c:if>
-                                                    	<c:if test="${user.id !=  qna.boardWriter}">
-                                                    		<a href="<%=request.getContextPath()%>/help/checkBoardPw?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em> </a></c:if>
+                                                    	<c:choose>
+															<c:when test="${user.id == qna.boardWriter}">
+																<a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em> </a>
+															</c:when>															
+															<c:when test="${user.id eq 'admin'}">
+																<a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em> </a>
+															</c:when>
+															<c:when test="${user.id ne 'admin' && user.id !=  qna.boardWriter }">
+																<a href="<%=request.getContextPath()%>/help/checkBoardPw?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em> </a>
+																</c:when>
+														</c:choose>
+                                                    	
                                                     </c:if>
                                                     <c:if test="${qna.usePw == 'N'.charAt(0)}"><a href="<%=request.getContextPath()%>/help?num=${qna.boardNum}"><em>${qna.boardTitle}<span class="replyCount">+ ${qna.replyCount}</span></em></a></c:if>
                                                 </td>

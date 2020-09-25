@@ -3806,7 +3806,7 @@ display: inline-block;
 }
 
 .mgz-view-textarea textarea {
-    font-size: 15px;
+    font-size: 12px;
     line-height: 20px;
     border: 0 none;
     border-right: 1px solid #ddd;
@@ -3869,6 +3869,7 @@ display: inline-block;
 
 .mgz-view-comens li .mgz-view-cmchat {
     line-height: 25px;
+    width: 1000;
 }
 
 

@@ -197,51 +197,68 @@
                        <tr>
                            <th class="txt" scope="row">파일첨부</th>
                            <td class="inpArea lastCol">
-                               <div class="inpRow">
-                                   <div class="yesFileInpAra yesComLoadingArea clearfix">
-                                       썸네일
-                                       <div class="yesFileIpt">
-                                           <label class="button" for="fileElem1">
-                                               <div class="btnC m_size w_80" id="divFileBtn">
-                                                   <span class="bWrap">
-                                                       <em class="txt">파일선택</em>
-                                                   </span>
-                                               </div>
-                                           </label>                                       
-                                       </div>
-                                       <input type="file" name="file1" id="fileElem1" style="display: block;">
-                                   </div>
-                                   <br>
-                                   <div class="yesFileInpAra yesComLoadingArea clearfix">
-                                       메인 이미지 
-                                       <div class="yesFileIpt">
-                                           <label class="button" for="fileElem2">
-                                               <div class="btnC m_size w_80" id="divFileBtn">
-                                                   <span class="bWrap">
-                                                       <em class="txt">파일선택</em>
-                                                   </span>
-                                               </div>
-                                           </label>                                       
-                                       </div>
-                                       <input type="file" name="file1" id="fileElem2" style="display: BLOCK;"> 
-                                   </div>
-                                   <br>
-                                   <div class="yesFileInpAra yesComLoadingArea clearfix">
-                                       상세 이미지 
-                                       <div class="yesFileIpt">
-                                           <label class="button" for="fileElem3">
-                                               <div class="btnC m_size w_80" id="divFileBtn">
-                                                   <span class="bWrap">
-                                                       <em class="txt">파일선택</em>
-                                                   </span>
-                                               </div>
-                                           </label>                                       
-                                       </div>
-                                       <input type="file" name="file1" id="fileElem3" style="display: block;">                  
-                                   </div>
-                               </div>
-                               
-                           </td>
+                               <table class="tb_nor tb_vertical" >
+        <colgroup>
+            <col width="100">
+            <col width="*">
+        </colgroup>
+        <tbody class="xb_size">
+            <tr>
+                <th class="txt" scope="row" style="font-size: 13px;">썸네일</th>
+                <td class="inpArea lastCol">
+                    <div class="yesFileInpAra yesComLoadingArea clearfix">
+                        <div class="yesFileIpt">
+                            <label class="button" for="fileElem1">
+                                <div class="btnC m_size w_80" id="divFileBtn">
+                                    <span class="bWrap">
+                                        <em class="txt">파일선택</em>
+                                    </span>
+                                </div>
+                            </label>                                       
+                        </div>
+                        <input type="file" name="file1" id="fileElem1" style="display: none;">
+                        <input type="text" name="fName" id="fName" class="fName1">  
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="txt" scope="row" style="font-size: 13px;">메인 이미지</th>
+                <td class="inpArea lastCol">
+                    <div class="yesFileInpAra yesComLoadingArea clearfix">
+                        <div class="yesFileIpt">
+                            <label class="button" for="fileElem2">
+                                <div class="btnC m_size w_80" id="divFileBtn">
+                                    <span class="bWrap">
+                                        <em class="txt">파일선택</em>
+                                    </span>
+                                </div>
+                            </label>                                       
+                        </div>
+                        <input type="file" name="file1" id="fileElem2" style="display: none;">
+                        <input type="text" name="fName" id="fName" class="fName2">   
+                    </div>
+                </td>
+            </tr> 
+            <tr>
+                <th class="txt" scope="row" style="font-size: 13px;">상세이미지</th>
+                <td class="inpArea lastCol">
+                    <div class="yesFileInpAra yesComLoadingArea clearfix">
+                        <div class="yesFileIpt">
+                            <label class="button" for="fileElem3">
+                                <div class="btnC m_size w_80" id="divFileBtn">
+                                    <span class="bWrap">
+                                        <em class="txt">파일선택</em>
+                                    </span>
+                                </div>
+                            </label>                                       
+                        </div>
+                        <input type="file" name="file1" id="fileElem3" style="display: none;">
+                        <input type="text" name="fName" id="fName" class="fName3">                    
+                    </div>
+                </td>
+            </tr> 
+        </tbody>
+    </table>
                        </tr>
                    </tbody>
                </table>
@@ -300,20 +317,20 @@ function RegisterSubmit(){
         $('.lastR').children('.ListRound').last().remove();
     })
 
-//$(document).ready(function(){
+$(document).ready(function(){
 
-    // $('input[type="file"]').change(function(e){
+     $('input[type="file"]').change(function(){
 
-    //     var fileName = e.target.files[0].name; //getting the file name 
-    //     var str = '';
-    //     str = '<li>'+fileName+'</li>'
-    //     var display = $(this).siblings("#newfile-wrap"); //where to display
-    //     display.append(str);
+         var filePath = $(this).val();
+         var index = filePath.lastIndexOf("\\")
+         var fileid = $(this).attr('id');
+         var fileidNum = fileid.charAt(fileid.length-1);
+         console.log(fileidNum);
+         $(".fName"+fileidNum).val(filePath.substring(index+1))
+         
+  });
 
-    // });
-
-//});
-
+});
 
 
 

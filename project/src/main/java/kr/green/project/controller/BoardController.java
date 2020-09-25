@@ -214,7 +214,7 @@ public class BoardController {
 				HttpSession session = request.getSession();
 				check = (String)session.getAttribute("check");
 				
-				if(!qna.getBoardWriter().equals(user.getId()) && qna.getUsePw() == 'Y') {
+				if(!user.getId().equals("admin") && !qna.getBoardWriter().equals(user.getId()) && qna.getUsePw() == 'Y') {
 					if(check == null|| check.equals("fail")) {
 						//null을 걸 때 or을 걸려면 순서를 잘 걸어야 한다. 앞이 참이면 무조건 뒤에도 참으로 들어가기 때문에, 여기 같은 경우는 equals fail이 false이기 때문에 null을 걸러주지 못함! 
 						mv.setViewName("redirect:/help/list");

@@ -16,7 +16,7 @@
                     <div id="NoticeRead" style="display: block;">
                         <div class="noti-view-tit">
                      
-                            <p>${qna.boardTitle}</p>
+                            <p><c:if test="${qna.usePw == 'Y'.charAt(0)}"><i class="fas fa-lock" style="float: left;margin-right: 5px;margin-top: 2px;"></i></c:if> ${qna.boardTitle}</p>
                         </div>
                         <div class="noti-view-date">
                        		<span>작성자 : ${qna.boardWriter}</span>
@@ -33,7 +33,7 @@
 	                         </div>
 					<c:if test ="${qna.boardWriter == user.id}">
 					<a href="<%=request.getContextPath()%>/help/delete?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999; margin-right: 50;">삭제</a>
-					<a href="<%=request.getContextPath()%>/help/modify?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">수정</a>
+					<a href="<%=request.getContextPath()%>/help/modify?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999; margin-right: 10px;">수정</a>
 					</c:if>
 						<c:if test ="${ user.id == 'admin' }">
 							<a href="<%=request.getContextPath()%>/help/delete?num=${qna.boardNum}" class="btn-product-m2" style=" width: 50px; margin-top: 10px; border-color: #999; color: #999;">삭제</a>

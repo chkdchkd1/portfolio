@@ -65,6 +65,7 @@ where useStart = #{date} and roundNum = #{round}  and gsCode = #{code};
     and rvId = #{user}
     group by rvDate
     HAVING COUNT(*)>=1
+    order by rvNum DESC 
     limit #{cri.pageStart},#{cri.perPageNum};
 
  </select>
