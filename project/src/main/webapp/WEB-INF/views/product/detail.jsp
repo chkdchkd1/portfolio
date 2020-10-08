@@ -24,7 +24,7 @@
             <div class="rn-03">
                 <div class="rn-03-left"><!--포스터, 지역, 동영상-->
                     <div class="rn-product-imgbox">
-                        <img src="/img/${image2.file}" style="width: 430px; height: 600px;">
+                        <img src="<%=request.getContextPath() %>/img/${image2.file}" style="width: 430px; height: 600px;">
                     </div>				
                 </div><!--rn-03-left-->
                 <div class="rn-03-right"><!--상품정보-->
@@ -118,7 +118,7 @@
                         <p class="rn08-tit">공연정보</p>
                         <div class="rn08-txt" id="divPerfContent">
                         <p style="text-align: center;">
-                        	<img src="/img/${image3.file}" class="txc-image" style="clear:none;float:none;" width="700" height="auto"></p>
+                        	<img src="<%=request.getContextPath() %>/img/${image3.file}" class="txc-image" style="clear:none;float:none;" width="700" height="auto"></p>
                         </div>
                     </div><!--rn-0803-->
                     <div class="rn-0804"><!--기획사정보-->

@@ -13,7 +13,7 @@
                         </div>
                         <div class="info">
                             <div class="poster">
-                                <p class="post"><a href="#"><img src="/img/${image2.file}"></a></p>
+                                <p class="post"><a href="#"><img src="<%=request.getContextPath() %>/img/${image2.file}"></a></p>
                             </div>
                             <div class="con">
                                 <table width="570" class="none">

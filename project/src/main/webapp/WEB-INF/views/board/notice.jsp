@@ -19,7 +19,7 @@
 	                       <div class="noti-view-ticket">
 	                           <div class="noti-vt-layout">
 	                               <div class="noti-vt-left">
-	                                   <img src="/img/${notice.openImage}" width="180" height="252"> 
+	                                   <img src="<%=request.getContextPath() %>/img/${notice.openImage}" width="180" height="252"> 
 	                               </div>
 	                               <div class="noti-vt-right">
 	                                   <p class="noti-vt-tit">${notice.openProduct}</p>

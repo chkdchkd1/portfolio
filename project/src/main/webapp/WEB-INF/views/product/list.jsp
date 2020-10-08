@@ -20,7 +20,7 @@
                                     <div class="itemImage">
                                         <div class="imageWrap">
                                             <div class="coverWrap">
-                                                <img src="/img/${product.file}">
+                                                <img src="<%=request.getContextPath() %>/img/${product.file}">
                                             </div>
                                         </div>
                                     </div>
