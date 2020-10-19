@@ -1,6 +1,5 @@
 # portfolio
 ### 전시 / 행사 예매 사이트
-  ![1](https://user-images.githubusercontent.com/63831541/94383200-53e3ad80-017a-11eb-8d30-ce82a0762c6a.PNG)
   ![2](https://user-images.githubusercontent.com/63831541/94383375-d10f2280-017a-11eb-9354-21896c94c558.jpg)
 
   - http://218.236.203.3:9090/project/ 
